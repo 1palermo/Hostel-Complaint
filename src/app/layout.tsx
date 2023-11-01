@@ -1,6 +1,8 @@
-import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import './globals.css'
+import Link from 'next/link';
+import Image from 'next/image';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,8 +17,22 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang='en'>
+      <body>
+      <div className="navbar bg-custom-primary text-primary-content">
+        <p className="btn btn-ghost normal-case text-xl">Hostel-Admin</p>
+        <Link href="/profile">
+          <Image
+            src="/avatar.png" 
+            alt="Description of the image"
+            width={50}
+            height={50}
+            className='absolute right-5'
+          />
+        </Link>
+      </div>
+      <div>{children}</div>
+      </body>
     </html>
   )
 }
