@@ -12,7 +12,6 @@ const config: Config = {
         custom: {
           primary: '#0A36A0',
           secondary: '#47A4A5',
-          // Add more custom colors as needed
         },
       },
     },
