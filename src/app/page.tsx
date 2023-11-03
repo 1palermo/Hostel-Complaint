@@ -1,14 +1,16 @@
-
+//import { useRouter } from "next/navigation";
+import data from './hostelDatabase.reports.json';
 
 export default async function Page(){
-   const apiResponse = await fetch('http://localhost:3000/api/controller',{cache : 'no-store'});
-   const data = await apiResponse.json();
+   // const apiResponse = await fetch('http://localhost:3000/api/controller',{cache : 'no-store'});
+   // const data = await apiResponse.json();
+   // const router = useRouter()
    return(
       <>
         <div className="overflow-x-auto hidden md:block">
             <table className="table table-xl">
                <thead>
-                  <tr className="text-lg">
+                  <tr className="text-lg" >
                   <th>S.No</th>
                   <th>Date</th> 
                   <th>Time</th> 
@@ -20,8 +22,8 @@ export default async function Page(){
                   </tr>
                </thead> 
                <tbody>
-                  {data.reports.map((res:{date: string, time: string, problem: string, title: string, description: string, department: string},idx:number)=>(
-                     <tr key={idx}>
+                  {data.map((res,idx:number)=>(
+                     <tr key={idx} >
                      <th>{idx+1}</th> 
                      <td>{res.date}</td> 
                      <td>{res.time}</td> 
@@ -36,7 +38,7 @@ export default async function Page(){
             </table>
          </div>
          <div className="block md:hidden">
-               {data.reports.map((res:{date: string, time: string, problem: string, title: string, description: string, department: string},idx:number)=>(
+               {data.map((res,idx:number)=>(
                   <div className="card w-90% m-5 bg-base-100 shadow-xl" key={idx}>
                   <div className="card-body">
                      <div className="flex flex-wrap">
