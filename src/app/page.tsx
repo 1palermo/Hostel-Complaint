@@ -1,6 +1,8 @@
 'use client'
 import { useState, useRef } from 'react';
-import Image from 'next/image'
+import Image from 'next/image';
+import Base64 from './Base64';
+//import { File } from 'buffer';
 
 
 /*
@@ -46,6 +48,7 @@ interface SignupFormDetails {
   email: string;
   password: string;
   category: string;
+  image: string;
 }
 
 interface NewNote {
@@ -101,12 +104,14 @@ export default function Home() {
   const [inputOtp, setInput] = useState(0);
   const [otp, setOtp] = useState(0);
   const [alertMessage, setAlertMessage] = useState<string>('');
+  //const [file, setFile] = useState(new File([],'dummy.jpg'));
   const [formD, setForm] = useState<SignupFormDetails>({
     username: '',
     contact: '',
     email: '',
     password: '',
-    category: ''
+    category: '',
+    image: ''
   });
 
   function handleSignupChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -127,7 +132,9 @@ export default function Home() {
     }));
   }
 
-  async function addUser(Newnote:{ username:string; contact:string; email:string; password:string; }){
+  async function addUser(Newnote:{ username:string; contact:string; email:string; password:string; image:string; category:string}){
+    //console.log(Newnote);
+   // console.log(Newnote.file);
     const response= await fetch("https://490bj8xz-8080.inc1.devtunnels.ms/signup",{
       method: "POST",
       body: JSON.stringify(Newnote) ,
@@ -185,18 +192,21 @@ export default function Home() {
       contact: '',
       email: '',
       password: '',
-      category: ''
+      category: '',
+      image:''
     });
+   // setFile(new File([],'dummy.jpg'));
     setVerified(false);
   }
 
-  /*
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files[0];
-    const base64 = await convertToBase64(file);
-    setForm({ ...formD, MyFile: base64 });
+    const file= e.target.files[0];
+		const base64= await Base64(file);
+    console.log(base64);
+    if(e.target.files && e.target.files[0]){
+      setForm({...formD, image: base64});
+    }
   }
-  */
 
   function setTime() {
     setOtp(0);
@@ -239,6 +249,7 @@ export default function Home() {
   function verify() {
     if (inputOtp === otp) {
       setVerified(true);
+      setTimer(120);
       if (clearIntervalRef.current) {
         clearInterval(clearIntervalRef.current);
       }
@@ -433,6 +444,19 @@ export default function Home() {
             onChange={handleSignupChange}
             value={formD.password}
             required
+            className="mt-1 p-2 w-full rounded-md border border-gray-300 bg-white text-gray-900"
+          />
+        </section>
+        <section className="mb-4">
+          <label htmlFor="profileImage" className="block text-sm font-medium text-gray-500">
+            Profile Image
+          </label>
+          <input
+            id="profileImage"
+            name="profileImage"
+            type="file"
+            accept="image/jpg image/jpeg"
+            onChange={handleFileUpload}
             className="mt-1 p-2 w-full rounded-md border border-gray-300 bg-white text-gray-900"
           />
         </section>

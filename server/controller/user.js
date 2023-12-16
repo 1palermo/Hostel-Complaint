@@ -2,9 +2,9 @@ const User = require("../model/user");
 const {setUser,getUser} = require("../services/auth");
 //import {v2 as cloudinary} from 'cloudinary';
 //import Result from 'postcss/lib/result';
-const cloudinary = require('cloudinary');
+const cloudinary = require('cloudinary').v2;
 
-cloudinary.v2.config({
+cloudinary.config({
     cloud_name: 'dttlt8f5i',
     api_key: '535748393319165',
     api_secret: 'VTbKpzBITyo0dkZUGah1Kiyx7b4',
@@ -75,43 +75,53 @@ async function  handleLogin(req,res){
 }
 
 async function handleSignup(req,res){
-    const user = new User({
-        username:req.body.username,
-        contact:req.body.contact,
-        email:req.body.email,
-        password:req.body.password,
-        category:req.body.category
-    })
+    const file = req.body.image;
+    //console.log(file);
     
-    user.save()
-        .then((user) => {
-        const token = setUser(user)
-        cloudinary.v2.uploader
-        .upload(req.body.file,{
-            resource_type: "image",
+    cloudinary.uploader
+        .upload(file,{
+            upload_preset: 'unsigned_upload',
+            allowed_formats: ['jpg','jpeg']
+        },function(err, result){
+            if(err){
+                console.log("failure",err);
+                return res.status(200).redirect("/")
+            }
+            else{
+                console.log("success",result);
+                const user = new User({
+                    username:req.body.username,
+                    contact:req.body.contact,
+                    email:req.body.email,
+                    password:req.body.password,
+                    category:req.body.category,
+                    userImage: result.secure_url
+                })
+               // user.userImage = result.secure_url;
+                console.log(user.userImage);
+                user.save()
+                    .then((user) => {
+                    const token = setUser(user)
+                    
+                    if(req.body.category === "Attendant"){
+                        return res.json({
+                            customToken: token,
+                            url: "/Attendant"
+                        })
+                    }
+                    else{
+                        return res.json({
+                            customToken: token,
+                            url: "/user"
+                        })
+                    }
+                    })
+                    .catch((error) => {
+                    return res.status(200).redirect("/")
+                    })
+            }
         })
-        .then((result)=>{
-            console.log("success",JSON.stringify(result, NULL,2));
-        })
-        .catch((err)=>{
-            console.log("failure",JSON.stringify(err, NULL,2));
-        })
-        if(req.body.category === "Attendant"){
-            return res.json({
-                customToken: token,
-                url: "/Attendant"
-            })
-        }
-        else{
-            return res.json({
-                customToken: token,
-                url: "/user"
-            })
-        }
-        })
-        .catch((error) => {
-        return res.status(200).redirect("/")
-        })
+       // return res.status(200).redirect("/")
 }
 
 async function handleAuthentication(req,res){

@@ -5,6 +5,7 @@ import Return from '../Return';
 
 const Page2: NextPage = () => {
   const [profile, setProfile] = useState({
+    image: "/avatar.png",
     username: "xyz",
     contact: 0,
     email: "xyz@admin.ac.in",
@@ -34,7 +35,8 @@ const Page2: NextPage = () => {
           username: result[0].username,
           email: result[0].email,
           contact: result[0].contact,
-          desc: result[0].description? result[0].description : prevProfile.desc
+          desc: result[0].description? result[0].description : prevProfile.desc,
+          image: result[0].userImage?result[0].userImage:"/avatar.png"
         }));
      }
   }
@@ -69,7 +71,7 @@ const Page2: NextPage = () => {
       <div className="bg-blue-500 p-4 shadow-lg w-5/6 lg:w-90vw">
         <div className="lg:flex lg:flex-row lg:bg-slate-200 lg:p-8 lg:rounded-lg lg:shadow-2xl lg:bg-gradient-to-br lg:from-blue-400 lg:to-blue-700 lg:w-full">
           <img
-            src="/avatar.png"
+            src={profile.image}
             alt="Avatar"
             className="w-full lg:w-1/2 max-w-lg rounded-lg shadow-2xl bg-slate-200 bg-gradient-to-br from-blue-500 to-blue-300"
           />
