@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const connect = require("../config/route")
+const connect = require("../config/connect")
 const bcrypt = require("bcrypt")
 
 const UserSchema = new mongoose.Schema({
@@ -22,6 +22,12 @@ const UserSchema = new mongoose.Schema({
         required:true
     },
     userImage:{
+        type:String,
+    },
+    category:{
+        type:String,
+    },
+    description:{
         type:String,
     }
 })

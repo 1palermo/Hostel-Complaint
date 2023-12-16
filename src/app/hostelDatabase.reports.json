@@ -6,7 +6,9 @@
   "problem": "lighting issues",
   "title": "bulb na chal raha",
   "date": "23-10-2023",
-  "time": "19:23"
+  "time": "19:23",
+  "attended": "unattended",
+  "solved": "unsolved"
 },
 {
   "_id": {
@@ -15,7 +17,9 @@
   "department": "electrical department",
   "problem": "lighting issues",
   "title": "bulb na chal raha",
-  "description": "bathroom bulb ni chal raha dikhta bhi ni kuch"
+  "description": "bathroom bulb ni chal raha dikhta bhi ni kuch",
+  "attended": "unattended",
+  "solved": "unsolved"
 },
 {
   "_id": {
@@ -23,7 +27,9 @@
   },
   "department": "electrical department",
   "problem": "lighting issues",
-  "title": "bulb na chal raha"
+  "title": "bulb na chal raha",
+  "attended": "unattended",
+  "solved": "unsolved"
 },
 {
   "_id": {
@@ -31,7 +37,9 @@
   },
   "department": "electrical department",
   "problem": "lighting issues",
-  "title": "bulb na chal raha"
+  "title": "bulb na chal raha",
+  "attended": "unattended",
+  "solved": "unsolved"
 },
 {
   "_id": {
@@ -39,5 +47,7 @@
   },
   "department": "electrical department",
   "problem": "lighting issues",
-  "title": "bulb na chal raha"
+  "title": "bulb na chal raha",
+  "attended": "unattended",
+  "solved": "unsolved"
 }]

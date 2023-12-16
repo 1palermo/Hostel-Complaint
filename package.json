@@ -9,8 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "cloudinary": "^1.41.0",
+    "cors": "^2.8.5",
     "daisyui": "^3.9.4",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.0",
     "next": "13.5.4",
+    "nodemailer": "^6.9.7",
     "react": "^18",
     "react-dom": "^18"
   },
