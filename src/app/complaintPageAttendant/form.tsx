@@ -1,31 +1,42 @@
 'use client'
 import { useState, ChangeEvent } from 'react';
 import Link from 'next/link';
+import convertToBase64 from '../Base64';
+
+interface data{
+   text: string;
+   image: string;
+};
 
 export default function Form(props:{id:string, attended:string }){
 
-    const [textValue, setTextValue] = useState<string>('');
-    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [formD, setForm] = useState<data>({
+        text: '',
+        image: ''
+    });
+
     const [showConfirmation, setShowConfirmation] = useState(false);
     //const [Attended, setAttended] = useState(0);
 
     const handleTextChange = (e:ChangeEvent<HTMLInputElement>) => {
-        setTextValue(e.target.value);
+        setForm({...formD, text:e.target.value});
     };
 
     
-    const handleImageChange = (e:ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        setImageFile(file || null);
+    const handleImageChange = async(e:ChangeEvent<HTMLInputElement>) => {
+        let file;
+        if(e.target.files){
+        file= e.target.files[0];
+        }
+        const base64 = await convertToBase64(file);
+        setForm({...formD, image: base64});
     };
     
-    function handleSolved(id:string, textValue:string) {
+    async function handleSolved(id:string, textValue:string) {
     // Handle form submission logic here
-        fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${"Solved"}&Id=${id}`,{
+        await fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${"Solved"}&Id=${id}`,{
         method: "POST" ,
-        body: JSON.stringify({
-            desc: textValue,
-        }) ,
+        body: JSON.stringify(formD) ,
         headers:{
             "Content-Type": "application/json",
         }})
@@ -36,19 +47,19 @@ export default function Form(props:{id:string, attended:string }){
             console.log(error)
         })
        // const result= await response.json();
-        setTextValue("");
-        setImageFile(null);
+        setForm({
+            text: '',
+            image: ''
+        });
         setShowConfirmation(true);
         return;
     }
 
-    function handleAttended(id:string, textValue:string) {
+    async function handleAttended(id:string, textValue:string) {
     // Handle form submission logic here
         fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${"Attended"}&Id=${id}`,{
         method: "POST" ,
-        body: JSON.stringify({
-            desc: textValue,
-        }) ,
+        body: JSON.stringify(formD) ,
         headers:{
             "Content-Type": "application/json",
         }})
@@ -59,8 +70,10 @@ export default function Form(props:{id:string, attended:string }){
             console.log(error)
         })
         // const result= await response.json();
-        setTextValue("");
-        setImageFile(null);
+        setForm({
+            text: '',
+            image: ''
+        });
         setShowConfirmation(true);
         return;
     }
@@ -79,23 +92,28 @@ export default function Form(props:{id:string, attended:string }){
                <label className="block text-sm font-medium text-gray-700">Description</label>
                <input
                   type="text"
-                  value={textValue}
+                  value={formD.text}
                   onChange={handleTextChange}
                   className="mt-1 p-2 border border-gray-300 rounded-md w-full "
                />
                </div>
          
                <div className="mb-4">
-               <label className="block text-sm font-medium text-gray-700">Upload Image</label>
-               <input
-                  type="file"
-                  onChange={handleImageChange}
-                  className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-               />
+               <label htmlFor="profileImage" className="block text-sm font-medium text-gray-500">
+                    Upload Image
+                </label>
+                <input
+                    id="profileImage"
+                    name="profileImage"
+                    type="file"
+                    accept="image/jpg image/jpeg"
+                    onChange={handleImageChange}
+                    className="mt-1 p-2 w-full rounded-md border border-gray-300 bg-white text-gray-900"
+                />
                </div>
    
                <button onClick={()=>{
-                   handleAttended(props.id, textValue)
+                   handleAttended(props.id, formD.text)
                    }} className="bg-blue-500 text-white p-2 rounded-md text-center w-full">
                    Attended
                </button>
@@ -105,23 +123,28 @@ export default function Form(props:{id:string, attended:string }){
                 <label className="block text-sm font-medium text-gray-700">Description</label>
                 <input
                 type="text"
-                value={textValue}
+                value={formD.text}
                 onChange={handleTextChange}
                 className="mt-1 p-2 border border-gray-300 rounded-md w-full "
                 />
                 </div>
         
                 <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Upload Image</label>
-                <input
-                type="file"
-                onChange={handleImageChange}
-                className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-                />
+                <label htmlFor="profileImage" className="block text-sm font-medium text-gray-500">
+                        Upload Image
+                    </label>
+                    <input
+                        id="profileImage"
+                        name="profileImage"
+                        type="file"
+                        accept="image/jpg image/jpeg"
+                        onChange={handleImageChange}
+                        className="mt-1 p-2 w-full rounded-md border border-gray-300 bg-white text-gray-900"
+                    />
                 </div>
 
                 <button onClick={()=>{
-                    handleSolved(props.id, textValue)
+                    handleSolved(props.id, formD.text)
                     }} className="bg-blue-500 text-white p-2 rounded-md text-center w-full">
                     Solved
                 </button>

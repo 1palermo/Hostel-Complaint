@@ -2,14 +2,7 @@ const User = require("../model/user");
 const {setUser,getUser} = require("../services/auth");
 //import {v2 as cloudinary} from 'cloudinary';
 //import Result from 'postcss/lib/result';
-const cloudinary = require('cloudinary').v2;
-
-cloudinary.config({
-    cloud_name: 'dttlt8f5i',
-    api_key: '535748393319165',
-    api_secret: 'VTbKpzBITyo0dkZUGah1Kiyx7b4',
-    secure: true,
-});
+const cloudinary = require('../config/cloudStorage');
 
 
 async function  handleLogin(req,res){
@@ -81,7 +74,7 @@ async function handleSignup(req,res){
     cloudinary.uploader
         .upload(file,{
             upload_preset: 'unsigned_upload',
-            allowed_formats: ['jpg','jpeg']
+            allowed_formats: ['jpg','jpeg','png']
         },function(err, result){
             if(err){
                 console.log("failure",err);

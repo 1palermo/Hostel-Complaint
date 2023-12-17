@@ -55,7 +55,7 @@ export default async function searchParams({ searchParams ,} : {
       </div>
 
 
-      {response.map((data:{createdAt:string;sender:JSON;category:string;description:string},idx:number)=>(
+      {response.map((data:{createdAt:string;sender:JSON;category:string;description:string;image:string},idx:number)=>(
          data.category === "Attended"?
          <div className="card w-90% m-5 bg-base-100 shadow-xl" key={idx}>
             <div className="card-body">
@@ -81,6 +81,9 @@ export default async function searchParams({ searchParams ,} : {
                <div className="flex flex-wrap">
                   <div className="mr-1 font-bold">Description:</div>
                   <div className="mr-0">{data.description}</div>
+               </div>
+               <div className="flex flex-wrap">
+                  <img src={data.image} />
                </div>
             </div>
          </div>:
@@ -109,6 +112,9 @@ export default async function searchParams({ searchParams ,} : {
             <div className="flex flex-wrap">
                <div className="mr-1 font-bold">Description:</div>
                <div className="mr-0">{data.description}</div>
+            </div>
+            <div className="flex flex-wrap">
+               <img src={data.image} />
             </div>
             </div>
          </div> : <></>))}

@@ -200,9 +200,12 @@ export default function Home() {
   }
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file= e.target.files[0];
+    let file;
+    if(e.target.files){
+      file= e.target.files[0];
+    }
 		const base64= await Base64(file);
-    console.log(base64);
+    //console.log(base64);
     if(e.target.files && e.target.files[0]){
       setForm({...formD, image: base64});
     }
