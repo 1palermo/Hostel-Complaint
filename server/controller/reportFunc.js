@@ -2,6 +2,8 @@ const Response = require("../model/response");
 const cloudinary = require('../config/cloudStorage');
 const Report = require("../model/report");
 const mongoose = require('mongoose');
+var fs = require("fs");
+const excelJs = require("exceljs");
 
 const handleReport = async (req,res)=>{
     const response = new Response();
@@ -103,4 +105,57 @@ const getResponse = async(req,res)=>{
     res.json(data);
 }
 
-module.exports = { handleReport, getReports, getResponse };
+const downloadReport = async (req, res) => {
+    try {
+      console.log(req.query.dept)
+      let report;
+      if(req.query.dept === ""){
+        report = await Report.find({}).populate('sender');
+      }
+      else{
+        report = await Report.find({department: req.query.dept}).populate('sender');
+      }
+  
+      let workbook = new excelJs.Workbook();
+      const sheets = workbook.addWorksheet("reports");
+  
+      sheets.columns = [
+        { header: "Sender", key: "username", width: 25 },
+        { header: "Mobile No.", key: "contact", width: 25 },
+        { header: "Title", key: "title", width: 50 },
+        { header: "Problem", key: "problem", width: 50 },
+        { header: "Description", key: "description", width: 150 },
+        { header: "Department", key: "department", width: 25 },
+      ];
+  
+      for (const value of report) {
+        sheets.addRow({
+          username: value.sender?.username,
+          contact: value.sender?.contact,
+          title: value.title,
+          problem: value.problem,
+          description: value.description,
+          department: value.department,
+        });
+      }
+  
+      res.setHeader(
+        "Content-Type",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      );
+  
+      res.setHeader(
+        "Content-Disposition",
+        "attachment;filename=reports.xlsx"
+      );
+  
+      await workbook.xlsx.write(res);
+      res.end();
+    } catch (error) {
+      console.log(error);
+      res.status(500).send("Internal Server Error");
+    }
+  };
+  
+
+module.exports = { handleReport, getReports, getResponse, downloadReport };

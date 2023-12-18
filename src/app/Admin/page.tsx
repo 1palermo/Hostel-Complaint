@@ -1,15 +1,17 @@
 import Header from '../Header/page';
 import Link from 'next/link';
+import Navbar from './Navbar';
 
 export default async function Page({ searchParams } : {
-   searchParams: {close: string, dept:string};
+   searchParams: {close: string,cat:string, dept:string};
 }){
-   const apiResponse = await fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${searchParams.dept}`,{cache : 'no-store'});
+   const apiResponse = await fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${searchParams.cat}`,{cache : 'no-store'});
    const data = await apiResponse.json();
  
    return(
       <>
         <div className="overflow-x-auto hidden md:block">
+            <Navbar cat={searchParams.cat} dept={searchParams.dept} />
             <table className="table table-xl">
                <Header />
                <tbody>

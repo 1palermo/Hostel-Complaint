@@ -19,30 +19,30 @@ async function  handleLogin(req,res){
             return res.redirect("/login")
             } else{
             const token = setUser(user)
-            if(user.username === "Hostel-Admin"){
+            if(user.category === "Hostel-Admin"){
                 return res.status(300).json({
-                    url: `/Admin?close=${"yes"}&dept=${"Hostel-Admin"}`,
+                    url: `/Admin?close=${"yes"}&dept=${""}&cat=${"Hostel-Admin"}`,
                     customToken: token,
                     valid: true,
                 })
             }
-            else if(user.username === "Electrical-Admin"){
+            else if(user.category === "Electrical-Admin"){
                 return res.status(300).json({
-                    url: `/Admin?close=${"no"}&dept=${"Electrical-Admin"}`,
+                    url: `/Admin?close=${"no"}&dept=${"electrical department"}&cat=${"Electrical-Admin"}`,
                     customToken: token,
                     valid: true,
                 })
             }
-            else if(user.username === "Civil-Admin"){
+            else if(user.category === "Civil-Admin"){
                 return res.status(300).json({
-                    url: `/Admin?close=${"no"}&dept=${"Civil-Admin"}`,
+                    url: `/Admin?close=${"no"}&dept=${"civil department"}&cat=${"Civil-Admin"}`,
                     customToken: token,
                     valid: true,
                 })
             }
-            else if(user.username === "ComputerCentre-Admin"){
+            else if(user.category === "ComputerCentre-Admin"){
                 return res.status(300).json({
-                    url: `/Admin?close=${"no"}&dept=${"ComputerCentre-Admin"}`,
+                    url: `/Admin?close=${"no"}&dept=${"computer centre"}&cat${"ComputerCentre-Admin"}`,
                     customToken: token,
                     valid: true,
                 })
@@ -124,9 +124,9 @@ async function handleAuthentication(req,res){
         try{
             var user = await User.findOne({email:username})
             if(!user){
-                return res.redirect("/login")
+                return res.json({valid:false, Id:''});
             }
-            return res.json({valid:true});
+            return res.json({valid:true, Id:user.category});
         } catch(e){
             console.log(e);
         }}
