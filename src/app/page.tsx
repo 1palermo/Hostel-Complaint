@@ -138,6 +138,7 @@ export default function Home() {
     const response= await fetch("https://490bj8xz-8080.inc1.devtunnels.ms/signup",{
       method: "POST",
       body: JSON.stringify(Newnote) ,
+      credentials: 'include',
       headers:{
         "Content-Type": "application/json",
         "customToken": window.localStorage.getItem("customToken") || ''
@@ -155,6 +156,7 @@ export default function Home() {
   async function checkUser(newNote: NewNote){
     const response = await fetch("https://490bj8xz-8080.inc1.devtunnels.ms/login", {
       method: "POST",
+      credentials: 'include',
       body: JSON.stringify(newNote),
       headers: {
         "Content-Type": "application/json",
@@ -461,6 +463,7 @@ export default function Home() {
             accept="image/jpg image/jpeg"
             onChange={handleFileUpload}
             className="mt-1 p-2 w-full rounded-md border border-gray-300 bg-white text-gray-900"
+            required
           />
         </section>
         <button type="submit" className="px-3 py-2 bg-blue-500 text-white text-md rounded-md">

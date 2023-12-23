@@ -1,11 +1,11 @@
 import Header from '../Header/page';
 import Link from 'next/link';
-import Navbar from './Navbar';
+import Navbar from '../Admin/Navbar';
 
 export default async function Page({ searchParams } : {
-   searchParams: {close: string,cat:string, dept:string};
+   searchParams: {cat:string, dept:string};
 }){
-   const apiResponse = await fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${searchParams.cat}&status=${"Open"}`,{cache : 'no-store'});
+   const apiResponse = await fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${searchParams.cat}&status=${"Closed"}`,{cache : 'no-store'});
    const data = await apiResponse.json();
  
    return(
@@ -24,11 +24,11 @@ export default async function Page({ searchParams } : {
                      <td>{res.hostel_room_no}</td>
                      <td>{res.department}</td> 
                      <td>{res.title}</td>
-                     <td>{res.solved === "Solved"? res.solved : res.attended}</td>  
+                     <td>Closed</td>  
                      <td>
                      <Link href={{
                         pathname: "/complaint",
-                        query: {...res, close: searchParams.close},
+                        query: {...res, close: 'no'},
                      }} >
                        <button className="px-4 py-2 bg-blue-500 text-white text-lg rounded-md">see</button>
                      </Link>
@@ -75,12 +75,12 @@ export default async function Page({ searchParams } : {
                      </div>
                      <div className="flex flex-wrap">
                         <div className="mr-1 font-bold">Status:</div>
-                        <div className="mr-0">{res.solved === "Solved"? res.solved : res.attended}</div>
+                        <div className="mr-0">Closed</div>
                      </div>
                      <div className='w-full flex justify-end'>
                         <Link href={{
                            pathname: "/complaint",
-                           query: {...res, close: searchParams.close},
+                           query: {...res, close: "no"},
                         }}>
                            <button className="px-3 py-1 bg-blue-500 text-white text-lg rounded-md">see</button>
                         </Link>

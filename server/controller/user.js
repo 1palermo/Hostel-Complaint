@@ -18,7 +18,10 @@ async function  handleLogin(req,res){
             if(!match){
             return res.redirect("/login")
             } else{
-            const token = setUser(user)
+            const token = setUser(user);
+           // req.session.token = token;
+           // req.session.isAuth = true;
+           // res.cookie('cookie', {token: token} , { expires: new Date(Date.now() + 86400000) });
             if(user.category === "Hostel-Admin"){
                 return res.status(300).json({
                     url: `/Admin?close=${"yes"}&dept=${""}&cat=${"Hostel-Admin"}`,
@@ -95,7 +98,8 @@ async function handleSignup(req,res){
                 user.save()
                     .then((user) => {
                     const token = setUser(user)
-                    
+                 //   req.session.token = token;
+                  //  req.session.isAuth = true;
                     if(req.body.category === "Attendant"){
                         return res.json({
                             customToken: token,
@@ -124,9 +128,42 @@ async function handleAuthentication(req,res){
         try{
             var user = await User.findOne({email:username})
             if(!user){
-                return res.json({valid:false, Id:''});
+                return res.json({valid:false, url:'/'});
             }
-            return res.json({valid:true, Id:user.category});
+            if(user.category === "Hostel-Admin"){
+                return res.status(300).json({
+                    url: `/Admin?close=${"yes"}&dept=${""}&cat=${"Hostel-Admin"}`,
+                    valid: true,
+                })
+            }
+            else if(user.category === "Electrical-Admin"){
+                return res.status(300).json({
+                    url: `/Admin?close=${"no"}&dept=${"electrical department"}&cat=${"Electrical-Admin"}`,
+                    valid: true,
+                })
+            }
+            else if(user.category === "Civil-Admin"){
+                return res.status(300).json({
+                    url: `/Admin?close=${"no"}&dept=${"civil department"}&cat=${"Civil-Admin"}`,
+                    valid: true,
+                })
+            }
+            else if(user.category === "ComputerCentre-Admin"){
+                return res.status(300).json({
+                    url: `/Admin?close=${"no"}&dept=${"computer centre"}&cat${"ComputerCentre-Admin"}`,
+                    valid: true,
+                })
+            }
+            else if(user.category === "Attendant"){
+                return res.status(300).json({
+                    url: '/Attendant',
+                    valid: true,
+                })
+            }
+            return res.status(300).json({
+                url: '/user',
+                valid: true,
+            })
         } catch(e){
             console.log(e);
         }}

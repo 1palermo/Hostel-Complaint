@@ -4,6 +4,7 @@ import Image from 'next/image';
 //import { useEffect } from 'react';
 //import { useRouter } from 'next/router';
 import GoogleTranslate from '../translate';
+import ProtectedRoute from '../components/RouteProtection';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
+        <ProtectedRoute />
         <div className="navbar bg-custom-primary text-primary-content p-4 flex justify-between items-center">
           <p className="normal-case text-xl">Attendant</p>
           <div className="flex items-center space-x-4">
@@ -51,7 +53,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </Link>
           </div>
         </div>
-
         <div>{children}</div>
       </body>
     </html>

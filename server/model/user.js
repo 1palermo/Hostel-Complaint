@@ -27,6 +27,12 @@ const UserSchema = new mongoose.Schema({
     category:{
         type:String,
     },
+    tower:{
+        type:String,
+    },
+    hostel_room_no:{
+        type:String,
+    },
     description:{
         type:String,
     }

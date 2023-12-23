@@ -4,7 +4,7 @@ import Closed from "./clickClosed";
 import Return from "../Return";
 
 export default async function searchParams({ searchParams ,} : {
-   searchParams: {_id:string; date: string; time: string; problem: string; title: string; description: string; department: string; attended: string; solved: string; close:string};
+   searchParams: {_id:string; date: string; time: string;tower:string; hostel_room_no:string; problem: string; title: string; description: string; department: string; attended: string; solved: string; close:string};
 }){
    const response = await SolutionDetails(searchParams._id);
 
@@ -23,6 +23,14 @@ export default async function searchParams({ searchParams ,} : {
                   <div className="mr-1 font-bold">Time:</div>
                   <div className="mr-0">{searchParams.time}</div>
                </div>
+            </div>
+            <div className="flex flex-wrap">
+               <div className="mr-1 font-bold">Tower:</div>
+               <div className="mr-0">{searchParams.tower}</div>
+            </div>
+            <div className="flex flex-wrap">
+               <div className="mr-1 font-bold">Hostel Room No:</div>
+               <div className="mr-0">{searchParams.hostel_room_no}</div>
             </div>
             <div className="flex flex-wrap">
                <div className="mr-1 font-bold">Title:</div>

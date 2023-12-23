@@ -9,9 +9,20 @@ const reportSchema = new mongoose.Schema({
   department:{type:String},
   attended:{type:String},
   solved:{type:String},
-  status:{type:String}
+  status:{type:String},
+  tower:{type:String},
+  hostel_room_no:{type:String},
+  createdAt: {
+    type: Date, // Change the type to Date
+    default: Date.now,
+    required: true,
+  },
 },{timestamps: true});
 
+const monthsToseconds = (months) => months * 30 * 24 * 60 * 60 ;
+
 Report = mongoose.model('Report', reportSchema);
+
+reportSchema.index({ "createdAt": 1 }, { expireAfterSeconds: monthsToseconds(3) });
 
 module.exports= Report;

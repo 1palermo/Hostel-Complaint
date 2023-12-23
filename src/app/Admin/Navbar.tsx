@@ -5,6 +5,12 @@ export default function navbar(props:{dept:string, cat:string}){
     return(
         <div className="navbar bg-custom-primary text-primary-content">
             <p className="btn btn-ghost normal-case text-xl">{props.cat}</p>
+            <Link href={{
+                pathname: "/complaint",
+                query: {...props},
+                }} >
+                <p>Closed Reports</p>
+            </Link>
             <Link href="/profile">
             <Image
                 src="/avatar.png" 

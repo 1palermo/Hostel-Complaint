@@ -32,7 +32,7 @@ export default function Form(props:{id:string, attended:string }){
         setForm({...formD, image: base64});
     };
     
-    async function handleSolved(id:string, textValue:string) {
+    async function handleSolved(id:string) {
     // Handle form submission logic here
         await fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${"Solved"}&Id=${id}`,{
         method: "POST" ,
@@ -55,7 +55,7 @@ export default function Form(props:{id:string, attended:string }){
         return;
     }
 
-    async function handleAttended(id:string, textValue:string) {
+    async function handleAttended(id:string) {
     // Handle form submission logic here
         fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${"Attended"}&Id=${id}`,{
         method: "POST" ,
@@ -109,11 +109,11 @@ export default function Form(props:{id:string, attended:string }){
                     accept="image/jpg image/jpeg"
                     onChange={handleImageChange}
                     className="mt-1 p-2 w-full rounded-md border border-gray-300 bg-white text-gray-900"
+                    required
                 />
                </div>
-   
                <button onClick={()=>{
-                   handleAttended(props.id, formD.text)
+                   handleAttended(props.id)
                    }} className="bg-blue-500 text-white p-2 rounded-md text-center w-full">
                    Attended
                </button>
@@ -140,11 +140,12 @@ export default function Form(props:{id:string, attended:string }){
                         accept="image/jpg image/jpeg"
                         onChange={handleImageChange}
                         className="mt-1 p-2 w-full rounded-md border border-gray-300 bg-white text-gray-900"
+                        required
                     />
                 </div>
 
                 <button onClick={()=>{
-                    handleSolved(props.id, formD.text)
+                    handleSolved(props.id)
                     }} className="bg-blue-500 text-white p-2 rounded-md text-center w-full">
                     Solved
                 </button>

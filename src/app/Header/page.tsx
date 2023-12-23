@@ -5,10 +5,11 @@ export default function Header(){
             <th>S.No</th>
             <th>Date</th> 
             <th>Time</th> 
-            <th>Title</th> 
+            <th>Tower</th> 
+            <th>Hostel Room No</th> 
             <th>Department</th>
-            <th>Attended</th> 
-            <th>Solved</th> 
+            <th>Title</th>
+            <th>Status</th>
             <th>View</th>
         </tr>
     </thead> 

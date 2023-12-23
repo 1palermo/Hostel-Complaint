@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 var fs = require("fs");
 const excelJs = require("exceljs");
 
+const monthsToMilliseconds = (months) => months * 30 * 24 * 60 * 60 * 1000;
+
 const handleReport = async (req,res)=>{
     const response = new Response();
     let flag = false;
@@ -12,7 +14,8 @@ const handleReport = async (req,res)=>{
     if(req.query.cat === 'Closed'){
         const response = new Response({
             category: "Closed",
-            problem: req.query.Id
+            problem: req.query.Id,
+            createdAt: new Date()
         });
         const rep = await Report.findOneAndUpdate({_id:req.query.Id},{status:"Closed",solved:"Solved",attended:"Attended"});
         response.save()
@@ -43,7 +46,8 @@ const handleReport = async (req,res)=>{
                            category: "Attended",
                            problem: req.query.Id,
                            description: req.body.text,
-                           image: result.secure_url
+                           image: result.secure_url,
+                           createdAt: new Date()
                         });
                         const rep = await Report.findOneAndUpdate({_id:req.query.Id},{attended:"Attended"});
                         response.save()
@@ -61,7 +65,8 @@ const handleReport = async (req,res)=>{
                             category: "Solved",
                             problem: req.query.Id,
                             description: req.body.text,
-                            image: result.secure_url
+                            image: result.secure_url,
+                            createdAt: new Date()
                          });
                         const rep = await Report.findOneAndUpdate({_id:req.query.Id},{solved:"Solved"})
                         response.save()
@@ -83,16 +88,16 @@ const handleReport = async (req,res)=>{
 const getReports = async(req,res)=>{
     let data;
     if(req.query.cat === "Hostel-Admin"){
-        data = await Report.find({status: "Open"});
+        data = await Report.find({status: req.query.status});
     }
     else if(req.query.cat === "Electrical-Admin"){
-        data = await Report.find({status: "Open", department: "electrical department"});
+        data = await Report.find({status: req.query.status, department: "electrical department"});
     }
     else if(req.query.cat === "Civil-Admin"){
-        data = await Report.find({status: "Open", department: "civil department"});
+        data = await Report.find({status: req.query.status, department: "civil department"});
     }
     else if(req.query.cat === "ComputerCentre-Admin"){
-        data = await Report.find({status: "Open", department: "computer centre"});
+        data = await Report.find({status: req.query.status, department: "computer centre"});
     }
     else{
         data = await Report.find({solved: "Unsolved"});
@@ -156,6 +161,24 @@ const downloadReport = async (req, res) => {
       res.status(500).send("Internal Server Error");
     }
   };
-  
 
-module.exports = { handleReport, getReports, getResponse, downloadReport };
+  /*
+  const closedReports = async(req,res)=>{
+    let data;
+    if(req.query.cat === "Hostel-Admin"){
+        data = await Report.find({status: "Closed"});
+    }
+    else if(req.query.cat === "Electrical-Admin"){
+        data = await Report.find({status: "Closed", department: "electrical department"});
+    }
+    else if(req.query.cat === "Civil-Admin"){
+        data = await Report.find({status: "Closed", department: "civil department"});
+    }
+    else{
+        data = await Report.find({status: "Closed", department: "computer centre"});
+    }
+    res.json(data);
+  }
+  */
+
+module.exports = { handleReport, getReports, getResponse, downloadReport};

@@ -2,6 +2,7 @@ const express= require("express");
 const router= express.Router();
 const {handleLogin , handleSignup , handleAuthentication, handleProfile, handleUpdate}= require("../controller/user");
 
+
 router.get("/",(req,res) => {
     // res.redirect("/login");
   })

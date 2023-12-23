@@ -18,7 +18,7 @@ export default function RootLayout({
     <html lang='en'>
     <body>
     <div className="navbar bg-custom-primary text-primary-content">
-      <p className="btn btn-ghost normal-case text-xl">Hostel-Admin</p>
+      <p className="btn btn-ghost normal-case text-xl">Attendant</p>
       <Link href="/profile">
         <Image
           src="/avatar.png" 

@@ -6,7 +6,7 @@ import Attended from './clickAttended';
 
 export default async function Page(){
   // <Authentication />
-   const apiResponse = await fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${"Attendant"}`,{cache : 'no-store'});
+   const apiResponse = await fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${"Attendant"}`,{cache : 'no-store',credentials: 'include'});
    const data = await apiResponse.json();
    return(
       <>
@@ -18,7 +18,7 @@ export default async function Page(){
          </div>
          <div className="block md:hidden">
                <h1 className='w-full text-center font-bold'>LIST OF REPORTS</h1>
-               {data.map((res:{_id:string; date: string; time: string; problem: string; title: string; description: string; department: string; attended: string; solved: string},idx:number)=>(
+               {data.map((res:{_id:string; date: string; tower:string; hostel_room_no:string; time: string; problem: string; title: string; description: string; department: string; attended: string; solved: string},idx:number)=>(
                   <div className="card w-90% m-5 bg-base-100 shadow-xl" key={idx}>
                   <div className="card-body">
                      <div className="flex flex-wrap">
@@ -32,21 +32,26 @@ export default async function Page(){
                         </div>
                      </div>
                      <div className="flex flex-wrap">
-                        <div className="mr-1 font-bold">Title:</div>
-                        <div className="mr-0">{res.title}</div>
+                        <div className="mr-1 font-bold">Tower:</div>
+                        <div className="mr-0">{res.tower}</div>
+                     </div>
+                     <div className="flex flex-wrap">
+                        <div className="mr-1 font-bold">Hostel Room No:</div>
+                        <div className="mr-0">{res.hostel_room_no}</div>
                      </div>
                      <div className="flex flex-wrap">
                         <div className="mr-1 font-bold">Department:</div>
                         <div className="mr-0">{res.department}</div>
                      </div>
+                     <div className="flex flex-wrap">
+                        <div className="mr-1 font-bold">Title:</div>
+                        <div className="mr-0">{res.title}</div>
+                     </div>
+                     <div className="flex flex-wrap">
+                        <div className="mr-1 font-bold">Status:</div>
+                        <div className="mr-0">{res.attended}</div>
+                     </div>
                      <div className="flex flex-wrap justify-between">
-                        {res.attended === "Attended"? res.attended : <Attended data={res._id} />}
-                        <Link href={{
-                           pathname: "/complaintPageAttendant",
-                           query: res
-                           }} >
-                           <button className="px-3 py-1 bg-blue-500 text-white text-sm rounded-md">Solved</button>
-                        </Link>
                         <Link href={{
                               pathname: "/complaintPageAttendant",
                               query: res
@@ -61,3 +66,13 @@ export default async function Page(){
       </>
    );
 }
+
+/*
+{res.attended === "Attended"? res.attended : <Attended data={res._id} />}
+<Link href={{
+   pathname: "/complaintPageAttendant",
+   query: res
+   }} >
+   <button className="px-3 py-1 bg-blue-500 text-white text-sm rounded-md">Solved</button>
+</Link>
+*/
