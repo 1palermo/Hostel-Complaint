@@ -1,7 +1,6 @@
 'use client'
 import { useEffect } from "react";
-import { useRouter } from 'next/navigation';
-
+import { useRouter, usePathname } from 'next/navigation';
 
 
 async function fetchData(token: string | null){
@@ -24,6 +23,7 @@ async function fetchData(token: string | null){
 
 export default function ProtectedRoute() {
   const router = useRouter();
+  const pathname = usePathname()
   useEffect(() => {
     const token = window.localStorage ? window.localStorage.getItem("customToken") : null;
 

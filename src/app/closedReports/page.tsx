@@ -3,15 +3,15 @@ import Link from 'next/link';
 import Navbar from '../Admin/Navbar';
 
 export default async function Page({ searchParams } : {
-   searchParams: {cat:string, dept:string};
+   searchParams: {cat:string, dept:string, close: string};
 }){
    const apiResponse = await fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${searchParams.cat}&status=${"Closed"}`,{cache : 'no-store'});
    const data = await apiResponse.json();
- 
+   
    return(
       <>
         <div className="overflow-x-auto hidden md:block">
-            <Navbar cat={searchParams.cat} dept={searchParams.dept} />
+            <Navbar cat={searchParams.cat} dept={searchParams.dept} close={searchParams.close} />
             <table className="table table-xl">
                <Header />
                <tbody>

@@ -11,7 +11,7 @@ export default async function searchParams({ searchParams ,} : {
    return(
       <div className="block">
       <Return />
-      <div className="card w-90% m-5 bg-base-100 shadow-xl" >
+      <div className="card w-90% m-5 bg-base-100 shadow-xl " >
          <div className="card-body">
          <div className="text-lg font-bold">Report Details</div>
             <div className="flex flex-wrap">
@@ -90,7 +90,7 @@ export default async function searchParams({ searchParams ,} : {
                   <div className="mr-1 font-bold">Description:</div>
                   <div className="mr-0">{data.description}</div>
                </div>
-               <div className="flex flex-wrap">
+               <div className="flex flex-wrap ">
                   <img src={data.image} />
                </div>
             </div>

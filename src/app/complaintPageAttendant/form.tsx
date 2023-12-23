@@ -112,8 +112,8 @@ export default function Form(props:{id:string, attended:string }){
                     required
                 />
                </div>
-               <button onClick={()=>{
-                   handleAttended(props.id)
+               <button type="button" onClick={async(res)=>{
+                   await handleAttended(props.id)
                    }} className="bg-blue-500 text-white p-2 rounded-md text-center w-full">
                    Attended
                </button>
@@ -144,8 +144,8 @@ export default function Form(props:{id:string, attended:string }){
                     />
                 </div>
 
-                <button onClick={()=>{
-                    handleSolved(props.id)
+                <button onClick={async(res)=>{
+                    await handleSolved(props.id)
                     }} className="bg-blue-500 text-white p-2 rounded-md text-center w-full">
                     Solved
                 </button>

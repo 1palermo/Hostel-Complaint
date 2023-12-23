@@ -1,6 +1,6 @@
 const express= require("express");
 const router= express.Router();
-const {handleLogin , handleSignup , handleAuthentication, handleProfile, handleUpdate}= require("../controller/user");
+const {handleLogin , handleSignup , handleAuthentication, handleProfile, handleUpdate, deleteUser, getAllUsers}= require("../controller/user");
 
 
 router.get("/",(req,res) => {
@@ -17,6 +17,10 @@ router.route("/login")
 router.post("/profile",handleProfile);
 
 router.post("/update",handleUpdate);
+
+router.get("/delete", deleteUser);
+
+router.get("/getUser", getAllUsers);
 
 router.route("/signup")
 .get((req,res) => {

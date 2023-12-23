@@ -11,7 +11,7 @@ export default async function Page({ searchParams } : {
    return(
       <>
         <div className="overflow-x-auto hidden md:block">
-            <Navbar cat={searchParams.cat} dept={searchParams.dept} />
+            <Navbar cat={searchParams.cat} dept={searchParams.dept} close={searchParams.close}/>
             <table className="table table-xl">
                <Header />
                <tbody>
@@ -39,11 +39,8 @@ export default async function Page({ searchParams } : {
             </table>
          </div>
          <div className="block md:hidden">
+               <Navbar cat={searchParams.cat} dept={searchParams.dept} close={searchParams.close}/>
                <h1 className='w-full text-center font-bold'>LIST OF REPORTS</h1>
-               <div className='flex'>
-                  <button className='ml-5 btn'>Open</button>
-                  <button className='ml-2 btn'>Closed</button>
-               </div>
                {data.map((res:{_id:string; date: string; time: string; tower:string; hostel_room_no:string; problem: string; title: string; description: string; department: string; attended: string; solved: string},idx:number)=>(
                   <div className="card w-90% m-5 bg-base-100 shadow-xl" key={idx}>
                   <div className="card-body">
