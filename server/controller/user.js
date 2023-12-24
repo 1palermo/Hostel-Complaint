@@ -2,8 +2,6 @@ const User = require("../model/user");
 const Report = require("../model/report");
 const Response = require("../model/response");
 const {setUser,getUser} = require("../services/auth");
-//import {v2 as cloudinary} from 'cloudinary';
-//import Result from 'postcss/lib/result';
 const cloudinary = require('../config/cloudStorage');
 
 
@@ -197,15 +195,16 @@ async function deleteUser(req, res){
     await User.deleteMany({_id: req.query.Id});
     const reports = await Report.find({sender: req.query.Id});
     reports.map(async(data)=>{
-       await Response.deleteMany({sender: data._id});
+       await Response.deleteMany({problem: data._id});
     })
     await Report.deleteMany({sender: req.query.Id});
     res.status(200).json({ message: 'User and associated data deleted successfully.' });
 }
 
 async function getAllUsers(req, res){
-    const Users=  await User.find({category: "hosteller"});
-    return Users;
+    console.log("getUser");
+    const Users=  await User.find({category: "Hosteller"});
+    res.json(Users);
 }
 
 module.exports = {handleLogin ,handleSignup ,handleAuthentication, handleProfile, handleUpdate, deleteUser, getAllUsers};

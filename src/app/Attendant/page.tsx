@@ -1,13 +1,57 @@
+//"use client"
 import Header from '../Header/page';
 import List from './List';
 import Link from 'next/link';
-import Attended from './clickAttended';
-//import Authentication from '../apiResponse';
+//import Reports from './Reports';
+//import io from 'socket.io-client';
+//import { useEffect, useState } from "react";
+
+//const socket = io("https://490bj8xz-8080.inc1.devtunnels.ms/");
 
 export default async function Page(){
-  // <Authentication />
    const apiResponse = await fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${"Attendant"}`,{cache : 'no-store',credentials: 'include'});
    const data = await apiResponse.json();
+   //const [data, setData] = useState([]);
+
+   /*
+   useEffect(() => {
+     socket.on("connect", async () => {
+       console.log(socket.id);
+       try {
+         const apiResponse = await fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${"Attendant"}`, { credentials: 'include' });
+ 
+         const responseData = await apiResponse.json();
+ 
+         setData(responseData);
+       } catch (error) {
+         console.error("Error fetching data:", error);
+       }
+     });
+ 
+     return () => {
+       socket.disconnect();
+     };
+   }, []); 
+
+   useEffect(() => {
+      socket.on("getReports", async (data) => {
+        console.log(data);
+        try {
+          const apiResponse = await fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${"Attendant"}`, { credentials: 'include' });
+  
+          const responseData = await apiResponse.json();
+  
+          setData(responseData);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      });
+  
+      return () => {
+        socket.disconnect();
+      };
+    }, []); 
+   */
    return(
       <>
         <div className="overflow-x-auto hidden md:block">
@@ -66,13 +110,3 @@ export default async function Page(){
       </>
    );
 }
-
-/*
-{res.attended === "Attended"? res.attended : <Attended data={res._id} />}
-<Link href={{
-   pathname: "/complaintPageAttendant",
-   query: res
-   }} >
-   <button className="px-3 py-1 bg-blue-500 text-white text-sm rounded-md">Solved</button>
-</Link>
-*/

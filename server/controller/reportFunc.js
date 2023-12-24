@@ -4,8 +4,8 @@ const Report = require("../model/report");
 const mongoose = require('mongoose');
 var fs = require("fs");
 const excelJs = require("exceljs");
+const {setUser,getUser} = require("../services/auth");
 
-const monthsToMilliseconds = (months) => months * 30 * 24 * 60 * 60 * 1000;
 
 const handleReport = async (req,res)=>{
     const response = new Response();
@@ -28,7 +28,7 @@ const handleReport = async (req,res)=>{
             })
     }
     else{
-        const file = req.body.image;
+        const file = req.body.data.image;
         //console.log(file);
         
         cloudinary.uploader
@@ -41,11 +41,13 @@ const handleReport = async (req,res)=>{
                     return res.json({ans : "fail"});
                 }
                 else{
+                  //  io.broadcast.emit("getReports", "Server event");
                     if(req.query.cat === "Attended"){
                         const response = new Response({
                            category: "Attended",
                            problem: req.query.Id,
-                           description: req.body.text,
+                           description: req.body.data.text,
+                           sender: getUser(req.body.userToken)._id,
                            image: result.secure_url,
                            createdAt: new Date()
                         });
@@ -66,6 +68,7 @@ const handleReport = async (req,res)=>{
                             problem: req.query.Id,
                             description: req.body.text,
                             image: result.secure_url,
+                            sender: getUser(req.body.userToken)._id,
                             createdAt: new Date()
                          });
                         const rep = await Report.findOneAndUpdate({_id:req.query.Id},{solved:"Solved"})
@@ -162,23 +165,5 @@ const downloadReport = async (req, res) => {
     }
   };
 
-  /*
-  const closedReports = async(req,res)=>{
-    let data;
-    if(req.query.cat === "Hostel-Admin"){
-        data = await Report.find({status: "Closed"});
-    }
-    else if(req.query.cat === "Electrical-Admin"){
-        data = await Report.find({status: "Closed", department: "electrical department"});
-    }
-    else if(req.query.cat === "Civil-Admin"){
-        data = await Report.find({status: "Closed", department: "civil department"});
-    }
-    else{
-        data = await Report.find({status: "Closed", department: "computer centre"});
-    }
-    res.json(data);
-  }
-  */
 
 module.exports = { handleReport, getReports, getResponse, downloadReport};

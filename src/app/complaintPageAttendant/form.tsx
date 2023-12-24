@@ -34,9 +34,10 @@ export default function Form(props:{id:string, attended:string }){
     
     async function handleSolved(id:string) {
     // Handle form submission logic here
+        const token = window.localStorage.getItem("customToken");
         await fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${"Solved"}&Id=${id}`,{
         method: "POST" ,
-        body: JSON.stringify(formD) ,
+        body: JSON.stringify({data:formD, userToken: token}) ,
         headers:{
             "Content-Type": "application/json",
         }})
@@ -46,7 +47,6 @@ export default function Form(props:{id:string, attended:string }){
         .catch(error=>{
             console.log(error)
         })
-       // const result= await response.json();
         setForm({
             text: '',
             image: ''
@@ -56,10 +56,10 @@ export default function Form(props:{id:string, attended:string }){
     }
 
     async function handleAttended(id:string) {
-    // Handle form submission logic here
+        const token = window.localStorage.getItem("customToken");
         fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${"Attended"}&Id=${id}`,{
         method: "POST" ,
-        body: JSON.stringify(formD) ,
+        body: JSON.stringify({data:formD, userToken: token}) ,
         headers:{
             "Content-Type": "application/json",
         }})

@@ -6,13 +6,14 @@ const report= require("./routes/report");
 const mongoose = require("./config/connect");
 const sendOtp = require("./routes/sendOtp");
 const fileupload = require("express-fileupload")
-//const session = require("express-session");
-//var MongoDBStore = require('connect-mongodb-session')(session);
+//const http= require("http");
+//const {Server}= require("socket.io");
 
 const app= express();
 
-
 /*
+const server= http.createServer(app);
+
 const io= new Server(server,{
    maxHttpBufferSize: 1e7,
    cors:{
@@ -20,7 +21,7 @@ const io= new Server(server,{
      methods: ["GET","POST"]
    },
 });
-*/
+**/
 
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb',extended:true}));
@@ -34,31 +35,10 @@ app.use(cors({
 }));
 
 /*
-var store = new MongoDBStore({
-  uri: "mongodb://127.0.0.1:27017/hostelDatabase",
-  collection: 'Sessions'
+io.on("connection",(socket) => {
+  console.log(socket.id);
 });
-
-// Catch errors
-store.on('error', function(error) {
-  console.log(error);
-});
-
-app.use(
-  session({
-    secret: "This is my secret",
-    cookie: {
-      secure: false,
-      maxAge: 1000 * 60 * 60 * 24 * 7 ,
-    },
-    resave: false,
-    saveUninitialized: false,
-    store: store,
-  })
-);
-
 */
-//app.use(isAuth);
 
 app.use("/",newUser);
 app.use("/report",report);

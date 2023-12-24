@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Download from './download';
-import searchParams from '../complaint/page';
+
 export default function navbar(props:{dept:string, cat:string, close:string}){
     return(
         <div className="navbar bg-custom-primary text-primary-content">
@@ -18,17 +18,12 @@ export default function navbar(props:{dept:string, cat:string, close:string}){
                 }} >
                 <p className='mr-4'>Closed Reports</p>
             </Link>
-            <div>
-            {
-                props.cat === "Hostel-Admin"?
-                <Link  href={{
-                    pathname: "/hostellerList",
-                    query: {...props},
-                    }} >
-                    <p>Hostellers List</p>
-                </Link> : <></>
-            }
-            </div>
+            {props.cat === "Hostel-Admin"?<Link  href={{
+                pathname: "/hostellerList",
+                query: {...props},
+                }} >
+                <p>Hostellers List</p>
+            </Link>: <></>}
             <Link href="/profile" >
             <Image
                 src="/avatar.png" 
