@@ -11,6 +11,7 @@ export default async function searchParams({ searchParams ,} : {
         <div className="block">
         <Return />
         <div className="card w-90% m-5 bg-base-100 shadow-xl" >
+          <div className='w-full text-center font-bold text-lg' >USER COMPLAINT</div>
            <div className="card-body">
               <div className="flex flex-wrap">
                  <div className="flex flex-wrap">

@@ -2,13 +2,13 @@
 
 export default async function AuthenticationComponent() {
   if (typeof window !== "undefined") {
-    const token = localStorage.getItem("customToken");
+    const token = JSON.parse(localStorage.getItem("customToken") || "");
 
     console.log(token);
 
     const response = await fetch("https://490bj8xz-8080.inc1.devtunnels.ms/authenticate", {
       method: "POST",
-      body: JSON.stringify({ userToken: token }),
+      body: JSON.stringify({ userToken: token.token }),
       headers: {
         "Content-Type": "application/json",
       },

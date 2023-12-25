@@ -1,7 +1,6 @@
 import Download from './download';
 import Image from 'next/image';
 import Link from 'next/link';
-import GoogleTranslate from '../components/translate';
 
 const Navbar = (props:{cat:string; close:string; dept:string}) => {
   return (

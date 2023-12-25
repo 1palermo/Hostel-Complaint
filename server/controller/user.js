@@ -81,7 +81,7 @@ async function handleSignup(req,res){
         },function(err, result){
             if(err){
                 console.log("failure",err);
-                return res.status(200).redirect("/")
+                return res.status(400).redirect("/")
             }
             else{
                 console.log("success",result);
@@ -98,23 +98,24 @@ async function handleSignup(req,res){
                 user.save()
                     .then((user) => {
                     const token = setUser(user)
-                 //   req.session.token = token;
-                  //  req.session.isAuth = true;
+                    console.log("saved")
                     if(req.body.category === "Attendant"){
-                        return res.json({
+                        return res.status(200).json({
                             customToken: token,
-                            url: "/Attendant"
+                            url: "/Attendant",
+                            valid: true
                         })
                     }
                     else{
-                        return res.json({
+                        return res.status(200).json({
                             customToken: token,
-                            url: "/user"
+                            url: "/user",
+                            valid: true
                         })
                     }
                     })
                     .catch((error) => {
-                    return res.status(200).redirect("/")
+                    return res.status(400).redirect("/")
                     })
             }
         })
@@ -180,8 +181,7 @@ async function handleProfile(req,res){
             desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur magni, nemo tempora iste at corrupti quasi magnam culpa qui! Accusantium eligendi doloremque, deleniti perferendis iste quo consectetur! Amet, est culpa?"
         });
     }
-    const profile=await User.find({_id: user._id});
-   // console.log(profile);
+    const profile=await User.find({_id: user?._id});
     res.json(profile);
 }
 

@@ -4,8 +4,8 @@ const {handleLogin , handleSignup , handleAuthentication, handleProfile, handleU
 
 
 router.get("/",(req,res) => {
-    // res.redirect("/login");
-  })
+    res.json({valid: false, url:"/"});
+})
   
 router.route("/login")
 .get((req,res) => {

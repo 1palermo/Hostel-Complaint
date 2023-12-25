@@ -137,9 +137,29 @@ const downloadReport = async (req, res) => {
         { header: "Description", key: "description", width: 150 },
         { header: "Department", key: "department", width: 25 },
         { header: "Status", key: "status", width: 25 },
+        { header: "Attendant", key: "attedant", width: 25 },
+        { header: "Attendant Mobile No.", key: "attedantMobile", width: 30 },
+        { header: "Solver", key: "solver", width: 25 },
+        { header: "Solver Mobile No.", key: "solverMobile", width: 25 },
       ];
   
       for (const value of report) {
+        let attendant = "";
+        let attendantContact = 0;
+        let solverContact = 0;
+        let solver = "";
+        const response = await Response.find({problem: value._id}).populate('sender');
+        response.map((data)=>{
+           if(data.category === "Attended"){
+              attendant = data.sender?.username;
+              attendantContact = data.sender?.contact;
+           }
+           if(data.category === "Solved"){
+            solver = data.sender?.username;
+            solverContact = data.sender?.contact;
+          }
+        })
+    
         sheets.addRow({
           username: value.sender?.username,
           contact: value.sender?.contact,
@@ -150,6 +170,10 @@ const downloadReport = async (req, res) => {
           description: value.description,
           department: value.department,
           status: value.status === "Closed" ? value.status : value.solved === "Solved"? value.solved : value.attended ,
+          attendant: attendant, 
+          attendantMobile: attendantContact,
+          solver: solver,
+          solverMobile: solverContact
         });
       }
   

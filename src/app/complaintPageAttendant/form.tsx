@@ -33,10 +33,10 @@ export default function Form(props:{id:string, attended:string }){
     
     async function handleSolved(id:string, event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        const token = window.localStorage.getItem("customToken");
+        const token = JSON.parse(window.localStorage.getItem("customToken") || "");
         await fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${"Solved"}&Id=${id}`,{
         method: "POST" ,
-        body: JSON.stringify({data:formD, userToken: token}) ,
+        body: JSON.stringify({data:formD, userToken: token.token}) ,
         headers:{
             "Content-Type": "application/json",
         }})
@@ -55,10 +55,10 @@ export default function Form(props:{id:string, attended:string }){
     }
 
     async function handleAttended(id:string, event: React.FormEvent<HTMLFormElement>) {
-        const token = window.localStorage.getItem("customToken");
+        const token = JSON.parse(window.localStorage.getItem("customToken") || "");
         fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${"Attended"}&Id=${id}`,{
         method: "POST" ,
-        body: JSON.stringify({data:formD, userToken: token}) ,
+        body: JSON.stringify({data:formD, userToken: token.token}) ,
         headers:{
             "Content-Type": "application/json",
         }})

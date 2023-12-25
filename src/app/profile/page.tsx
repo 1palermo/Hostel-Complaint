@@ -3,6 +3,7 @@
 import type { NextPage } from 'next';
 import { useState, useEffect } from "react";
 import Return from '../Return';
+import { signOut } from 'next-auth/react';
 
 const Page2: NextPage = () => {
   const [profile, setProfile] = useState({
@@ -13,16 +14,18 @@ const Page2: NextPage = () => {
     desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur magni, nemo tempora iste at corrupti quasi magnam culpa qui! Accusantium eligendi doloremque, deleniti perferendis iste quo consectetur! Amet, est culpa?"
   })
 
-  function removeSession(){
+  async function removeSession(){
     localStorage.removeItem("customToken")
     console.log(localStorage.getItem("customToken"));
+    await signOut();
     window.location.href = '/';
   }
 
   async function getProfile(){
+    const data = JSON.parse(window.localStorage.getItem("customToken") || "");
     const response= await fetch("https://490bj8xz-8080.inc1.devtunnels.ms/profile",{
       method: "POST" ,
-      body: JSON.stringify({userToken:localStorage.getItem("customToken")}) ,
+      body: JSON.stringify({userToken: data.token}) ,
       headers:{
         "Content-Type": "application/json",
       }
@@ -108,7 +111,6 @@ const Page2: NextPage = () => {
                 className="w-full lg:w-auto px-3 py-2 bg-gradient-to-br from-blue-800 to-blue-600 text-white mt-2 text-md rounded-md mr-0 lg:mr-2"
                 onClick={() => {
                   update();
-                  // Show an alert or use a notification library here
                   alert('Profile updated!');
                 }}
               >

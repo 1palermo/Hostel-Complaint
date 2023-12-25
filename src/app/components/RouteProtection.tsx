@@ -23,10 +23,22 @@ async function fetchData(token: string | null){
 
 export default function ProtectedRoute() {
   const router = useRouter();
-  const pathname = usePathname()
+  
   useEffect(() => {
-    const token = window.localStorage ? window.localStorage.getItem("customToken") : null;
+    let token:any = null;
 
+    try {
+      const storedToken = window.localStorage.getItem("customToken") || "";
+      token = JSON.parse(storedToken);
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+    }
+  
+    if (token && token.expiryDate && Date.now() > token.expiryDate) {
+      localStorage.removeItem("customToken");
+      router.push("/");
+      return;
+    }
     const auth = async (): Promise<void> => {
       if (!token) {
         // Redirect if no token is found
@@ -35,7 +47,7 @@ export default function ProtectedRoute() {
       }
 
       try {
-        const res = await fetchData(token);
+        const res = await fetchData(token.token);
 
         if (res.valid) {
           router.push(res.url);

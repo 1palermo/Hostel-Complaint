@@ -1,7 +1,8 @@
 'use client'
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Base64 from './Base64';
+import { signIn, signOut, useSession } from "next-auth/react";
 //import { File } from 'buffer';
 
 
@@ -45,7 +46,6 @@ interface LoginProps {
 interface SignupFormDetails {
   username: string;
   contact: string;
-  email: string;
   password: string;
   category: string;
   image: string;
@@ -64,7 +64,8 @@ interface ServerResponse {
 
 export default function Home() {
   
-
+  const {data:session} = useSession();
+  
   const [formDetails, setFormDetails] = useState<FormDetails>({
     email: '',
     password: '',
@@ -108,7 +109,6 @@ export default function Home() {
   const [formD, setForm] = useState<SignupFormDetails>({
     username: '',
     contact: '',
-    email: '',
     password: '',
     category: '',
     image: ''
@@ -132,35 +132,36 @@ export default function Home() {
     }));
   }
 
-  async function addUser(Newnote:{ username:string; contact:string; email:string; password:string; image:string; category:string}){
-    //console.log(Newnote);
-   // console.log(Newnote.file);
+  async function addUser(Newnote:{ username:string; contact:string; password:string; image:string; category:string}){
+    const data = JSON.parse(window.localStorage.getItem("customToken") || "");
     const response= await fetch("https://490bj8xz-8080.inc1.devtunnels.ms/signup",{
       method: "POST",
-      body: JSON.stringify(Newnote) ,
+      body: JSON.stringify({...Newnote, email: session?.user?.email}) ,
       credentials: 'include',
       headers:{
         "Content-Type": "application/json",
-        "customToken": window.localStorage.getItem("customToken") || ''
+        "customToken": data.token || ''
       }
      })
      const res= await response.json();
-     if(response.status===200){
-      window.localStorage.setItem("customToken",(res).customToken)
+     if(res.valid === true){
+      window.localStorage.setItem("customToken", JSON.stringify({token:res.customToken,expiryDate: Date.now() + 30 * 24 * 60 * 60 * 1000}))
      } else{
       setAlertMessage("*Account exists or some error occured");
      }
+     await signOut();
      window.location.href = res.url;
   }
 
   async function checkUser(newNote: NewNote){
+    const data = JSON.parse(window.localStorage.getItem("customToken") || "");
     const response = await fetch("https://490bj8xz-8080.inc1.devtunnels.ms/login", {
       method: "POST",
       credentials: 'include',
       body: JSON.stringify(newNote),
       headers: {
         "Content-Type": "application/json",
-        "customToken": window.localStorage.getItem("customToken") || "", // Handle the case where localStorage.getItem("customToken") may be null
+        "customToken": data.token || "", // Handle the case where localStorage.getItem("customToken") may be null
       },
     });
   
@@ -169,7 +170,7 @@ export default function Home() {
   
       if (res.valid === true) {
         console.log(res);
-        window.localStorage.setItem("customToken", res.customToken);
+        window.localStorage.setItem("customToken", JSON.stringify({token:res.customToken,expiryDate: Date.now() + 30 * 24 * 60 * 60 * 1000}));
       } else {
         setAlertMessage("*please enter valid email or password"); // Add null check for getElementById
       }
@@ -184,21 +185,24 @@ export default function Home() {
 
   function submitForm(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (isVerified === false) {
+   /* if (isVerified === false) {
+      setAlertMessage('*please verify your email');
+      return;
+    }*/
+    if(!session){
       setAlertMessage('*please verify your email');
       return;
     }
+    console.log(session.user?.email);
     addUser(formD);
     setForm({
       username: '',
       contact: '',
-      email: '',
       password: '',
       category: '',
       image:''
     });
-   // setFile(new File([],'dummy.jpg'));
-    setVerified(false);
+    //setVerified(false);
   }
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -213,6 +217,7 @@ export default function Home() {
     }
   }
 
+  /*
   function setTime() {
     setOtp(0);
     setTimer(120);
@@ -273,7 +278,7 @@ export default function Home() {
     setTime();
     timerDisplay = null; // or any default value you want to display when timer is less than 0
   }
-
+*/
   return (
     <>
     {signup? <div className="h-screen bg-blue-500 text-white flex items-center justify-center">
@@ -380,7 +385,19 @@ export default function Home() {
             className="mt-1 p-2 w-full rounded-md border border-gray-300 bg-white text-gray-900"
           />
         </section>
-        <section className="mb-4">
+        <section className='mb-4'>
+          {session?
+          <div className='flex'>
+            <p className='text-green-600 mr-5'>verified</p>
+            <a onClick={async(e)=>{
+              await signOut();
+              await signIn();
+              e.preventDefault();
+            }} className='text-blue-600 underline'>switch account</a>
+          </div>
+          : <button onClick={()=>signIn()} className='btn bg-blue-200'>verify email</button>} 
+        </section>
+      {/*  <section className="mb-4">
           <label htmlFor="useremail" className="block text-sm font-medium text-gray-500">
             Email
           </label>
@@ -426,7 +443,7 @@ export default function Home() {
           <p style={{ color: 'green' }} className="mt-2">
             verified
           </p>
-        )}
+        )} */}
         <section className="mb-4">
           <label htmlFor="category" className="block text-sm font-medium text-gray-500">
             Choose a category:
