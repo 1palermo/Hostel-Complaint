@@ -133,14 +133,21 @@ export default function Home() {
   }
 
   async function addUser(Newnote:{ username:string; contact:string; password:string; image:string; category:string}){
-    const data = JSON.parse(window.localStorage.getItem("customToken") || "");
+    let data:any = null;
+
+    try {
+      const storedToken = window.localStorage.getItem("customToken") || "";
+      data = JSON.parse(storedToken);
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+    }
     const response= await fetch("https://490bj8xz-8080.inc1.devtunnels.ms/signup",{
       method: "POST",
       body: JSON.stringify({...Newnote, email: session?.user?.email}) ,
       credentials: 'include',
       headers:{
         "Content-Type": "application/json",
-        "customToken": data.token || ''
+        "customToken": data?.token || ''
       }
      })
      const res= await response.json();
@@ -154,14 +161,21 @@ export default function Home() {
   }
 
   async function checkUser(newNote: NewNote){
-    const data = JSON.parse(window.localStorage.getItem("customToken") || "");
+    let data:any = null;
+
+    try {
+      const storedToken = window.localStorage.getItem("customToken") || "";
+      data = JSON.parse(storedToken);
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+    }
     const response = await fetch("https://490bj8xz-8080.inc1.devtunnels.ms/login", {
       method: "POST",
       credentials: 'include',
       body: JSON.stringify(newNote),
       headers: {
         "Content-Type": "application/json",
-        "customToken": data.token || "", // Handle the case where localStorage.getItem("customToken") may be null
+        "customToken": data?.token || "", // Handle the case where localStorage.getItem("customToken") may be null
       },
     });
   
