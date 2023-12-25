@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 //import { useEffect } from 'react';
 //import { useRouter } from 'next/router';
-import GoogleTranslate from '../translate';
+import GoogleTranslate from '../components/translate';
 import ProtectedRoute from '../components/RouteProtection';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -41,17 +41,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <ProtectedRoute />
-        <div className="navbar bg-custom-primary text-primary-content p-4 flex justify-between items-center">
-          <p className="normal-case text-xl">Attendant</p>
-          <div className="flex items-center space-x-4">
-            <GoogleTranslate />
-            <Link href="/Attendant" className="text-white">
-              ReportList
+        <div className="navbar bg-custom-primary text-primary-content">
+            <p className="btn btn-ghost normal-case text-xl">Attendant</p>
+            <Link href="/profile" >
+            <Image
+                src="/avatar.png" 
+                alt="Description of the image"
+                width={50}
+                height={50}
+                className='absolute right-5 mb-1'
+            />
             </Link>
-            <Link href="/profile">
-              <Image src="/avatar.png" alt="Description of the image" width={50} height={50} className="rounded-full" />
-            </Link>
-          </div>
+        </div>
+        <div className='bg-blue-100'>
+         <GoogleTranslate />
         </div>
         <div>{children}</div>
       </body>

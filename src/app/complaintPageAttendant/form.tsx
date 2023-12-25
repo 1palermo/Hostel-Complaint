@@ -16,7 +16,6 @@ export default function Form(props:{id:string, attended:string }){
     });
 
     const [showConfirmation, setShowConfirmation] = useState(false);
-    //const [Attended, setAttended] = useState(0);
 
     const handleTextChange = (e:ChangeEvent<HTMLInputElement>) => {
         setForm({...formD, text:e.target.value});
@@ -32,8 +31,8 @@ export default function Form(props:{id:string, attended:string }){
         setForm({...formD, image: base64});
     };
     
-    async function handleSolved(id:string) {
-    // Handle form submission logic here
+    async function handleSolved(id:string, event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
         const token = window.localStorage.getItem("customToken");
         await fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${"Solved"}&Id=${id}`,{
         method: "POST" ,
@@ -55,7 +54,7 @@ export default function Form(props:{id:string, attended:string }){
         return;
     }
 
-    async function handleAttended(id:string) {
+    async function handleAttended(id:string, event: React.FormEvent<HTMLFormElement>) {
         const token = window.localStorage.getItem("customToken");
         fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${"Attended"}&Id=${id}`,{
         method: "POST" ,
@@ -87,7 +86,9 @@ export default function Form(props:{id:string, attended:string }){
             <h1 className="font-bold mb-4 w-full text-center text-2xl">Enter Your Response</h1>
             {
                props.attended === "Unattended"? 
-               <div className="w-3/4 mx-auto mt-8 p-4 bg-gray-100">
+               <form className="w-3/4 mx-auto mt-8 p-4 bg-gray-100" onSubmit={async(res)=>{
+                await handleAttended(props.id, res)
+               }}>
                <div className="mb-4">
                <label className="block text-sm font-medium text-gray-700">Description</label>
                <input
@@ -95,6 +96,7 @@ export default function Form(props:{id:string, attended:string }){
                   value={formD.text}
                   onChange={handleTextChange}
                   className="mt-1 p-2 border border-gray-300 rounded-md w-full "
+                  required
                />
                </div>
          
@@ -112,13 +114,13 @@ export default function Form(props:{id:string, attended:string }){
                     required
                 />
                </div>
-               <button type="button" onClick={async(res)=>{
-                   await handleAttended(props.id)
-                   }} className="bg-blue-500 text-white p-2 rounded-md text-center w-full">
+               <button type="button"  className="bg-blue-500 text-white p-2 rounded-md text-center w-full">
                    Attended
                </button>
-               </div>:
-               <div className="w-3/4 mx-auto mt-8 p-4 bg-gray-100">
+               </form>:
+               <form className="w-3/4 mx-auto mt-8 p-4 bg-gray-100" onSubmit={async(res)=>{
+                await handleSolved(props.id, res)
+               }}>
                 <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700">Description</label>
                 <input
@@ -126,6 +128,7 @@ export default function Form(props:{id:string, attended:string }){
                 value={formD.text}
                 onChange={handleTextChange}
                 className="mt-1 p-2 border border-gray-300 rounded-md w-full "
+                required
                 />
                 </div>
         
@@ -144,19 +147,17 @@ export default function Form(props:{id:string, attended:string }){
                     />
                 </div>
 
-                <button onClick={async(res)=>{
-                    await handleSolved(props.id)
-                    }} className="bg-blue-500 text-white p-2 rounded-md text-center w-full">
+                <button className="bg-blue-500 text-white p-2 rounded-md text-center w-full">
                     Solved
                 </button>
-                </div>
+                </form>
             }
             
 
             {showConfirmation && (
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
                    <div className="bg-white p-4 rounded-md">
-                        <p >Are you sure you want to redirect?</p>
+                        <p >Form submitted successfully!</p>
                         <Link href="/Attendant" passHref>
                         <button className="bg-blue-500 text-white px-4 py-2 rounded mr-2" onClick={() => window.location.href="/Attendant"}>Yes</button>
                         </Link>

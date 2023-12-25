@@ -40,12 +40,17 @@ export default function Download(props:{Id:string}) {
   };
 
   return (
+    <>
     <button
       onClick={handleDownload}
-      className={`absolute right-20 px-3 py-1 bg-blue-500 text-white text-sm rounded-md ${isLoading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+      className={`absolute right-20 hidden md:block px-3 py-1 bg-blue-500 text-white text-sm rounded-md ${isLoading ? 'cursor-not-allowed' : 'cursor-pointer'}`}
       disabled={isLoading}
     >
       {isLoading ? 'Downloading...' : 'Download Reports'}
     </button>
+    <button className=' md:hidden' onClick={handleDownload}>
+       <img src='/download.png'className='w-10 h-10' />
+    </button>
+    </>
   );
 }

@@ -39,55 +39,52 @@ export default async function Page({ searchParams } : {
             </table>
          </div>
          <div className="block md:hidden">
-               <h1 className='w-full text-center font-bold'>LIST OF REPORTS</h1>
-               <div className='flex'>
-                  <button className='ml-5 btn'>Open</button>
-                  <button className='ml-2 btn'>Closed</button>
+         <Navbar cat={searchParams.cat} dept={searchParams.dept} close={searchParams.close} />
+         <h1 className='w-full text-center font-bold'>LIST OF REPORTS</h1>
+         {data.map((res:{_id:string; date: string; time: string; tower:string; hostel_room_no:string; problem: string; title: string; description: string; department: string; attended: string; solved: string},idx:number)=>(
+            <div className="card w-90% m-5 bg-base-100 shadow-xl" key={idx}>
+            <div className="card-body">
+               <div className="flex flex-wrap">
+                  <div className="flex flex-wrap">
+                     <div className="mr-1 font-bold">Date:</div>
+                     <div className="mr-10">{res.date}</div>
+                  </div>
+                  <div className="flex flex-wrap">
+                     <div className="mr-1 font-bold">Time:</div>
+                     <div className="mr-0">{res.time}</div>
+                  </div>
                </div>
-               {data.map((res:{_id:string; date: string; time: string; tower:string; hostel_room_no:string; problem: string; title: string; description: string; department: string; attended: string; solved: string},idx:number)=>(
-                  <div className="card w-90% m-5 bg-base-100 shadow-xl" key={idx}>
-                  <div className="card-body">
-                     <div className="flex flex-wrap">
-                        <div className="flex flex-wrap">
-                           <div className="mr-1 font-bold">Date:</div>
-                           <div className="mr-10">{res.date}</div>
-                        </div>
-                        <div className="flex flex-wrap">
-                           <div className="mr-1 font-bold">Time:</div>
-                           <div className="mr-0">{res.time}</div>
-                        </div>
-                     </div>
-                     <div className="flex flex-wrap">
-                        <div className="mr-1 font-bold">Tower:</div>
-                        <div className="mr-0">{res.tower}</div>
-                     </div>
-                     <div className="flex flex-wrap">
-                        <div className="mr-1 font-bold">Hostel Room No:</div>
-                        <div className="mr-0">{res.hostel_room_no}</div>
-                     </div>
-                     <div className="flex flex-wrap">
-                        <div className="mr-1 font-bold">Department:</div>
-                        <div className="mr-0">{res.department}</div>
-                     </div>
-                     <div className="flex flex-wrap">
-                        <div className="mr-1 font-bold">Title:</div>
-                        <div className="mr-0">{res.title}</div>
-                     </div>
-                     <div className="flex flex-wrap">
-                        <div className="mr-1 font-bold">Status:</div>
-                        <div className="mr-0">Closed</div>
-                     </div>
-                     <div className='w-full flex justify-end'>
-                        <Link href={{
-                           pathname: "/complaint",
-                           query: {...res, close: "no"},
-                        }}>
-                           <button className="px-3 py-1 bg-blue-500 text-white text-lg rounded-md">see</button>
-                        </Link>
-                     </div>
-                  </div>
-                  </div>
-               ))}
+               <div className="flex flex-wrap">
+                  <div className="mr-1 font-bold">Tower:</div>
+                  <div className="mr-0">{res.tower}</div>
+               </div>
+               <div className="flex flex-wrap">
+                  <div className="mr-1 font-bold">Hostel Room No:</div>
+                  <div className="mr-0">{res.hostel_room_no}</div>
+               </div>
+               <div className="flex flex-wrap">
+                  <div className="mr-1 font-bold">Department:</div>
+                  <div className="mr-0">{res.department}</div>
+               </div>
+               <div className="flex flex-wrap">
+                  <div className="mr-1 font-bold">Title:</div>
+                  <div className="mr-0">{res.title}</div>
+               </div>
+               <div className="flex flex-wrap">
+                  <div className="mr-1 font-bold">Status:</div>
+                  <div className="mr-0">Closed</div>
+               </div>
+               <div className='w-full flex justify-end'>
+                  <Link href={{
+                     pathname: "/complaint",
+                     query: {...res, close: "no"},
+                  }}>
+                     <button className="px-3 py-1 bg-blue-500 text-white text-lg rounded-md">see</button>
+                  </Link>
+               </div>
+            </div>
+            </div>
+         ))}
          </div>
       </>
    );

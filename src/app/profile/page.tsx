@@ -1,4 +1,5 @@
 "use client"; 
+// "use client"; // Not needed for Next.js
 import type { NextPage } from 'next';
 import { useState, useEffect } from "react";
 import Return from '../Return';
@@ -19,7 +20,6 @@ const Page2: NextPage = () => {
   }
 
   async function getProfile(){
-    //console.log(localStorage.getItem("customToken"))
     const response= await fetch("https://490bj8xz-8080.inc1.devtunnels.ms/profile",{
       method: "POST" ,
       body: JSON.stringify({userToken:localStorage.getItem("customToken")}) ,
@@ -28,7 +28,6 @@ const Page2: NextPage = () => {
       }
      })
      const result= await response.json();
-     //console.log(result[0]);
      if(result){
         setProfile((prevProfile)=>({
           ...prevProfile,
@@ -41,11 +40,11 @@ const Page2: NextPage = () => {
      }
   }
 
-  function updateProfile(e:{target:{value:string}}){
-    setProfile((prev)=>({
+  function updateProfile(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    setProfile((prev) => ({
       ...prev,
       desc: e.target.value
-    }))
+    }));
   }
 
   async function update(){
@@ -58,7 +57,6 @@ const Page2: NextPage = () => {
      })
      const result= await response.json();
 
-     //console.log(result[0]);
      alert('Profile updated!');
   }
 
@@ -68,31 +66,30 @@ const Page2: NextPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <div className="bg-blue-500 p-4 shadow-lg w-5/6 lg:w-90vw">
+      <div className="bg-blue-500 p-4 shadow-lg w-full lg:w-5/6">
         <div className="lg:flex lg:flex-row lg:bg-slate-200 lg:p-8 lg:rounded-lg lg:shadow-2xl lg:bg-gradient-to-br lg:from-blue-400 lg:to-blue-700 lg:w-full">
           <img
             src={profile.image}
             alt="Avatar"
-            className="w-full lg:w-1/2 max-w-lg rounded-lg shadow-2xl bg-slate-200 bg-gradient-to-br from-blue-500 to-blue-300"
+            className="w-full lg:w-1/2 max-w-[30vw] sm:max-h-[20vh] lg:max-h-[60vh] rounded-lg shadow-2xl bg-slate-200 bg-gradient-to-br from-blue-500 to-blue-300"
           />
           <div className="lg:w-1/2 p-4 text-center lg:text-left">
-            <h1 className="text-4xl lg:text-6xl font-bold mb-4 lg:mb-6 text-slate-200">Your Profile</h1>
             <div className="flex flex-wrap m-2">
-              <div className="mr-1 lg:mr-4 font-bold text-3xl lg:text-4xl">Name:</div>
-              <div className="text-2xl lg:text-3xl text-white">{profile.username}</div>
+              <div className="mr-1 lg:mr-4 font-bold text-xl lg:text-2xl xl:text-3xl">Name:</div>
+              <div className="text-lg lg:text-xl xl:text-2xl text-white">{profile.username}</div>
             </div>
             <div className="flex flex-wrap m-2">
-              <div className="mr-1 lg:mr-4 font-bold text-3xl lg:text-4xl">Contact No:</div>
-              <div className="text-2xl lg:text-3xl text-white">{profile.contact}</div>
+              <div className="mr-1 lg:mr-4 font-bold text-xl lg:text-2xl xl:text-3xl">Contact No:</div>
+              <div className="text-lg lg:text-xl xl:text-2xl text-white">{profile.contact}</div>
             </div>
             <div className="flex flex-wrap m-2">
-              <div className="mr-1 lg:mr-4 font-bold text-3xl lg:text-4xl">Email Id:</div>
-              <div className="text-2xl lg:text-3xl text-white">{profile.email}</div>
+              <div className="mr-1 lg:mr-4 font-bold text-xl lg:text-2xl xl:text-3xl">Email Id:</div>
+              <div className="text-lg lg:text-xl xl:text-2xl text-white">{profile.email}</div>
             </div>
             <div className="m-2 text-center lg:text-left">
-              <div className="mr-1 lg:mr-4 font-bold text-3xl lg:text-4xl">Description:</div>
+              <div className="mr-1 lg:mr-4 font-bold text-xl lg:text-2xl xl:text-3xl">Description:</div>
               <textarea
-                className="text-2xl lg:text-3xl text-white bg-transparent w-full resize-none "
+                className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white bg-transparent w-full resize-none"
                 value={profile.desc}
                 name="desc"
                 onChange={updateProfile}
@@ -127,4 +124,3 @@ const Page2: NextPage = () => {
 };
 
 export default Page2;
-

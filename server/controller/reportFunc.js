@@ -91,19 +91,19 @@ const handleReport = async (req,res)=>{
 const getReports = async(req,res)=>{
     let data;
     if(req.query.cat === "Hostel-Admin"){
-        data = await Report.find({status: req.query.status});
+        data = await Report.find({status: req.query.status}).populate('sender');
     }
     else if(req.query.cat === "Electrical-Admin"){
-        data = await Report.find({status: req.query.status, department: "electrical department"});
+        data = await Report.find({status: req.query.status, department: "electrical department"}).populate('sender');
     }
     else if(req.query.cat === "Civil-Admin"){
-        data = await Report.find({status: req.query.status, department: "civil department"});
+        data = await Report.find({status: req.query.status, department: "civil department"}).populate('sender');
     }
     else if(req.query.cat === "ComputerCentre-Admin"){
-        data = await Report.find({status: req.query.status, department: "computer centre"});
+        data = await Report.find({status: req.query.status, department: "computer centre"}).populate('sender');
     }
     else{
-        data = await Report.find({solved: "Unsolved"});
+        data = await Report.find({solved: "Unsolved"}).populate('sender');
     }
     res.json(data);
 }
@@ -130,20 +130,26 @@ const downloadReport = async (req, res) => {
       sheets.columns = [
         { header: "Sender", key: "username", width: 25 },
         { header: "Mobile No.", key: "contact", width: 25 },
+        { header: "Tower", key: "tower", width: 25 },
+        { header: "Hostel Room No.", key: "hostel_room_no", width: 25 },
         { header: "Title", key: "title", width: 50 },
         { header: "Problem", key: "problem", width: 50 },
         { header: "Description", key: "description", width: 150 },
         { header: "Department", key: "department", width: 25 },
+        { header: "Status", key: "status", width: 25 },
       ];
   
       for (const value of report) {
         sheets.addRow({
           username: value.sender?.username,
           contact: value.sender?.contact,
+          tower: value.sender?.tower,
+          hostel_room_no: value.sender?.hostel_room_no,
           title: value.title,
           problem: value.problem,
           description: value.description,
           department: value.department,
+          status: value.status === "Closed" ? value.status : value.solved === "Solved"? value.solved : value.attended ,
         });
       }
   
