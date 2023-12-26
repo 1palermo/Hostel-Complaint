@@ -1,12 +1,13 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
+require('dotenv').config();
 
 const authOptions = {
-  secret: ,
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GoogleProvider({
-      clientId: ,
-      clientSecret: ,
+      clientId: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
       scopes: ['profile', 'email'],
     }),
   ],
