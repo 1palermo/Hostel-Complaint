@@ -2,11 +2,11 @@ import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
 const authOptions = {
-  secret: "Cscwel9MoBlwx6B689Fb4/kOwxYp/YIkK1/MKEAVixA=",
+  secret: ,
   providers: [
     GoogleProvider({
-      clientId: "1010618076889-08tjso93glf22tik2okuvcic621u0l8k.apps.googleusercontent.com",
-      clientSecret: "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",
+      clientId: ,
+      clientSecret: ,
       scopes: ['profile', 'email'],
     }),
   ],
