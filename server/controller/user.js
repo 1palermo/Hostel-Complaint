@@ -8,14 +8,14 @@ const cloudinary = require('../config/cloudStorage');
 async function  handleLogin(req,res){
     const username = req.body.email
     const password = req.body.password
-
+    const google = req.query.google;
     try{
         var user = await User.findOne({email:username})
         if(!user){
-        return res.redirect("/login")
+           return res.redirect("/login")
         } else{
         user.comparePasswords(password, (err,match) =>  {
-            if(!match){
+            if(!match && !google){
             return res.redirect("/login")
             } else{
             const token = setUser(user);
