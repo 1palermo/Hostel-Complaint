@@ -2,7 +2,7 @@
 'use client'
 import { useState, ChangeEvent } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faCog ,faMultiply } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faHome ,faMultiply } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 
 
@@ -25,7 +25,8 @@ const FormPage = () => {
         <h1 className="text-4xl font-semibold text-blue-600 text-center">
           Personal Details
         </h1>
-        <FontAwesomeIcon icon={faCog} className="ml-2 h-8 w-8" />
+        <Link href="/userHome">
+            <FontAwesomeIcon icon={faHome} className="ml-2 h-8 w-8" /></Link>
       </div>
       <div className='py-5'></div>
 

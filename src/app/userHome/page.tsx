@@ -3,8 +3,10 @@ import Head from 'next/head';
 'use client'
 import { useState, ChangeEvent } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faCog , faMultiply } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faHome , faMultiply } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link'
+import { Suspense } from 'react';
+import Loading from './loading';
 
 
 const UserHomePage = () => {
@@ -22,8 +24,8 @@ const UserHomePage = () => {
                 icon={faBars}
                 className="mr-2 h-8 w-8 cursor-pointer"
                 onClick={toggleMenu}
-              />
-              <FontAwesomeIcon icon={faCog} className="ml-2 h-8 w-8" />
+              /><Link href="/userHome">
+              <FontAwesomeIcon icon={faHome} className="ml-2 h-8 w-8" /></Link>
             </div>
             <div className={`absolute min-h-screen min-w-screen justify-center z-10 mx-[-32px] mt-[-64px] bg-[#EEEEEE] rounded-lg  shadow-md w-[350px] lg:w-[720px] ${
               isOpen ? 'block' : 'hidden'
@@ -49,6 +51,8 @@ const UserHomePage = () => {
                 </div>
               </div>
             </div>
+            <Suspense fallback={<Loading/>}
+            >
 
 
             <div className="flex flex-col items-center">
@@ -99,6 +103,8 @@ const UserHomePage = () => {
                 <p className='text-lg font-semibold text-blue-600 p-2'>Leave/Outing</p>
               </div>
             </div>
+            
+            </Suspense>
           </div>
         </div>
       );
