@@ -21,7 +21,7 @@ export default function Home() {
               priority
             />
       </div>
-      <Link href="/userHome">Dashboard</Link>
+      <Link href="/auth/signin">Dashboard</Link>
       <p>Hostel Complaint Management</p>
 
     </main>
