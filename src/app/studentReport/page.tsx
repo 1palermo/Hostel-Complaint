@@ -34,7 +34,7 @@ const ReportPage = () => {
       <div className="bg-white p-8 rounded-lg shadow-md w-[720px]">
       <div className="flex items-center justify-between text-blue-600">
           <FontAwesomeIcon icon={faBars} className="mr-2 h-8 w-8 cursor-pointer" /*onClick={openMenu}*/ />
-          <h1 className="text-4xl font-semibold mb-4 text-blue-600 text-center">Report</h1>
+          <h1 className="text-4xl font-semibold text-blue-600 text-center">Report</h1>
           <FontAwesomeIcon icon={faCog} className="ml-2 h-8 w-8" />
         </div>
         <div className='py-5'></div>
