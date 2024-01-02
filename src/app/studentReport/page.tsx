@@ -30,7 +30,7 @@ const ReportPage = () => {
 //     setMenuOpen(false);
 //   };
   return (
-    <div className="flex justify-center min-h-screen p-5 bg-[url('/brick.jpg')] bg-fixed">
+    <div className="flex justify-center min-h-screen p-5 bg-[url('/brick.jpg')] bg-cover">
       <div className="bg-white p-8 rounded-lg shadow-md w-[720px]">
       <div className="flex items-center justify-between text-blue-600">
           <FontAwesomeIcon icon={faBars} className="mr-2 h-8 w-8 cursor-pointer" /*onClick={openMenu}*/ />

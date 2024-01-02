@@ -5,7 +5,7 @@ import { faBars, faCog } from '@fortawesome/free-solid-svg-icons';
 
 const FormPage = () => {
   return (
-    <div className="flex items-center justify-center p-5 min-h-screen bg-[url('/brick.jpg')] bg-fixed">
+    <div className="flex items-center justify-center p-5 min-h-screen bg-[url('/brick.jpg')] bg-cover">
       <div className="bg-white p-8 rounded-lg shadow-md w-[720px]">
       <div className="flex items-center justify-between text-blue-600">
         <FontAwesomeIcon icon={faBars} className="mr-2 h-8 w-8" />
