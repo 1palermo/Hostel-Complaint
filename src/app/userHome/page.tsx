@@ -1,17 +1,56 @@
 // pages/userHome.tsx
 import Head from 'next/head';
+'use client'
+import { useState, ChangeEvent } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faCog } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faCog , faMultiply } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link'
 
 
 const UserHomePage = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+  
   return (
         <div className="flex justify-center min-h-screen p-5 bg-[url('/brick.jpg')] bg-cover">
           <div className="bg-[#EEEEEE] p-8 rounded-lg shadow-md w-[720px]">
             <div className="flex items-center justify-between text-blue-600">
-              <FontAwesomeIcon icon={faBars} className="mr-2 h-8 w-8 cursor-pointer" />
+              <FontAwesomeIcon
+                icon={faBars}
+                className="mr-2 h-8 w-8 cursor-pointer"
+                onClick={toggleMenu}
+              />
               <FontAwesomeIcon icon={faCog} className="ml-2 h-8 w-8" />
             </div>
+            <div className={`absolute min-h-screen min-w-screen justify-center z-10 mx-[-32px] mt-[-64px] bg-[#EEEEEE] rounded-lg  shadow-md w-[350px] lg:w-[720px] ${
+              isOpen ? 'block' : 'hidden'
+              }`}>
+              <div className="flex items-center justify-between text-blue-600 p-8">
+                  <FontAwesomeIcon
+                    icon={faMultiply}
+                    className="mr-2 h-8 w-8 cursor-pointer"
+                    onClick={toggleMenu}
+                  />
+                </div>
+              <div className="flex items-center justify-center">
+                <div className="p-10 mt-32">
+                  <Link href="/profile">
+                  <h1 className="text-blue-600 text-2xl mb-4">Personal details</h1></Link>
+                  <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600 mt-2 mb-6"></hr>
+                  <Link href="/studentReport">
+                  <h1 className="text-blue-600 text-2xl mb-4">Report Form</h1></Link>
+                  <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600 mt-2 mb-6"></hr>
+                  <h1 className="text-blue-600 text-2xl mb-4">About us</h1>
+                  <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600 mt-2 mb-6"></hr>
+                  <h1 className="text-blue-600 text-2xl mb-4">Faq</h1>
+                </div>
+              </div>
+            </div>
+
+
             <div className="flex flex-col items-center">
               <img
                 src="/userPhoto.png"

@@ -1,52 +1,54 @@
 // pages/report.tsx
-// import React from 'react';
-// import { useState, useEffect } from 'react';
+'use client'
+import { useState, ChangeEvent } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faCog } from '@fortawesome/free-solid-svg-icons';
-// import { useRouter } from 'next/router';
+import { faBars, faCog ,faMultiply } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
 
 const ReportPage = () => {
-//     const [isMenuOpen, setMenuOpen] = useState(false);
-//   const router = useRouter();
-
-//   useEffect(() => {
-//     // Close the menu when navigating to a new page
-//     const handleRouteChange = () => {
-//       setMenuOpen(false);
-//     };
-
-//     router.events.on('routeChangeStart', handleRouteChange);
-
-//     return () => {
-//       router.events.off('routeChangeStart', handleRouteChange);
-//     };
-//   }, [router]);
-
-//   const openMenu = () => {
-//     setMenuOpen(true);
-//   };
-
-//   const closeMenu = () => {
-//     setMenuOpen(false);
-//   };
+    const [isOpen, setIsOpen] = useState(false);
+  
+    const toggleMenu = () => {
+      setIsOpen(!isOpen);
+    };
   return (
     <div className="flex justify-center min-h-screen p-5 bg-[url('/brick.jpg')] bg-cover">
       <div className="bg-white p-8 rounded-lg shadow-md w-[720px]">
       <div className="flex items-center justify-between text-blue-600">
-          <FontAwesomeIcon icon={faBars} className="mr-2 h-8 w-8 cursor-pointer" /*onClick={openMenu}*/ />
-          <h1 className="text-4xl font-semibold text-blue-600 text-center">Report</h1>
-          <FontAwesomeIcon icon={faCog} className="ml-2 h-8 w-8" />
+            <FontAwesomeIcon
+                icon={faBars}
+                className="mr-2 h-8 w-8 cursor-pointer"
+                onClick={toggleMenu}
+              />
+            <h1 className="text-4xl font-semibold text-blue-600 text-center">Report</h1>
+            <FontAwesomeIcon icon={faCog} className="ml-2 h-8 w-8" />
         </div>
-        <div className='py-5'></div>
-        {/* {isMenuOpen && (
-          <div className="fixed inset-0 bg-gray-700 bg-opacity-50 z-50 flex items-center justify-center">
-            <div className="bg-white p-4 rounded-lg">
-              <p>Menu Content Goes Here</p>
-              <button onClick={closeMenu}>Close Menu</button>
+        <div className={`absolute min-h-screen min-w-screen justify-center z-10 mx-[-32px] mt-[-72px] bg-white rounded-lg shadow-md w-[350px] lg:w-[720px] ${
+              isOpen ? 'block' : 'hidden'
+              }`}>
+              <div className="flex items-center justify-between text-blue-600 p-8">
+                  <FontAwesomeIcon
+                    icon={faMultiply}
+                    className="mr-2 h-8 w-8 cursor-pointer"
+                    onClick={toggleMenu}
+                  />
+                </div>
+              <div className="flex items-center justify-center">
+                <div className="p-10 mt-32">
+                  <Link href="/profile">
+                  <h1 className="text-blue-600 text-2xl mb-4">Personal details</h1></Link>
+                  <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600 mt-2 mb-6"></hr>
+                  <Link href="/studentReport">
+                  <h1 className="text-blue-600 text-2xl mb-4">Report Form</h1></Link>
+                  <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600 mt-2 mb-6"></hr>
+                  <h1 className="text-blue-600 text-2xl mb-4">About us</h1>
+                  <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600 mt-2 mb-6"></hr>
+                  <h1 className="text-blue-600 text-2xl mb-4">Faq</h1>
+                </div>
+              </div>
             </div>
-          </div>
-        )} */}
 
+        <div className='py-5'></div>
         <form className="space-y-4">
           <div>
             <label htmlFor="issue" className="block text-sm font-medium text-gray-600">
