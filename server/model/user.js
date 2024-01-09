@@ -33,6 +33,9 @@ const UserSchema = new mongoose.Schema({
     hostel_room_no:{
         type:String,
     },
+    roll:{
+        type:String,
+    },
     description:{
         type:String,
     }

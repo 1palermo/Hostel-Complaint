@@ -34,12 +34,6 @@ app.use(cors({
   credentials: true
 }));
 
-/*
-io.on("connection",(socket) => {
-  console.log(socket.id);
-});
-*/
-
 app.use("/",newUser);
 app.use("/report",report);
 app.use("/otpVerification",sendOtp);

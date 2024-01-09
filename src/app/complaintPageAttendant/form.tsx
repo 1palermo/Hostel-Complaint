@@ -56,7 +56,7 @@ export default function Form(props:{id:string, attended:string }){
 
     async function handleAttended(id:string, event: React.FormEvent<HTMLFormElement>) {
         const token = JSON.parse(window.localStorage.getItem("customToken") || "");
-        fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${"Attended"}&Id=${id}`,{
+        fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/submitReport?cat=${"Attended"}&Id=${id}`,{
         method: "POST" ,
         body: JSON.stringify({data:formD, userToken: token.token}) ,
         headers:{

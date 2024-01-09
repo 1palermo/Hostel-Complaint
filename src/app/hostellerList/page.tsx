@@ -21,7 +21,6 @@ export default async function Page({ searchParams } : {
                         <th>Hostel Room No</th> 
                         <th>Contact</th> 
                         <th>Email</th> 
-                        <th>Decription</th>
                         <th></th>
                   </tr>
                </thead> 
@@ -35,7 +34,6 @@ export default async function Page({ searchParams } : {
                      <td>{res.hostel_room_no}</td>
                      <td>{res.contact}</td> 
                      <td>{res.email}</td>
-                     <td>{res.descritpion}</td>
                      <td><Delete data={res._id}/></td>
                      </tr>
                   ))}
@@ -71,10 +69,6 @@ export default async function Page({ searchParams } : {
                   <div className="flex flex-wrap">
                      <div className="mr-1 font-bold">Email:</div>
                      <div className="mr-0">{res.email}</div>
-                  </div>
-                  <div className="flex flex-wrap">
-                     <div className="mr-1 font-bold">Description:</div>
-                     <div className="mr-0">{res.descritpion}</div>
                   </div>
                   <Delete data={res._id}/>
                </div>

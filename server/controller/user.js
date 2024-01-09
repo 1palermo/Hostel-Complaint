@@ -15,13 +15,14 @@ async function  handleLogin(req,res){
            return res.redirect("/login")
         } else{
         user.comparePasswords(password, (err,match) =>  {
-            if(!match && !google){
-            return res.redirect("/login")
+            console.log("google", google);
+            if(!match && google === "false"){
+                return res.status(300).json({
+                    url: "/",
+                    valid: false
+                })
             } else{
             const token = setUser(user);
-           // req.session.token = token;
-           // req.session.isAuth = true;
-           // res.cookie('cookie', {token: token} , { expires: new Date(Date.now() + 86400000) });
             if(user.category === "Hostel-Admin"){
                 return res.status(300).json({
                     url: `/Admin?close=${"yes"}&dept=${""}&cat=${"Hostel-Admin"}`,
@@ -58,7 +59,7 @@ async function  handleLogin(req,res){
                 })
             }
             return res.status(300).json({
-                url: '/user',
+                url: '/User/userHome',
                 customToken: token,
                 valid: true,
             })
@@ -90,31 +91,25 @@ async function handleSignup(req,res){
                     contact:req.body.contact,
                     email:req.body.email,
                     password:req.body.password,
-                    category:req.body.category,
-                    userImage: result.secure_url
+                    category: "Hosteller",
+                    userImage: result.secure_url,
+                    tower: req.body.tower,
+                    roll: req.body.roll,
+                    hostel_room_no: req.body.hostel_room_no
                 })
                // user.userImage = result.secure_url;
-                console.log(user.userImage);
                 user.save()
                     .then((user) => {
                     const token = setUser(user)
                     console.log("saved")
-                    if(req.body.category === "Attendant"){
-                        return res.status(200).json({
-                            customToken: token,
-                            url: "/Attendant",
-                            valid: true
-                        })
-                    }
-                    else{
-                        return res.status(200).json({
-                            customToken: token,
-                            url: "/user",
-                            valid: true
-                        })
-                    }
+                    return res.status(200).json({
+                        customToken: token,
+                        url: "/User/userHome",
+                        valid: true
+                    })
                     })
                     .catch((error) => {
+                    console.log(error)
                     return res.status(400).redirect("/")
                     })
             }
@@ -124,11 +119,14 @@ async function handleSignup(req,res){
 
 async function handleAuthentication(req,res){
     const tokenUser= getUser(req.body.userToken);
+   // console.log(tokenUser)
     if(tokenUser){
         const username = tokenUser.email
         try{
             var user = await User.findOne({email:username})
+            // console.log(user)
             if(!user){
+                console.log("no user")
                 return res.json({valid:false, url:'/'});
             }
             if(user.category === "Hostel-Admin"){
@@ -162,13 +160,17 @@ async function handleAuthentication(req,res){
                 })
             }
             return res.status(300).json({
-                url: '/user',
+                url: '/User/userHome',
                 valid: true,
             })
         } catch(e){
             console.log(e);
-        }}
-        return res.redirect("/login");
+        }
+    }
+    return res.redirect({
+        url: "/",
+        valid: false
+    });
 }
 
 async function handleProfile(req,res){
@@ -178,7 +180,8 @@ async function handleProfile(req,res){
             username: "xyz",
             contact: 0,
             email: "xyz@admin.ac.in",
-            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur magni, nemo tempora iste at corrupti quasi magnam culpa qui! Accusantium eligendi doloremque, deleniti perferendis iste quo consectetur! Amet, est culpa?"
+            hostel_room_no: "",
+            tower: ""
         });
     }
     const profile=await User.find({_id: user?._id});
@@ -186,9 +189,16 @@ async function handleProfile(req,res){
 }
 
 async function handleUpdate(req,res){
-    const id= getUser(req.body.userToken)._id;
-    const del= await User.findOneAndUpdate({_id: id},{description:req.body.user});
-    res.json(id);
+    const id= getUser(req.body.userToken)?._id;
+    const del= await User.findOneAndUpdate({_id: id},{
+        username:req.body.data.username,
+        contact:req.body.data.contact,
+        tower: req.body.data.hostel_name,
+        hostel_room_no: req.body.data.hostel_room
+    });
+    res.json({
+        message: "updated successfully!"
+    });
 }
 
 async function deleteUser(req, res){
@@ -207,4 +217,74 @@ async function getAllUsers(req, res){
     res.json(Users);
 }
 
-module.exports = {handleLogin ,handleSignup ,handleAuthentication, handleProfile, handleUpdate, deleteUser, getAllUsers};
+async function handleReport(req, res){
+    const file = req.body.data.image;
+    if(file){
+    cloudinary.uploader
+        .upload(file,{
+            upload_preset: 'unsigned_upload',
+            allowed_formats: ['jpg','jpeg','png']
+        },function(err, result){
+            if(err){
+                console.log("failure",err);
+                return res.status(400).redirect("/")
+            }
+            else{
+                console.log("success",result);
+                const report = new Report({
+                    problem: req.body.data.issue,
+                    title: req.body.data.title,
+                    description: req.body.data.desc,
+                    sender: getUser(req.body.userToken)._id,
+                    department: req.body.data.department,
+                    image: result.secure_url,
+                    createdAt: new Date()
+                })
+               
+                report.save()
+                    .then((rep) => {
+                    console.log(rep);
+                    console.log("saved")
+                    return res.status(200).json({
+                        valid: true
+                    })
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                        return res.status(400).json({
+                        valid: false
+                        })
+                    })
+            }
+        })
+    }
+    else{
+        const report = new Report({
+            problem: req.body.data.issue,
+            title: req.body.data.title,
+            description: req.body.data.desc,
+            sender: getUser(req.body.userToken)._id,
+            department: req.body.data.department,
+            image: "",
+            createdAt: new Date()
+        })
+       
+        report.save()
+            .then((rep) => {
+            console.log(rep);
+            console.log("saved")
+            return res.status(200).json({
+                valid: true
+            })
+            })
+            .catch((error) => {
+                console.log(error)
+                return res.status(400).json({
+                valid: false
+                })
+            })
+    }
+    
+}
+
+module.exports = {handleLogin ,handleSignup ,handleReport, handleAuthentication, handleProfile, handleUpdate, deleteUser, getAllUsers};

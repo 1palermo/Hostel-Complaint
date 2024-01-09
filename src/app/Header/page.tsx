@@ -8,7 +8,7 @@ export default function Header(){
             <th>Tower</th> 
             <th>Hostel Room No</th> 
             <th>Department</th>
-            <th>Title</th>
+            <th>Problem</th>
             <th>Status</th>
             <th>View</th>
         </tr>

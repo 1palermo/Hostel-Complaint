@@ -1,6 +1,7 @@
 'use client'
 import { useEffect } from "react";
 import { useRouter, usePathname } from 'next/navigation';
+import { signOut, useSession } from "next-auth/react";
 
 
 async function fetchData(token: string | null){
@@ -22,27 +23,36 @@ async function fetchData(token: string | null){
 }
 
 export default function ProtectedRoute() {
+  const {data:session} = useSession();
   const router = useRouter();
+  const pathname = usePathname();
+  const segments = pathname.split('/');
+  const role = segments[1];
+  console.log(role)
   
   useEffect(() => {
     let token:any = null;
 
     try {
       const storedToken = window.localStorage.getItem("customToken") || "";
-      token = JSON.parse(storedToken);
+      if(storedToken) token = JSON.parse(storedToken);
     } catch (error) {
       console.error("Error parsing JSON:", error);
     }
   
     if (token && token.expiryDate && Date.now() > token.expiryDate) {
-      localStorage.removeItem("customToken");
+      window.localStorage.removeItem("customToken");
       router.push("/");
       return;
     }
     const auth = async (): Promise<void> => {
       if (!token) {
-        // Redirect if no token is found
-        router.push("/");
+        if (role && role !== "auth"){
+          if(session){
+            await signOut();
+          }
+          router.push("/");
+        }
         return;
       }
 
@@ -50,11 +60,15 @@ export default function ProtectedRoute() {
         const res = await fetchData(token.token);
 
         if (res.valid) {
+          if(role !== "User") router.push(res.url);
+        }
+        else{
+          window.localStorage.removeItem("customToken");
           router.push(res.url);
+          return;
         }
       } catch (error) {
         console.error("Error while authenticating:", error);
-        // Handle error, you might want to redirect to an error page
       }
     };
 

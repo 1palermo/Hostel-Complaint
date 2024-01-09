@@ -7,9 +7,18 @@ const reportSchema = new mongoose.Schema({
   description:{type:String},
   image:{type:String},
   department:{type:String},
-  attended:{type:String},
-  solved:{type:String},
-  status:{type:String},
+  attended:{
+    type:String,
+    default: "Unattended"
+  },
+  solved:{
+    type:String,
+    default: "Unsolved"
+  },
+  status:{
+    type:String,
+    default: "Open"
+  },
   tower:{type:String},
   hostel_room_no:{type:String},
   createdAt: {

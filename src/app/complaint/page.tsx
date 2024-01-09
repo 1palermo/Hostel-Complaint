@@ -4,13 +4,41 @@ import Closed from "./clickClosed";
 import Return from "../Return";
 
 export default async function searchParams({ searchParams ,} : {
-   searchParams: {_id:string; date: string; time: string;tower:string; hostel_room_no:string; problem: string; title: string; description: string; department: string; attended: string; solved: string; close:string};
+   searchParams: {_id:string; date: string; time: string;image:string; name:string; phone:string; email:string; tower:string; hostel_room_no:string; problem: string; title: string; description: string; department: string; attended: string; solved: string; close:string};
 }){
    const response = await SolutionDetails(searchParams._id);
 
    return(
       <div className="block">
-      <Return />
+      <div className="pl-5"><Return /></div>
+      <div className="card w-90% m-5 bg-base-100 shadow-xl " >
+         <div className="card-body">
+            <div className="text-lg font-bold">Complainer Details</div>
+            {searchParams.image !== ""?<div className="flex flex-wrap">
+               <img src={searchParams.image} alt="img" className="w-32"/>
+            </div>:<></>}
+            <div className="flex flex-wrap">
+               <div className="mr-1 font-bold">Name:</div>
+               <div className="mr-0">{searchParams.name}</div>
+            </div>
+            <div className="flex flex-wrap">
+               <div className="mr-1 font-bold">Mobile Number:</div>
+               <div className="mr-0">{searchParams.phone}</div>
+            </div>
+            <div className="flex flex-wrap">
+               <div className="mr-1 font-bold">Email:</div>
+               <div className="mr-0">{searchParams.email}</div>
+            </div>
+            <div className="flex flex-wrap">
+               <div className="mr-1 font-bold">Tower:</div>
+               <div className="mr-0">{searchParams.tower}</div>
+            </div>
+            <div className="flex flex-wrap">
+               <div className="mr-1 font-bold">Hostel Room No:</div>
+               <div className="mr-0">{searchParams.hostel_room_no}</div>
+            </div>
+         </div>
+      </div>
       <div className="card w-90% m-5 bg-base-100 shadow-xl " >
          <div className="card-body">
          <div className="text-lg font-bold">Report Details</div>
@@ -23,14 +51,6 @@ export default async function searchParams({ searchParams ,} : {
                   <div className="mr-1 font-bold">Time:</div>
                   <div className="mr-0">{searchParams.time}</div>
                </div>
-            </div>
-            <div className="flex flex-wrap">
-               <div className="mr-1 font-bold">Tower:</div>
-               <div className="mr-0">{searchParams.tower}</div>
-            </div>
-            <div className="flex flex-wrap">
-               <div className="mr-1 font-bold">Hostel Room No:</div>
-               <div className="mr-0">{searchParams.hostel_room_no}</div>
             </div>
             <div className="flex flex-wrap">
                <div className="mr-1 font-bold">Title:</div>
