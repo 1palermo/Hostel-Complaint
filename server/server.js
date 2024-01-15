@@ -3,11 +3,9 @@ const cors= require("cors");
 const bodyParser= require("body-parser");
 const newUser= require("./routes/newUser");
 const report= require("./routes/report");
-const mongoose = require("./config/connect");
 const sendOtp = require("./routes/sendOtp");
-const fileupload = require("express-fileupload")
-//const http= require("http");
-//const {Server}= require("socket.io");
+const fileupload = require("express-fileupload");
+const mongoose = require("./config/connect");
 
 const app= express();
 
