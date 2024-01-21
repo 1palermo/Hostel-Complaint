@@ -15,7 +15,7 @@ const ComplaintPage = () => {
 
   async function getReports(){
     const data = JSON.parse(window.localStorage.getItem("customToken") || "");
-    const response= await fetch("https://hostel-complaint-website.onrender.com/report/user",{
+    const response= await fetch("http://localhost:8080/report/user",{
       method: "POST" ,
       body: JSON.stringify({userToken: data.token}) ,
       headers:{

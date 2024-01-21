@@ -34,7 +34,7 @@ export default function Form(props:{id:string, attended:string }){
     async function handleSolved(id:string, event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const token = JSON.parse(window.localStorage.getItem("customToken") || "");
-        await fetch(`https://hostel-complaint-website.onrender.com/report?cat=${"Solved"}&Id=${id}`,{
+        await fetch(`http://localhost:8080/report?cat=${"Solved"}&Id=${id}`,{
         method: "POST" ,
         body: JSON.stringify({data:formD, userToken: token.token}) ,
         headers:{
@@ -56,7 +56,7 @@ export default function Form(props:{id:string, attended:string }){
 
     async function handleAttended(id:string, event: React.FormEvent<HTMLFormElement>) {
         const token = JSON.parse(window.localStorage.getItem("customToken") || "");
-        fetch(`https://hostel-complaint-website.onrender.com/submitReport?cat=${"Attended"}&Id=${id}`,{
+        fetch(`http://localhost:8080/submitReport?cat=${"Attended"}&Id=${id}`,{
         method: "POST" ,
         body: JSON.stringify({data:formD, userToken: token.token}) ,
         headers:{

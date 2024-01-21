@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function Delete(props:{data:string}){
     const [showConfirmation, setShowConfirmation] = useState(false);
     const handleDelete = async(id:string) => {
-        const response= await fetch(`https://hostel-complaint-website.onrender.com/delete?Id=${id}`,{
+        const response= await fetch(`http://localhost:8080/delete?Id=${id}`,{
           method: "GET" 
           })
           const result= await response.json();

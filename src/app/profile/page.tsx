@@ -40,7 +40,7 @@ const Page2: NextPage = () => {
     let data:any;
     const storedToken = window.localStorage.getItem("customToken") || "";
     if(storedToken) data = JSON.parse(storedToken);
-    const response= await fetch("https://hostel-complaint-website.onrender.com/profile",{
+    const response= await fetch("http://localhost:8080/profile",{
       method: "POST" ,
       body: JSON.stringify({userToken: data?.token}) ,
       headers:{
@@ -76,7 +76,7 @@ const Page2: NextPage = () => {
     event.preventDefault();
     console.log(profile)
     const data = JSON.parse(window.localStorage.getItem("customToken") || "");
-    const response= await fetch("https://hostel-complaint-website.onrender.com/update",{
+    const response= await fetch("http://localhost:8080/update",{
       method: "POST" ,
       body: JSON.stringify({userToken: data.token, data:profile}) ,
       headers:{

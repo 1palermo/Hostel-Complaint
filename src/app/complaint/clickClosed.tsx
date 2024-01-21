@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function Closed(props:{data:string}){
     const [showConfirmation, setShowConfirmation] = useState(false);
     const handleClosed = async(id:string) => {
-        const response= await fetch(`https://hostel-complaint-website.onrender.com/report?cat=${"Closed"}&Id=${id}`,{
+        const response= await fetch(`http://localhost:8080/report?cat=${"Closed"}&Id=${id}`,{
           method: "POST" ,
           headers:{
             "Content-Type": "application/json",
