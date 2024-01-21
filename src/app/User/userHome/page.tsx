@@ -25,7 +25,7 @@ const UserHomePage = () => {
     let data:any;
     const storedToken = window.localStorage.getItem("customToken") || "";
     if(storedToken) data = JSON.parse(storedToken);
-    const response= await fetch("http://localhost:8080/profile",{
+    const response= await fetch("https://hostel-complaint-website.onrender.com/profile",{
       method: "POST" ,
       body: JSON.stringify({userToken: data?.token}) ,
       headers:{
