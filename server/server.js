@@ -20,7 +20,7 @@ const io= new Server(server,{
    },
 });
 **/
-
+app.set('env', 'production');
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb',extended:true}));
 app.use(fileupload({
@@ -28,7 +28,7 @@ app.use(fileupload({
 }))
 
 app.use(cors({
-  origin: ["http://localhost:3000","https://490bj8xz-3000.inc1.devtunnels.ms"],
+  origin: ["https://490bj8xz-3000.inc1.devtunnels.ms", "https://hostel-complaint.vercel.app"],
   credentials: true
 }));
 

@@ -57,7 +57,7 @@ export default function Home() {
       <p>Hostel Complaint Management</p>
 
   async function send(id:string){
-    const response= await fetch("https://490bj8xz-8080.inc1.devtunnels.ms/otpVerification?id="+ id,{
+    const response= await fetch("http://localhost:8080/otpVerification?id="+ id,{
       method: "GET" ,
      })
      const result = await response.text();

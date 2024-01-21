@@ -25,7 +25,7 @@ const UserHomePage = () => {
     let data:any;
     const storedToken = window.localStorage.getItem("customToken") || "";
     if(storedToken) data = JSON.parse(storedToken);
-    const response= await fetch("https://490bj8xz-8080.inc1.devtunnels.ms/profile",{
+    const response= await fetch("http://localhost:8080/profile",{
       method: "POST" ,
       body: JSON.stringify({userToken: data?.token}) ,
       headers:{

@@ -54,7 +54,7 @@ export default function Login(){
         googleLogin = true;
       }
       
-      const response = await fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/login?google=${googleLogin}`, {
+      const response = await fetch(`http://localhost:8080/login?google=${googleLogin}`, {
         method: "POST",
         credentials: 'include',
         body: JSON.stringify({...newNote, email: session?.user?.email || newNote.email}),

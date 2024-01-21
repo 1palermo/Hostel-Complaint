@@ -6,7 +6,7 @@ import { signOut, useSession } from "next-auth/react";
 
 async function fetchData(token: string | null){
   try {
-    const response = await fetch("https://490bj8xz-8080.inc1.devtunnels.ms/authenticate", {
+    const response = await fetch("http://localhost:8080/authenticate", {
       method: "POST",
       body: JSON.stringify({ userToken: token }),
       headers: {

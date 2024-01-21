@@ -6,10 +6,10 @@ import Link from 'next/link';
 //import io from 'socket.io-client';
 //import { useEffect, useState } from "react";
 
-//const socket = io("https://490bj8xz-8080.inc1.devtunnels.ms/");
+//const socket = io("http://localhost:8080/");
 
 export default async function Page(){
-   const apiResponse = await fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${"Attendant"}`,{cache : 'no-store',credentials: 'include'});
+   const apiResponse = await fetch(`http://localhost:8080/report?cat=${"Attendant"}`,{cache : 'no-store',credentials: 'include'});
    const data = await apiResponse.json();
    //const [data, setData] = useState([]);
 
@@ -18,7 +18,7 @@ export default async function Page(){
      socket.on("connect", async () => {
        console.log(socket.id);
        try {
-         const apiResponse = await fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${"Attendant"}`, { credentials: 'include' });
+         const apiResponse = await fetch(`http://localhost:8080/report?cat=${"Attendant"}`, { credentials: 'include' });
  
          const responseData = await apiResponse.json();
  
@@ -37,7 +37,7 @@ export default async function Page(){
       socket.on("getReports", async (data) => {
         console.log(data);
         try {
-          const apiResponse = await fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report?cat=${"Attendant"}`, { credentials: 'include' });
+          const apiResponse = await fetch(`http://localhost:8080/report?cat=${"Attendant"}`, { credentials: 'include' });
   
           const responseData = await apiResponse.json();
   
