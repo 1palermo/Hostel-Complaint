@@ -3,11 +3,9 @@ const cors= require("cors");
 const bodyParser= require("body-parser");
 const newUser= require("./routes/newUser");
 const report= require("./routes/report");
-const mongoose = require("./config/connect");
 const sendOtp = require("./routes/sendOtp");
-const fileupload = require("express-fileupload")
-//const http= require("http");
-//const {Server}= require("socket.io");
+const fileupload = require("express-fileupload");
+const mongoose = require("./config/connect");
 
 const app= express();
 
@@ -22,7 +20,7 @@ const io= new Server(server,{
    },
 });
 **/
-
+app.set('env', 'production');
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb',extended:true}));
 app.use(fileupload({
@@ -30,7 +28,7 @@ app.use(fileupload({
 }))
 
 app.use(cors({
-  origin: ["http://localhost:3000","https://490bj8xz-3000.inc1.devtunnels.ms"],
+  origin: ["https://490bj8xz-3000.inc1.devtunnels.ms", "https://hostel-complaint.vercel.app"],
   credentials: true
 }));
 

@@ -10,7 +10,7 @@ export default function Download(props:{Id:string}) {
       setIsLoading(true);
 
       // Make API call to download the reports
-      const response = await fetch(`https://490bj8xz-8080.inc1.devtunnels.ms/report/download?dept=${props.Id}`, {
+      const response = await fetch(`https://hostel-complaint-website.onrender.com/report/download?dept=${props.Id}`, {
         method: 'GET',
       });
 

@@ -1,9 +1,6 @@
 'use client'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faCog, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
-import { useState, useRef, useEffect } from 'react';
-import Image from 'next/image';
+import { useState } from 'react';
 import Base64 from '../../Base64';
 import { signIn, signOut, useSession } from "next-auth/react";
 
@@ -64,7 +61,7 @@ async function addUser(Newnote:{ username:string; contact:string; password:strin
       } catch (error) {
       console.error("Error parsing JSON:", error);
       }
-      const response= await fetch("https://490bj8xz-8080.inc1.devtunnels.ms/signup",{
+      const response= await fetch("https://hostel-complaint-website.onrender.com/signup",{
       method: "POST",
       body: JSON.stringify({...Newnote, email: session?.user?.email}) ,
       credentials: 'include',
