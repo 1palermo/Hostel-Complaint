@@ -6,7 +6,7 @@ export default async function AuthenticationComponent() {
 
     console.log(token);
 
-    const response = await fetch("https://hostel-complaint-website.onrender.com/authenticate", {
+    const response = await fetch("http://localhost:8080/authenticate", {
       method: "POST",
       body: JSON.stringify({ userToken: token.token }),
       headers: {

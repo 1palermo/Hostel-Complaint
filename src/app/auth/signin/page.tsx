@@ -54,7 +54,7 @@ export default function Login(){
         googleLogin = true;
       }
       
-      const response = await fetch(`https://hostel-complaint-website.onrender.com/login?google=${googleLogin}`, {
+      const response = await fetch(`http://localhost:8080/login?google=${googleLogin}`, {
         method: "POST",
         credentials: 'include',
         body: JSON.stringify({...newNote, email: session?.user?.email || newNote.email}),

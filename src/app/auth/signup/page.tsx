@@ -61,7 +61,7 @@ async function addUser(Newnote:{ username:string; contact:string; password:strin
       } catch (error) {
       console.error("Error parsing JSON:", error);
       }
-      const response= await fetch("https://hostel-complaint-website.onrender.com/signup",{
+      const response= await fetch("http://localhost:8080/signup",{
       method: "POST",
       body: JSON.stringify({...Newnote, email: session?.user?.email}) ,
       credentials: 'include',

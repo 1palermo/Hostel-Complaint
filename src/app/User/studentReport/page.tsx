@@ -56,7 +56,7 @@ const ReportPage = () => {
     event.preventDefault();
     console.log(formD);
     const token = JSON.parse(window.localStorage.getItem("customToken") || "");
-    fetch(`https://hostel-complaint-website.onrender.com/submitReport`,{
+    fetch(`http://localhost:8080/submitReport`,{
     method: "POST" ,
     body: JSON.stringify({data:formD, userToken: token.token}) ,
     headers:{

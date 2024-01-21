@@ -7,7 +7,7 @@ interface AttendedProps{
 export default function Attended(props:AttendedProps){
   
     const handleAttended = async(id:string) => {
-        const response= await fetch(`https://hostel-complaint-website.onrender.com/report?cat=${"Attended"}&Id=${id}`,{
+        const response= await fetch(`http://localhost:8080/report?cat=${"Attended"}&Id=${id}`,{
           method: "POST" ,
           headers:{
             "Content-Type": "application/json",

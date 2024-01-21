@@ -4,7 +4,7 @@ import Navbar from '../Admin/Navbar';
 export default async function Page({ searchParams } : {
    searchParams: {cat:string, dept:string, close: string};
 }){
-   const apiResponse = await fetch(`https://hostel-complaint-website.onrender.com/getUser`,{cache : 'no-store'});
+   const apiResponse = await fetch(`http://localhost:8080/getUser`,{cache : 'no-store'});
    const data = await apiResponse.json();
    
    return(
