@@ -15,7 +15,7 @@ const ComplaintPage = () => {
 
   async function getReports(){
     const data = JSON.parse(window.localStorage.getItem("customToken") || "");
-    const response= await fetch("https://490bj8xz-8080.inc1.devtunnels.ms/report/user",{
+    const response= await fetch("https://hostel-complaint-website.onrender.com/report/user",{
       method: "POST" ,
       body: JSON.stringify({userToken: data.token}) ,
       headers:{
