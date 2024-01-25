@@ -1,132 +1,151 @@
-'use client'
-import Link from 'next/link';
-import { useState } from 'react';
-import Base64 from '../../Base64';
+"use client";
+import Link from "next/link";
+import { useState } from "react";
+import Base64 from "../../Base64";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 interface SignupFormDetails {
-    username: string;
-    contact: string;
-    password: string;
-    tower: string,
-    hostel_room_no: string,
-    roll: string,
-    image: string;
+  username: string;
+  contact: string;
+  password: string;
+  tower: string;
+  hostel_room_no: string;
+  roll: string;
+  image: string;
 }
 
 interface ServerResponse {
-    valid: boolean;
-    customToken: string;
-    url: string;
+  valid: boolean;
+  customToken: string;
+  url: string;
 }
-export default function Signup(){
-const {data:session, status} = useSession();
+export default function Signup() {
+  const { data: session, status } = useSession();
 
-const [alertMessage, setAlertMessage] = useState<string>('');
-//const [file, setFile] = useState(new File([],'dummy.jpg'));
-const [formD, setForm] = useState<SignupFormDetails>({
-  username: '',
-  contact: '',
-  password: '',
-  tower: '',
-  hostel_room_no: '',
-  roll: '',
-  image: ''
-});
+  const [alertMessage, setAlertMessage] = useState<string>("");
+  //const [file, setFile] = useState(new File([],'dummy.jpg'));
+  const [formD, setForm] = useState<SignupFormDetails>({
+    username: "",
+    contact: "",
+    password: "",
+    tower: "",
+    hostel_room_no: "",
+    roll: "",
+    image: "",
+  });
 
-function handleSignupChange(event: React.ChangeEvent<HTMLInputElement>) {
-  const { name, value } = event.target;
+  function handleSignupChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target;
 
-  setForm((prevForm) => ({
-    ...prevForm,
-    [name]: value,
-  }));
-}
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
+  }
 
-function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
-  const { name, value } = event.target;
+  function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    const { name, value } = event.target;
 
-  setForm((prevForm) => ({
-    ...prevForm,
-    [name]: value,
-  }));
-}
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
+  }
 
-async function addUser(Newnote:{ username:string; contact:string; password:string; image:string; tower:string; hostel_room_no: string}){
-  let data:any = null;
+  async function addUser(Newnote: {
+    username: string;
+    contact: string;
+    password: string;
+    image: string;
+    tower: string;
+    hostel_room_no: string;
+  }) {
+    let data: any = null;
 
-  try {
+    try {
       const storedToken = window.localStorage.getItem("customToken") || "";
-      if(storedToken) data = JSON.parse(storedToken);
-      } catch (error) {
+      if (storedToken) data = JSON.parse(storedToken);
+    } catch (error) {
       console.error("Error parsing JSON:", error);
-      }
-      const response= await fetch("https://hostel-complaint-website.onrender.com/signup",{
-      method: "POST",
-      body: JSON.stringify({...Newnote, email: session?.user?.email}) ,
-      credentials: 'include',
-      headers:{
+    }
+    const response = await fetch(
+      "https://hostel-complaint-website.onrender.com/signup",
+      {
+        method: "POST",
+        body: JSON.stringify({ ...Newnote, email: session?.user?.email }),
+        credentials: "include",
+        headers: {
           "Content-Type": "application/json",
-          "customToken": data?.token || ''
+          customToken: data?.token || "",
+        },
       }
-      })
-      const res= await response.json();
-      console.log(res);
-      if(res.valid === true){
-      window.localStorage.setItem("customToken", JSON.stringify({token:res.customToken,expiryDate: Date.now() + 30 * 24 * 60 * 60 * 1000}));
-      } else{
+    );
+    const res = await response.json();
+    console.log(res);
+    if (res.valid === true) {
+      window.localStorage.setItem(
+        "customToken",
+        JSON.stringify({
+          token: res.customToken,
+          expiryDate: Date.now() + 30 * 24 * 60 * 60 * 1000,
+        })
+      );
+    } else {
       setAlertMessage("*Account exists or some error occured");
-      }
-      await signOut();
-      window.location.href = res.url;
+    }
+    await signOut();
+    window.location.href = res.url;
   }
 
   function submitForm(event: React.FormEvent<HTMLFormElement>) {
-      event.preventDefault();
-      if(!session){
-        setAlertMessage('*please verify your email');
-        return;
-      }
-      console.log(session.user?.email);
-      addUser(formD);
-      setForm({
-        username: '',
-        contact: '',
-        password: '',
-        tower: '',
-        hostel_room_no: '',
-        roll: '',
-        image:''
-      });
+    event.preventDefault();
+    if (!session) {
+      setAlertMessage("*please verify your email");
+      return;
+    }
+    console.log(session.user?.email);
+    addUser(formD);
+    setForm({
+      username: "",
+      contact: "",
+      password: "",
+      tower: "",
+      hostel_room_no: "",
+      roll: "",
+      image: "",
+    });
   }
-  
+
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
-      let file;
-      if(e.target.files){
-          file= e.target.files[0];
-      }
-          const base64= await Base64(file);
-      if(e.target.files && e.target.files[0]){
-          setForm({...formD, image: base64});
-      }
+    let file;
+    if (e.target.files) {
+      file = e.target.files[0];
+    }
+    const base64 = await Base64(file);
+    if (e.target.files && e.target.files[0]) {
+      setForm({ ...formD, image: base64 });
+    }
   }
   return (
-    <div className="flex justify-center min-h-screen p-5 bg-[url('/brick.jpg')] bg-cover">
+    <div className="flex justify-center min-h-screen p-5 bg-[url('/brick.webp')] bg-cover">
       <div className="bg-white p-8 rounded-lg shadow-md w-[560px]">
-       <div className="flex items-center justify-center">
-        <img
-          className="dark:drop-shadow-[0_0_0.3rem_#ffffff70] mb-2 w-40 h-40"
-          src="/dtu.png"
-          alt="Next.js Logo"
-        />
+        <div className="flex items-center justify-center">
+          <img
+            className="dark:drop-shadow-[0_0_0.3rem_#ffffff70] mb-2 w-40 h-40"
+            src="/dtu.png"
+            alt="Next.js Logo"
+          />
         </div>
-        <div className="flex items-center justify-center text-blue-600">
-          <h1 className="text-4xl font-semibold text-blue-600 ">Sign Up</h1>
+        <div className="flex items-center justify-center text-green-600">
+          <h1 className="text-4xl font-semibold text-green-600 ">Sign Up</h1>
         </div>
-        <div className='py-5'></div>
+        <div className="py-5"></div>
         <form className="space-y-4" onSubmit={submitForm}>
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-600">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-600"
+            >
               Name
             </label>
             <input
@@ -142,7 +161,10 @@ async function addUser(Newnote:{ username:string; contact:string; password:strin
             />
           </div>
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-600">
+            <label
+              htmlFor="phone"
+              className="block text-sm font-medium text-gray-600"
+            >
               Phone Number
             </label>
             <input
@@ -158,7 +180,10 @@ async function addUser(Newnote:{ username:string; contact:string; password:strin
             />
           </div>
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-600">
+            <label
+              htmlFor="phone"
+              className="block text-sm font-medium text-gray-600"
+            >
               Roll Number
             </label>
             <input
@@ -173,18 +198,28 @@ async function addUser(Newnote:{ username:string; contact:string; password:strin
             />
           </div>
           <div>
-          {session?
-          <div className='flex'>
-            <p className='text-green-600 mr-5'>verified</p>
-            {/* <a onClick={async(e)=>{
+            {session ? (
+              <div className="flex">
+                <p className="text-green-600 mr-5">verified</p>
+                {/* <a onClick={async(e)=>{
               await signOut();
               await signIn("google");
-            }} className='text-blue-600 underline'>switch account</a> */}
-          </div>
-          : <button onClick={()=>signIn("google")} className='btn bg-blue-200'>verify email</button>} 
+            }} className='text-green-600 underline'>switch account</a> */}
+              </div>
+            ) : (
+              <button
+                onClick={() => signIn("google")}
+                className="btn bg-blue-200"
+              >
+                verify email
+              </button>
+            )}
           </div>
           <div>
-            <label htmlFor="hostelname" className="block text-sm font-medium text-gray-600">
+            <label
+              htmlFor="hostelname"
+              className="block text-sm font-medium text-gray-600"
+            >
               Hostel Name
             </label>
             <input
@@ -199,7 +234,10 @@ async function addUser(Newnote:{ username:string; contact:string; password:strin
             />
           </div>
           <div>
-            <label htmlFor="hostelroomno" className="block text-sm font-medium text-gray-600">
+            <label
+              htmlFor="hostelroomno"
+              className="block text-sm font-medium text-gray-600"
+            >
               Hostel Room Number
             </label>
             <input
@@ -214,7 +252,10 @@ async function addUser(Newnote:{ username:string; contact:string; password:strin
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-600">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-600"
+            >
               Password
             </label>
             <input
@@ -229,30 +270,35 @@ async function addUser(Newnote:{ username:string; contact:string; password:strin
             />
           </div>
           <div>
-          <label htmlFor="profileImage" className="block text-sm font-medium text-gray-500">
-            Profile Image
-          </label>
-          <input
-            id="profileImage"
-            name="profileImage"
-            type="file"
-            accept="image/jpg image/jpeg"
-            onChange={handleFileUpload}
-            className="mt-1 p-2 w-full rounded-md border border-gray-300 bg-white text-gray-900"
-            required
-          />
+            <label
+              htmlFor="profileImage"
+              className="block text-sm font-medium text-gray-500"
+            >
+              Profile Image
+            </label>
+            <input
+              id="profileImage"
+              name="profileImage"
+              type="file"
+              accept="image/jpg image/jpeg"
+              onChange={handleFileUpload}
+              className="mt-1 p-2 w-full rounded-md border border-gray-300 bg-white text-gray-900"
+              required
+            />
           </div>
           <div className="flex items-center justify-between">
             <div>
               <Link href="/">
-                <p className="text-blue-600 hover:underline">Already have an account? Sign in</p>
+                <p className="text-green-600 hover:underline">
+                  Already have an account? Sign in
+                </p>
               </Link>
             </div>
           </div>
           <div className="flex items-center justify-center pt-10">
             <button
               type="submit"
-              className="bg-blue-500 text-white font-bold p-3 rounded-2xl hover:bg-black focus:outline-none focus:ring focus:border-blue-300 shadow-2xl w-32 hover:w-40 transition-all duration-300 ease-in-out"
+              className="bg-green-600 text-white font-bold p-3 rounded-2xl hover:bg-black focus:outline-none focus:ring focus:border-blue-300 shadow-2xl w-32 hover:w-40 transition-all duration-300 ease-in-out"
             >
               Sign Up
             </button>
@@ -261,5 +307,4 @@ async function addUser(Newnote:{ username:string; contact:string; password:strin
       </div>
     </div>
   );
-};
-
+}

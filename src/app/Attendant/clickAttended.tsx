@@ -19,7 +19,7 @@ export default function Attended(props:AttendedProps){
 
 
    return(
-      <button className="px-3 py-1 bg-blue-500 text-white text-sm rounded-md" onClick={async(res)=>{
+      <button className="px-3 py-1 bg-green-600 text-white text-sm rounded-md" onClick={async(res)=>{
         await handleAttended(props.data)
         window.location.reload()
       }}>Attended</button>
