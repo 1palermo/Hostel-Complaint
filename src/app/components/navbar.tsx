@@ -25,7 +25,7 @@ export default function Navbar() {
         </Link>
       </div>
       <div
-        className={`absolute min-h-screen min-w-screen justify-center z-10 mx-[-32px] mt-[-64px] bg-[#EEEEEE] rounded-lg  shadow-md w-[350px] lg:w-[520px] ${
+        className={`absolute justify-center z-10 mx-[-32px] mt-[-66px] bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 rounded-lg w-80 lg:w-[720px] ${
           isOpen ? "block" : "hidden"
         }`}
       >
@@ -39,7 +39,7 @@ export default function Navbar() {
         <div className="flex items-center justify-center">
           <div className="p-10 mt-32">
             <Link href="/profile">
-              <h1 className="text-green-600 text-2xl mb-4">Profile</h1>
+              <h1 className="text-green-600 text-2xl mb-4">My Profile</h1>
             </Link>
             <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600 mt-2 mb-6"></hr>
             <Link href="/User/studentReport">
@@ -48,11 +48,17 @@ export default function Navbar() {
             <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600 mt-2 mb-6"></hr>
             <Link href="/User/userComplaints">
               <h1 className="text-green-600 text-2xl mb-4">
-                Existing Complaints
+                All Complaints
               </h1>
             </Link>
             <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600 mt-2 mb-6"></hr>
             <h1 className="text-green-600 text-2xl mb-4">About us</h1>
+            <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600 mt-2 mb-6"></hr>
+            <Link href="/">
+              <h1 className="text-green-600 text-2xl mb-4">
+                Log Out
+              </h1>
+            </Link>
           </div>
         </div>
       </div>

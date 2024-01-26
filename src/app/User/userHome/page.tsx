@@ -55,7 +55,7 @@ const UserHomePage = () => {
   
   return (
         <div className="flex justify-center min-h-screen p-5 bg-[url('/brick.webp')] bg-cover">
-          <div className="bg-green-100 p-8 rounded-lg shadow-md w-[720px]">
+          <div className=" bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 p-8 rounded-lg shadow-md w-[720px]">
           <Navbar />
 
           <div className="flex flex-col items-center">
@@ -67,32 +67,27 @@ const UserHomePage = () => {
             <p className="text-xl font-semibold text-black">{profile.username}</p>
             <p className="text-xl font-semibold text-black pt-4">{profile.roll}</p>
           </div>
-          <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 mt-10"></hr>
+          <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-green-700 via-green-400 to-green-600 mt-10"></hr>
 
-          <div className="flex justify-around mt-8">
-            <div className="items-center">
-              <Link href="/User/studentReport" >
-              <button className="w-150 m-4 p-1 rounded-full from-rose-400 via-fuchsia-500 to-indigo-500 bg-gradient-to-r">
+          <div className="flex flex-col sm:flex-row justify-around mt-8">
+
+          <div className="items-center">
+            <Link href="/User/studentReport">
+              <button className="w-full sm:w-150 p-1 my-5 sm:my-0 sm:pl-[-4] rounded-full from-green-700 via-green-400 to-green-600 bg-gradient-to-r">
                 <span className="block text-black px-4 py-2 font-semibold rounded-full bg-white">New Complaints</span>
               </button>
-              </Link>
-            </div>
-            <div className="items-center">
-              <Link href="/User/userComplaints" >
-              <button className=" w-150 m-4 p-1 rounded-full from-rose-400 via-fuchsia-500 to-indigo-500 bg-gradient-to-r">
-                <span className="block text-black px-4 py-2 font-semibold rounded-full bg-white">Previous Complaints</span>
-              </button>
-              </Link>
-            </div>
-            {/* <div className="items-center mt-4">
-              <img
-                src="/Mess.png"
-                alt="Image 2"
-                className="rounded-md h-32 w-32"
-              />
-              <p className='text-lg font-semibold text-black p-4 text-center'>Mess</p>
-            </div> */}
+            </Link>
           </div>
+          <div className="items-center">
+            <Link href="/User/userComplaints">
+              <button className="w-full sm:w-150 my-5 sm:my-0 p-1 rounded-full from-green-700 via-green-400 to-green-600 bg-gradient-to-r">
+                <span className="block text-black lg:px-4 px-2 py-2 font-semibold rounded-full bg-white">Previous Complaints</span>
+              </button>
+            </Link>
+          </div>
+          
+        </div>
+        
 
           {/* <div className="flex justify-around ">
             <div className="items-center mt-4">

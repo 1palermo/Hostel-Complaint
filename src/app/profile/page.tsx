@@ -103,7 +103,7 @@ const Page2: NextPage = () => {
 
   return (
     <div className="flex items-center justify-center p-5 min-h-screen bg-[url('/dtuLogo.jpg')] bg-cover">
-      <div className="bg-green-100 p-8 rounded-lg shadow-md w-[720px]">
+      <div className="bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 p-8 rounded-lg shadow-md w-[720px]">
         <div className="flex items-center justify-between text-green-600">
           <div onClick={removeSession}>
             <FontAwesomeIcon icon={faSignOut} className="ml-2 h-8 w-8" />

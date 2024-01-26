@@ -86,7 +86,7 @@ const ReportPage = () => {
 
   return (
     <div className="flex justify-center min-h-screen p-5 bg-[url('/brick.webp')] bg-cover">
-      <div className="bg-white p-8 rounded-lg shadow-md w-[720px]">
+      <div className="bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 p-8 rounded-lg shadow-md w-[720px]">
         <Navbar />
         <div className="py-5"></div>
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -103,7 +103,7 @@ const ReportPage = () => {
               onChange={handleFormChange}
               value={formD.issue}
               required
-              className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#EEEEEE]"
+              className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#fff]"
             >
               <option value="wifi Not working">Internet Issues</option>
               <option value="Lighting issues">Electrical issues</option>
@@ -126,7 +126,7 @@ const ReportPage = () => {
               onChange={handleFormChange}
               value={formD.department}
               required
-              className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#EEEEEE]"
+              className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#fff]"
             >
               <option value="civil department">Civil Department</option>
               <option value="electrical department">
@@ -152,7 +152,7 @@ const ReportPage = () => {
               onChange={handleFormChange}
               value={formD.title}
               required
-              className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#EEEEEE]"
+              className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#fff]"
             />
           </div>
 
@@ -170,7 +170,7 @@ const ReportPage = () => {
               onChange={handleFormChange}
               value={formD.desc}
               rows={5}
-              className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#EEEEEE]"
+              className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#fff]"
             />
           </div>
 
@@ -187,7 +187,7 @@ const ReportPage = () => {
               name="imageUpload"
               accept="image/*"
               onChange={handleFileUpload}
-              className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#EEEEEE]"
+              className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#fff]"
             />
           </div>
 
