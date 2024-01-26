@@ -25,6 +25,7 @@ interface ServerResponse {
 
 export default function Login() {
   const { data: session, status } = useSession();
+  const [loading, setLoading] = useState(false);
   const [alertMessage, setAlertMessage] = useState<string>("");
   const [formDetails, setFormDetails] = useState<FormDetails>({
     email: "",
@@ -52,6 +53,7 @@ export default function Login() {
     if (session) {
       googleLogin = true;
     }
+    setLoading(true);
 
     const response = await fetch(
       `https://hostel-complaint-website.onrender.com/login?google=${googleLogin}`,
@@ -68,6 +70,8 @@ export default function Login() {
         },
       }
     );
+
+    
 
     try {
       const res: ServerResponse = await response.json();
@@ -88,8 +92,10 @@ export default function Login() {
       }
       window.location.href = res.url;
     } catch (error) {
-      // Handle JSON parsing error
-      console.error("Error parsing JSON response", error);
+      console.error("Error during login", error);
+      setAlertMessage("*login failed")
+    }finally {
+      setLoading(false);
     }
   }
 
@@ -163,7 +169,7 @@ export default function Login() {
                 autoComplete="useremail"
                 onChange={handleChange}
                 value={formDetails.email}
-                placeholder="enter your email"
+                placeholder="Enter your email"
                 className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#EEEEEE]"
                 required
               />
@@ -182,7 +188,7 @@ export default function Login() {
                 autoComplete="new-password"
                 onChange={handleChange}
                 value={formDetails.password}
-                placeholder="enter your password"
+                placeholder="Enter your password"
                 required
                 className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#EEEEEE]"
               />
@@ -203,8 +209,15 @@ export default function Login() {
               <button
                 type="submit"
                 className="bg-green-600 text-white font-bold p-3 rounded-2xl hover:bg-black focus:outline-none focus:ring focus:border-blue-300 shadow-2xl w-48 lg:w-80 hover:w-56 lg:hover:w-96 transition-all duration-300 ease-in-out"
+                disabled={loading} // Disable the button when loading
               >
-                Log In
+                {loading ? (
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+                  </div>
+                ) : (
+                  "Log In"
+                )}
               </button>
             </div>
             <div className="flex items-center justify-center">or</div>

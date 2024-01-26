@@ -25,7 +25,7 @@ export default function Navbar() {
         </Link>
       </div>
       <div
-        className={`absolute justify-center z-10 mx-[-32px] mt-[-66px] bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 rounded-lg w-80 lg:w-[720px] ${
+        className={`absolute justify-center h-100vh z-10 mx-[-32px] mt-[-66px] bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 rounded-lg w-80 lg:w-[720px] ${
           isOpen ? "block" : "hidden"
         }`}
       >
