@@ -37,12 +37,12 @@ const ComplaintPage = () => {
   };
 
   return(
-    <div className="flex justify-center min-h-screen p-5 bg-[url('/brick.jpg')] bg-cover">
+    <div className="flex justify-center min-h-screen p-5 bg-[url('/brick.webp')] bg-cover">
     <div className="bg-[#EEEEEE] p-8 rounded-lg shadow-md w-[720px]">
     <Navbar />
 
     <div className="block">
-        <h1 className='w-full text-center font-bold'>LIST OF REPORTS</h1>
+        <h1 className='w-full text-center font-bold mt-5'>LIST OF REPORTS</h1>
         {report.map((res:{createdAt:string ; problem: string; title: string; image:string; description: string; department: string; attended: string; solved: string},idx:number)=>{
             const [date, time] = new Date(res.createdAt).toISOString().split('T').map((value, index) => (index === 0 ? value : value.split('.')[0]));
             return (

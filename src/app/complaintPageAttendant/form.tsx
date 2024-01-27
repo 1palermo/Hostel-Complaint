@@ -83,10 +83,10 @@ export default function Form(props:{id:string, attended:string }){
             <br />
             <hr />
             <br />
-            <h1 className="font-bold mb-4 w-full text-center text-2xl">Enter Your Response</h1>
+            <h1 className="font-bold mb-4 w-full text-center text-2xl text-green-600">Enter Your Response</h1>
             {
                props.attended === "Unattended"? 
-               <form className="w-3/4 mx-auto mt-8 p-4 bg-gray-100" onSubmit={async(res)=>{
+               <form className="w-3/4 lg:w-2/4 mx-auto mt-8 p-4 bg-green-100 rounded-md" onSubmit={async(res)=>{
                 await handleAttended(props.id, res)
                }}>
                <div className="mb-4">
@@ -101,7 +101,7 @@ export default function Form(props:{id:string, attended:string }){
                </div>
          
                <div className="mb-4">
-               <label htmlFor="profileImage" className="block text-sm font-medium text-gray-500">
+               <label htmlFor="profileImage" className="block text-sm font-medium text-gray-700">
                     Upload Image
                 </label>
                 <input
@@ -110,11 +110,11 @@ export default function Form(props:{id:string, attended:string }){
                     type="file"
                     accept="image/jpg image/jpeg"
                     onChange={handleImageChange}
-                    className="mt-1 p-2 w-full rounded-md border border-gray-300 bg-white text-gray-900"
+                    className="mt-1 p-2 w-full rounded-md border border-gray-300 bg-white text-gray-700"
                     required
                 />
                </div>
-               <button type="button"  className="bg-blue-500 text-white p-2 rounded-md text-center w-full">
+               <button type="button"  className="bg-green-600 text-xl text-white p-2 rounded-md text-center w-full">
                    Attended
                </button>
                </form>:
@@ -122,7 +122,7 @@ export default function Form(props:{id:string, attended:string }){
                 await handleSolved(props.id, res)
                }}>
                 <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">Description</label>
+                <label className="block text-sm font-medium text-gray-700 pl-2">Description</label>
                 <input
                 type="text"
                 value={formD.text}
@@ -133,7 +133,7 @@ export default function Form(props:{id:string, attended:string }){
                 </div>
         
                 <div className="mb-4">
-                <label htmlFor="profileImage" className="block text-sm font-medium text-gray-500">
+                <label htmlFor="profileImage" className="block text-sm font-medium text-gray-700 pl-2">
                         Upload Image
                     </label>
                     <input
@@ -142,12 +142,12 @@ export default function Form(props:{id:string, attended:string }){
                         type="file"
                         accept="image/jpg image/jpeg"
                         onChange={handleImageChange}
-                        className="mt-1 p-2 w-full rounded-md border border-gray-300 bg-white text-gray-900"
+                        className="mt-1 p-2 w-full rounded-md border border-gray-300 bg-white text-gray-700"
                         required
                     />
                 </div>
 
-                <button className="bg-blue-500 text-white p-2 rounded-md text-center w-full">
+                <button className="bg-green-600 text-white p-2 rounded-md text-center w-full">
                     Solved
                 </button>
                 </form>
@@ -159,7 +159,7 @@ export default function Form(props:{id:string, attended:string }){
                    <div className="bg-white p-4 rounded-md">
                         <p >Form submitted successfully!</p>
                         <Link href="/Attendant" passHref>
-                        <button className="bg-blue-500 text-white px-4 py-2 rounded mr-2" onClick={() => window.location.href="/Attendant"}>Yes</button>
+                        <button className="bg-green-600 text-white px-4 py-2 rounded mr-2" onClick={() => window.location.href="/Attendant"}>Yes</button>
                         </Link>
                     </div>
                 </div>

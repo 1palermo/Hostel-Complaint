@@ -61,7 +61,7 @@ export default async function Page(){
             </table>
          </div>
          <div className="block md:hidden">
-               <h1 className='w-full text-center font-bold'>LIST OF REPORTS</h1>
+               <h1 className='w-full text-center font-bold mt-5 '>LIST OF REPORTS</h1>
                {data.map((res:{_id:string; date: string; tower:string; hostel_room_no:string; time: string; problem: string; title: string; description: string; department: string; attended: string; solved: string},idx:number)=>(
                   <div className="card w-90% m-5 bg-base-100 shadow-xl" key={idx}>
                   <div className="card-body">
@@ -100,7 +100,7 @@ export default async function Page(){
                               pathname: "/complaintPageAttendant",
                               query: res
                            }} >
-                              <button className="px-3 py-1 bg-blue-500 text-white text-sm rounded-md">see</button>
+                              <button className="px-3 py-1 bg-green-600 text-white text-sm rounded-md">see</button>
                         </Link>
                      </div>
                   </div>

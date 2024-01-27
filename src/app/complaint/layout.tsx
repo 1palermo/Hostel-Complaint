@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Link from 'next/link';
 import Image from 'next/image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -17,16 +19,10 @@ export default function RootLayout({
   return (
     <html lang='en'>
     <body>
-    <div className="navbar bg-custom-primary text-primary-content">
+    <div className="navbar bg-green-600 text-white">
       <p className="btn btn-ghost normal-case text-xl">Hostel-Admin</p>
       <Link href="/profile">
-        <Image
-          src="/avatar.png" 
-          alt="Description of the image"
-          width={50}
-          height={50}
-          className='absolute right-5'
-        />
+        <FontAwesomeIcon icon={faUser} className='absolute right-10 mb-1 h-5 w-5' />
       </Link>
     </div>
     <div>{children}</div>

@@ -42,7 +42,7 @@ export default async function Page({ searchParams } : {
          </div>
          <div className="block md:hidden">
          <Navbar cat={searchParams.cat} dept={searchParams.dept} close={searchParams.close} />
-         <h1 className='w-full text-center font-bold'>LIST OF HOSTELLERS</h1>
+         <h1 className='w-full text-center font-bold mt-5'>LIST OF HOSTELLERS</h1>
          {data.map((res: {_id: string; username: string;email: string;tower: string;hostel_room_no: string;descritpion: string;contact: number;userImage: string;}, idx: number) => (
             <div className="card w-90% m-5 bg-base-100 shadow-xl" key={idx}>
                <div className="card-body">
