@@ -20,7 +20,7 @@ const ReportPage = () => {
   const [formD, setForm] = useState<FormDetails>({
     title: "",
     issue: "Wifi not working",
-    department:"civil department",
+    department:"computer centre",
     desc:"",
     image:""
   });
@@ -32,7 +32,32 @@ const ReportPage = () => {
   function handleFormChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     event.preventDefault();
     const { name, value } = event.target;
-    console.log(formD);
+    if(name === "issue"){
+      if(value === "wifi Not working"){
+        setForm((prevForm)=>({
+          ...prevForm,
+          department: "computer centre"
+        }))
+      }
+      else if(value === "Electrical issues"){
+        setForm((prevForm)=>({
+          ...prevForm,
+          department: "electrical department"
+        }))
+      }
+      else if(value === "Civil issues"){
+        setForm((prevForm)=>({
+          ...prevForm,
+          department: "civil department"
+        }))
+      }
+      else{
+        setForm((prevForm)=>({
+          ...prevForm,
+          department: "hostel office"
+        }))
+      }
+    }
     setForm((prevForm) => ({
       ...prevForm,
       [name]: value,
@@ -99,9 +124,9 @@ const ReportPage = () => {
               className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#EEEEEE]"
             >
               <option value="wifi Not working">Internet Issues</option>
-              <option value="Lighting issues">Electrical issues</option>
-              <option value="Lighting issues">Civil issues</option>
-              <option value="Lighting issues">Mess issues</option>
+              <option value="Electrical issues">Electrical issues</option>
+              <option value="Civil issues">Civil issues</option>
+              <option value="Mess issues">Mess issues</option>
               <option value="other">Others</option>
             </select>
           </div>
@@ -110,7 +135,8 @@ const ReportPage = () => {
             <label htmlFor="issue" className="block text-sm font-medium text-gray-600">
               Department
             </label>
-            <select
+            <div>{formD.department}</div>
+            {/* <select
               id="issue"
               name="department"
               onChange={handleFormChange}
@@ -121,8 +147,8 @@ const ReportPage = () => {
               <option value="civil department">Civil Department</option>
               <option value="electrical department">Electrical Department</option>
               <option value="computer centre">Computer Center</option>
-              <option value="computer centre">Hostel Office</option>
-            </select>
+              <option value="hostel office">Hostel Office</option>
+            </select> */}
           </div>
 
           <div>
