@@ -4,9 +4,17 @@ import { faBars, faHome, faMultiply } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { Suspense } from "react";
 import Loading from "./loading";
+import { signOut } from "next-auth/react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  
+  async function removeSession() {
+    localStorage.removeItem("customToken");
+    console.log(localStorage.getItem("customToken"));
+    await signOut();
+    window.location.href = "/";
+  }
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -54,11 +62,11 @@ export default function Navbar() {
             <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600 mt-2 mb-6"></hr>
             <h1 className="text-green-600 text-2xl mb-4">About us</h1>
             <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600 mt-2 mb-6"></hr>
-            <Link href="/">
+            <div onClick={removeSession}>
               <h1 className="text-green-600 text-2xl mb-4">
                 Log Out
               </h1>
-            </Link>
+            </div>
           </div>
         </div>
       </div>

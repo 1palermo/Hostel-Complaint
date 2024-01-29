@@ -52,8 +52,7 @@ export default function Closed(props: { data: string }) {
                 </button>
               </Link>
               <button
-                className="bg-red-500 text-white px-4 py-1 rounded"
-                onClick={handleNo}
+                className="bg-red-500 text-white px-4 py-1 rounded" onClick={handleNo}
               >
                 No
               </button>
