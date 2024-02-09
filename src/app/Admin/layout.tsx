@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import ProtectedRoute from '../components/RouteProtection'
-
+import { AdminProvider } from '../context/adminContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,8 +18,9 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
-      <ProtectedRoute />
-      <div>{children}</div>
+      <AdminProvider>
+      {children}
+      </AdminProvider>
       </body>
     </html>
   )

@@ -1,19 +1,23 @@
-import Header from "../Header/page";
+'use client'
+import Header from "../../Header/page";
 import Link from "next/link";
-import Navbar from "../Admin/Navbar";
+import Navbar from "../Navbar";
+import { useAdmin } from "../../context/adminContext";
+import { useEffect, useState } from "react";
 
-export default async function Page({
+export default function Page({
   searchParams,
 }: {
   searchParams: { cat: string; dept: string; close: string };
 }) {
-  const apiResponse = await fetch(
-    `https://hostel-complaint-website.onrender.com/report?cat=${
-      searchParams.cat
-    }&status=${"Closed"}`,
-    { cache: "no-store" }
-  );
-  const data = await apiResponse.json();
+  const [data, setData] = useState([]);
+  const [report, setReport] = useAdmin();
+
+  useEffect(()=>{
+    let repo = report.filter((val:any)=> (val.status === "Closed"));;
+    
+    setData(repo);
+  },[report])
 
   return (
     <>
@@ -55,7 +59,7 @@ export default async function Page({
                   <td>
                     <Link
                       href={{
-                        pathname: "/complaint",
+                        pathname: "/Admin/complaint",
                         query: { ...res, close: "no" },
                       }}
                     >
@@ -129,7 +133,7 @@ export default async function Page({
                 <div className="w-full flex justify-end">
                   <Link
                     href={{
-                      pathname: "/complaint",
+                      pathname: "/Admin/complaint",
                       query: { ...res, close: "no" },
                     }}
                   >

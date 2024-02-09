@@ -1,11 +1,25 @@
+'use client'
 import Delete from './clickDelete';
-import Navbar from '../Admin/Navbar';
+import Navbar from '../Navbar';
+import axios from 'axios';
+import { useAdmin } from "../../context/adminContext";
+import { useEffect, useState } from "react";
 
-export default async function Page({ searchParams } : {
+export default function Page({ searchParams } : {
    searchParams: {cat:string, dept:string, close: string};
 }){
-   const apiResponse = await fetch(`https://hostel-complaint-website.onrender.com/getUser`,{cache : 'no-store'});
-   const data = await apiResponse.json();
+   const [data, setData] = useState([]);
+  
+   useEffect(()=>{
+      async function get(){
+         const apiResponse = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/getUser`,{
+            validateStatus: (status) => status>= 200 && status<=500
+         });
+         setData(apiResponse.data);
+      }
+
+      get();
+   },[])
    
    return(
       <>
@@ -25,7 +39,7 @@ export default async function Page({ searchParams } : {
                   </tr>
                </thead> 
                <tbody>
-                  {data.map((res:{_id:string; username: string; email: string; tower:string; hostel_room_no:string; descritpion: string; contact: number; userImage: string},idx:number)=>(
+                  {data.length && data.map((res:{_id:string; username: string; email: string; tower:string; hostel_room_no:string; descritpion: string; contact: number; userImage: string},idx:number)=>(
                      <tr key={idx} >
                      <th>{idx+1}</th> 
                      <td><img className="w-10 h-10 rounded-lg border border-gray-300" src={res.userImage} alt="User" /></td>
@@ -43,7 +57,7 @@ export default async function Page({ searchParams } : {
          <div className="block md:hidden">
          <Navbar cat={searchParams.cat} dept={searchParams.dept} close={searchParams.close} />
          <h1 className='w-full text-center font-bold mt-5'>LIST OF HOSTELLERS</h1>
-         {data.map((res: {_id: string; username: string;email: string;tower: string;hostel_room_no: string;descritpion: string;contact: number;userImage: string;}, idx: number) => (
+         {data.length && data.map((res: {_id: string; username: string;email: string;tower: string;hostel_room_no: string;descritpion: string;contact: number;userImage: string;}, idx: number) => (
             <div className="card w-90% m-5 bg-base-100 shadow-xl" key={idx}>
                <div className="card-body">
                <div className="flex-col flex-wrap">

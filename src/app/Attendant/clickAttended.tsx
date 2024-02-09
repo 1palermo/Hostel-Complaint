@@ -1,5 +1,5 @@
 import React from 'react';
-
+import axios from 'axios';
 interface AttendedProps {
   data: string;
 }
@@ -7,17 +7,14 @@ interface AttendedProps {
 export default function Attended(props: AttendedProps) {
   const handleAttended = async (id: string) => {
     try {
-      const response = await fetch(`https://hostel-complaint-website.onrender.com/report?cat=${"Attended"}&Id=${id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/report?cat=${"Attended"}&Id=${id}`,{},{
+        validateStatus: (status) => status>= 200 && status<=500
       });
 
-      const result = await response.json();
+      const result = await response.data;
       
       // Only reload the page if the fetch request was successful
-      if (response.ok) {
+      if (response.data.ok) {
         window.location.reload();
       } else {
         // Handle the case where the fetch request was not successful

@@ -11,58 +11,29 @@ import {
   faSignOut,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import { useAuth } from "../context/auth";
+import axios from 'axios';
 
 const Page2: NextPage = () => {
+  const [auth, setAuth] = useAuth();
+ //const [profile, setProfile] = useState();
   const [profile, setProfile] = useState({
-    image: "/avatar.png",
+    userImage: "/avatar.png",
     username: "",
     contact: "0",
     email: "xyz@admin.ac.in",
-    hostel_name: "",
-    hostel_room: "",
+    tower: "",
+    hostel_room_no: "",
     roll: "",
   });
 
   const [isOpen, setIsOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
 
   async function removeSession() {
     localStorage.removeItem("customToken");
     console.log(localStorage.getItem("customToken"));
     await signOut();
     window.location.href = "/";
-  }
-
-  async function getProfile() {
-    let data: any;
-    const storedToken = window.localStorage.getItem("customToken") || "";
-    if (storedToken) data = JSON.parse(storedToken);
-    const response = await fetch(
-      "https://hostel-complaint-website.onrender.com/profile",
-      {
-        method: "POST",
-        body: JSON.stringify({ userToken: data?.token }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const result = await response.json();
-    if (result) {
-      setProfile((prevProfile) => ({
-        ...prevProfile,
-        username: result[0]?.username,
-        email: result[0]?.email,
-        contact: result[0]?.contact,
-        hostel_name: result[0]?.tower || "",
-        hostel_room: result[0]?.hostel_room_no || "",
-        image: result[0]?.userImage ? result[0]?.userImage : "/avatar.png",
-        roll: result[0]?.roll || "",
-      }));
-    }
   }
 
   function handleFormChange(
@@ -72,7 +43,7 @@ const Page2: NextPage = () => {
   ) {
     event.preventDefault();
     const { name, value } = event.target;
-    console.log(profile);
+    
     setProfile((prevProfile) => ({
       ...prevProfile,
       [name]: value,
@@ -80,25 +51,37 @@ const Page2: NextPage = () => {
   }
 
   async function update(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    console.log(profile);
-    const data = JSON.parse(window.localStorage.getItem("customToken") || "");
-    const response = await fetch(
-      "https://hostel-complaint-website.onrender.com/update",
-      {
-        method: "POST",
-        body: JSON.stringify({ userToken: data.token, data: profile }),
-        headers: {
-          "Content-Type": "application/json",
-        },
+    try {
+      event.preventDefault();
+  
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/update`,
+        { data: profile },
+        {
+          validateStatus: (status) => status >= 200 && status <= 500
+        }
+      );
+
+      if(response.status === 300){
+        setAuth({
+          ...auth,
+          user: profile
+        });
+  
+        alert("Profile updated");
       }
-    );
-    const result = await response.json();
-    alert("Profile updated");
-  }
+      
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      // Handle the error (e.g., display an error message to the user)
+    }
+  }  
 
   useEffect(() => {
-    getProfile();
+    setProfile((prev)=>({
+      ...prev,
+      ...auth.user
+    }))
   }, []);
 
   return (
@@ -120,7 +103,7 @@ const Page2: NextPage = () => {
         <form className="space-y-4" onSubmit={update}>
           <div className="flex flex-col items-center">
             <img
-              src={profile.image}
+              src={profile.userImage}
               alt="Avatar"
               className="rounded-full mb-2 w-full lg:w-1/4 max-w-[30vw] sm:max-h-[20vh] lg:max-h-[50vh]  shadow-2xl bg-slate-200 bg-gradient-to-br from-blue-500 to-blue-300"
             />
@@ -183,9 +166,9 @@ const Page2: NextPage = () => {
             <input
               type="text"
               id="hostelName"
-              name="hostel_name"
+              name="tower"
               placeholder="your hostel name"
-              value={profile.hostel_name}
+              value={profile.tower}
               onChange={handleFormChange}
               className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-white"
             />
@@ -201,8 +184,8 @@ const Page2: NextPage = () => {
             <input
               type="text"
               id="hostelRoomNo"
-              name="hostel_room"
-              value={profile.hostel_room}
+              name="hostel_room_no"
+              value={profile.hostel_room_no}
               placeholder="your hostel room number"
               onChange={handleFormChange}
               className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-white"

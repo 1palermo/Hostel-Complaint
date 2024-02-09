@@ -1,25 +1,17 @@
 // Authentication.tsx
-
+import axios from 'axios';
 export default async function AuthenticationComponent() {
-  if (typeof window !== "undefined") {
-    const token = JSON.parse(localStorage.getItem("customToken") || "");
+  //const token = JSON.parse(localStorage.getItem("customToken") || "");
+  const token = localStorage.getItem("customeToken") || "";
 
-    console.log(token);
 
-    const response = await fetch("https://hostel-complaint-website.onrender.com/authenticate", {
-      method: "POST",
-      body: JSON.stringify({ userToken: token.token }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/authenticate`, {
+    userToken: token
+  },{
+    validateStatus: (status) => status>= 200 && status<=500
+  });
 
-    const res = await response.json();
-    return res;
-  }
-  else{
-    return {valid:false, Id:''};
-  }
+  return response.data;
 }
 
 

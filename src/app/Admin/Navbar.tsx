@@ -16,13 +16,13 @@ const Navbar = (props:{cat:string; close:string; dept:string}) => {
             <p className='mr-4'>Home</p>
         </Link>
         <Link  href={{
-            pathname: "/closedReports",
+            pathname: "Admin/closedReports",
             query: {...props},
             }} >
             <p className='mr-4'>Reports</p>
         </Link>
         {props.cat === "Hostel-Admin"?<Link  href={{
-            pathname: "/hostellerList",
+            pathname: "Admin/hostellerList",
             query: {...props},
             }} >
             <p>Hostellers List</p>
@@ -51,7 +51,7 @@ const Navbar = (props:{cat:string; close:string; dept:string}) => {
           </li>
           <li>
             <Link  href={{
-                pathname: "/closedReports",
+                pathname: "/Admin/closedReports",
                 query: {...props},
                 }} >
                 <p className='mr-4 text-xl'>Closed Reports</p>
@@ -59,7 +59,7 @@ const Navbar = (props:{cat:string; close:string; dept:string}) => {
           </li>
           <li>
           {props.cat === "Hostel-Admin"?<Link  href={{
-                pathname: "/hostellerList",
+                pathname: "/Admin/hostellerList",
                 query: {...props},
                 }} >
                 <p className='mr-4 text-xl'>Hostellers List</p>

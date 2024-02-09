@@ -1,17 +1,18 @@
 "use client";
 import { useState, ChangeEvent } from "react";
 import Link from "next/link";
+import axios from 'axios';
 
 export default function Delete(props: { data: string }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const handleDelete = async (id: string) => {
-    const response = await fetch(
-      `https://hostel-complaint-website.onrender.com/delete?Id=${id}`,
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/delete?Id=${id}`,
       {
-        method: "GET",
+        validateStatus: (status) => status>= 200 && status<=500
       }
     );
-    const result = await response.json();
+    const result = response.data;
     setShowConfirmation(true);
   };
 

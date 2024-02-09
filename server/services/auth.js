@@ -1,20 +1,25 @@
 const jwt=require("jsonwebtoken");
-const secret= "kakbgga%$#@kjab";
+require('dotenv').config();
 
 function setUser(user){
     if(!user) return null;
-    return jwt.sign({
-        _id: user._id,
-        email: user.email
-    },secret);
+    return jwt.sign(
+        user,
+        process.env.JWT_SECRET,
+        {
+            expiresIn: '30d'
+        }
+    );    
 }
 
 function getUser(token){
-    if(!token) return null;
+    if(token === '') return null;
     let res;
     try{
-       res= jwt.verify(token,secret);
+
+       res= jwt.verify(token, process.env.JWT_SECRET);
     } catch(err){
+        console.log(err);
         res=null;
     }
     return res;

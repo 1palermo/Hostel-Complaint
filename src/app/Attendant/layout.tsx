@@ -7,6 +7,7 @@ import GoogleTranslate from '../components/translate';
 import ProtectedRoute from '../components/RouteProtection';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { AdminProvider } from '../context/adminContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -42,7 +43,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <ProtectedRoute />
         <div className="navbar bg-green-600 text-white">
             <p className="btn btn-ghost normal-case text-xl ml-3 lg:ml-2">Attendant</p>
             <Link href="/profile" >
@@ -52,7 +52,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className='bg-green-100'>
          <GoogleTranslate />
         </div>
-        <div>{children}</div>
+        <AdminProvider>
+        {children}
+        </AdminProvider>
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 const express= require("express");
 const router= express.Router();
 const {handleLogin , handleSignup, handleReport, handleAuthentication, handleProfile, handleUpdate, deleteUser, getAllUsers}= require("../controller/user");
-
+const { isSignIn, isAdmin} = require("../middleware/middleware");
 
 router.get("/",(req,res) => {
     res.json({valid: false, url:"/"});
@@ -10,17 +10,17 @@ router.get("/",(req,res) => {
 router.route("/login")
 .get((req,res) => {
     res.status(300).json({url: "/",
-    valid: false,});
+    valid: false});
 })
 .post(handleLogin);
 
-router.post("/profile",handleProfile);
+router.get("/profile",isSignIn, handleProfile);
 
-router.post("/update",handleUpdate);
+router.post("/update", isSignIn, handleUpdate);
 
-router.get("/delete", deleteUser);
+router.get("/delete", isSignIn, isAdmin, deleteUser);
 
-router.get("/getUser", getAllUsers);
+router.get("/getUser", isSignIn, isAdmin, getAllUsers);
 
 router.route("/signup")
 .get((req,res) => {
@@ -28,8 +28,8 @@ res.status(300).json({url: "/signup"});
 })
 .post(handleSignup);
 
-router.post("/authenticate",handleAuthentication);
+router.get("/authenticate",handleAuthentication);
 
-router.post("/submitReport", handleReport); 
+router.post("/submitReport",isSignIn, handleReport); 
 
 module.exports=router;

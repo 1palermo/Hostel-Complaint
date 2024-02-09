@@ -6,6 +6,7 @@ import { faBars, faHome, faMultiply } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import Base64 from "../../Base64";
 import Navbar from "@/app/components/navbar";
+import axios from 'axios';
 
 interface FormDetails {
   title: string;
@@ -83,13 +84,10 @@ const ReportPage = () => {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     console.log(formD);
-    const token = JSON.parse(window.localStorage.getItem("customToken") || "");
-    fetch(`https://hostel-complaint-website.onrender.com/submitReport`, {
-      method: "POST",
-      body: JSON.stringify({ data: formD, userToken: token.token }),
-      headers: {
-        "Content-Type": "application/json",
-      },
+    //const token = JSON.parse(window.localStorage.getItem("customToken") || "");
+    const token = localStorage.getItem("customToken");
+    axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/submitReport`, { data: formD, userToken: token }, {
+      validateStatus: (status) => status>= 200 && status<=500
     })
       .then((data) => {
         console.log(data);
