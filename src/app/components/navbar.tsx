@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { signOut } from "next-auth/react";
 import Loading from "./loading";
-import { signOut } from "next-auth/react";
+
 
 
 export default function Navbar() {
@@ -23,12 +23,6 @@ export default function Navbar() {
     setIsOpen(!isOpen);
   };
 
-  async function removeSession() {
-    localStorage.removeItem("customToken");
-    console.log(localStorage.getItem("customToken"));
-    await signOut();
-    window.location.href = "/";
-  }
 
   return (
     <>

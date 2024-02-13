@@ -8,7 +8,7 @@ import axios from 'axios';
 async function fetchData(){
   try {
     console.log("fetching..");
-    const response = await axios.get(`http://localhost:8080/aut`,{
+    const response = await axios.get(`https://hostel-complaint-website.onrender.com/aut`,{
       validateStatus: (status) => status>= 200 && status<=500
     })
     console.log(response.data);
@@ -162,7 +162,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 // async function fetchData(){
 //   try {
 //     console.log("fetching..");
-//     const response = await axios.get(`http://localhost:8080/aut`,{
+//     const response = await axios.get(`https://hostel-complaint-website.onrender.com/aut`,{
 //       validateStatus: (status) => status>= 200 && status<=500
 //     })
 //     console.log(response.data);

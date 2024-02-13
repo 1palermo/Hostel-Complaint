@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000authenticate', {
+        const response = await fetch('https://hostel-complaint.vercel.appauthenticate', {
           method: 'GET',
         });
 
