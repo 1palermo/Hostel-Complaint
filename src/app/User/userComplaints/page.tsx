@@ -40,7 +40,7 @@ useEffect(() => {
 
     <div className="block">
         <h1 className='w-full text-center font-bold mt-5'>LIST OF REPORTS</h1>
-        {report.length && report.map((res:{createdAt:string ; problem: string; title: string; image:string; description: string; department: string; attended: string; solved: string},idx:number)=>{
+        {report.length>0? report.map((res:{createdAt:string ; problem: string; title: string; image:string; description: string; department: string; attended: string; solved: string},idx:number)=>{
             const [date, time] = new Date(res.createdAt).toISOString().split('T').map((value, index) => (index === 0 ? value : value.split('.')[0]));
             return (
             <div className="card w-90% m-5 bg-base-100 shadow-xl" key={idx}>
@@ -80,7 +80,7 @@ useEffect(() => {
                 </div> : <></>}
             </div>
             </div>
-        )})}
+        )}) : <></>}
     </div>
     </div>
     </div>

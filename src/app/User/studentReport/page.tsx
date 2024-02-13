@@ -88,7 +88,6 @@ const ReportPage = () => {
       validateStatus: (status) => status>= 200 && status<=500
     })
       .then((data) => {
-        console.log(data);
         window.location.reload();
       })
       .catch((error) => {

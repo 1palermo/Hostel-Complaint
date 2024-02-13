@@ -14,7 +14,6 @@ export default function Navbar() {
   
   async function removeSession() {
     localStorage.removeItem("customToken");
-    console.log(localStorage.getItem("customToken"));
     await signOut();
     window.location.href = "/";
   }

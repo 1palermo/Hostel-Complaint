@@ -14,7 +14,9 @@ export async function POST(req){
             validateStatus: (status) => status >= 200 && status <= 500
         });        
 
-        report = response.data;   
+        if(response.status !== 500){
+            report = response.data
+        }
     } catch (error) {
         console.error("Error fetching reports:", error);
         // Handle the error properly, e.g., return an error response

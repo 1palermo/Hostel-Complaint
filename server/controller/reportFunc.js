@@ -139,7 +139,6 @@ const downloadReport = async (req, res) => {
            
             response.map((data) => {
                 if (data.category === 'Attended') {
-                    console.log(data.sender)
                     attendant = data.sender?.username;
                     attendantContact = data.sender?.contact;
                 }

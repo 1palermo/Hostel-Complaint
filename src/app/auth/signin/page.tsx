@@ -41,7 +41,7 @@ export default function Login() {
   }, [session]);
 
   async function checkUser(newNote: NewNote) {
-    console.log('hi');
+   
     let googleLogin = false;
     //const data = localStorage.getItem("customToken") || "";
     // if (storedToken) {
@@ -121,7 +121,6 @@ export default function Login() {
 
   function oAuthLogin() {
     try {
-      console.log(session?.user?.name);
 
       checkUser(formDetails);
 

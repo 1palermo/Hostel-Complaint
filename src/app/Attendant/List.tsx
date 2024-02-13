@@ -8,7 +8,7 @@ export default function List() {
 
   return (
     <tbody>
-      {report.length ? report.map((res:any, idx:number) => {
+      {report.length>0 ? report.map((res:any, idx:number) => {
         const [date, time] = new Date(res.createdAt)
         .toISOString()
         .split("T")
@@ -33,7 +33,7 @@ export default function List() {
             </Link>
           </td>
         </tr>
-       )}): <></>}
+       )}): <tr></tr>}
     </tbody>
   );
 }

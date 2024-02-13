@@ -13,7 +13,6 @@ const authOptions = {
   ],
   callbacks: {
     async signIn({ user }) {
-      console.log("session");
       const mailformat = /^[a-zA-Z0-9._%+-]+@dtu\.ac\.in$/;
       if(!user.email.match(mailformat)){
         console.log("*invalid email format");

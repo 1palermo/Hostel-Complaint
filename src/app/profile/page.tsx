@@ -31,7 +31,7 @@ const Page2: NextPage = () => {
 
   async function removeSession() {
     localStorage.removeItem("customToken");
-    console.log(localStorage.getItem("customToken"));
+   
     await signOut();
     window.location.href = "/";
   }
@@ -82,7 +82,7 @@ const Page2: NextPage = () => {
       ...prev,
       ...auth.user
     }))
-  }, []);
+  }, [auth.user]);
 
   return (
     <div className="flex items-center justify-center p-5 min-h-screen bg-[url('/dtuLogo.jpg')] bg-cover">

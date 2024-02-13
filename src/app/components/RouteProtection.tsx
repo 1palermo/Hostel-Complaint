@@ -7,11 +7,11 @@ import axios from 'axios';
 
 async function fetchData(){
   try {
-    console.log("fetching..");
+  
     const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/aut`,{
       validateStatus: (status) => status>= 200 && status<=500
     })
-    console.log(response.data);
+
     return response.data;
   } catch (err) {
     console.error("Cannot authenticate:", err);
@@ -23,71 +23,6 @@ interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
-// export default function ProtectedRoute({children}:ProtectedRouteProps) {
-//   const [auth, setAuth] = useAuth() as any;
-//   const [loading, setLoading] = useState(true);
-//   const {data:session} = useSession();
-//   const router = useRouter();
-//   const pathname = usePathname();
-//   const segments = pathname.split('/');
-//   const role = segments[1];
-//   console.log(role)
-  
-//   useEffect(() => {
-//     // let token:any = null;
-
-//     // try {
-//     //   const storedToken = localStorage.getItem("customToken") || "";
-//     //   if(storedToken) token = JSON.parse(storedToken);
-//     // } catch (error) {
-//     //   console.error("Error parsing JSON:", error);
-//     // }
-  
-//     // if (token && token.expiryDate && Date.now() > token.expiryDate) {
-//     //   localStorage.removeItem("customToken");
-//     //   router.push("/");
-//     //   return;
-//     // }
-//     const checker = async (): Promise<void> => {
-//       if (auth?.token !== '') {
-//         if (role && role !== "auth"){
-//           if(session){
-//             await signOut();
-//           }
-//           router.push("/");
-//         }
-//         return;
-//       }
-
-//       try {
-//         const res = await fetchData(auth.token);
-
-//         if (res.valid) {
-//           setAuth((prev:any)=>({
-//           ...prev,
-//           user: res.data.user
-//           }))
-//           if(role !== "User") router.push(res.url);
-//         }
-//         else{
-//           localStorage.removeItem("customToken");
-//           router.push(res.url);
-//           return;
-//         }
-//       } catch (error) {
-//         console.error("Error while authenticating:", error);
-//       }
-//     if(auth?.token) checker();
-//   }, [auth.token]);
-
-//   return (
-//    <>
-//     {children}
-//    </>
-//   );
-// }
-
-// ... (previous imports)
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const [auth, setAuth] = useAuth() as any;
@@ -97,7 +32,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const pathname = usePathname();
   const segments = pathname.split('/');
   const role = segments[1];
-  console.log("protection");
+
   useEffect(() => {
     try {
     const checker = async (): Promise<void> => {
@@ -111,7 +46,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
         return;
       }
 
-      console.log("abe");
+
       const res = await fetchData();
 
       if (res.valid) {
@@ -126,7 +61,6 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
           router.push(res.url);
         }
       } else {
-        console.log("running")
         localStorage.removeItem("customToken");
         router.push(res.url);
         return;
@@ -137,9 +71,10 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     //   setLoading(false);
     // },800);
 
-    if (auth?.token){
+    if (auth.token !== ''){
       checker();
     }
+
     } catch (error) {
       console.error("Error while authenticating:", error);
     }
