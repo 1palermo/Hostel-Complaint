@@ -1,20 +1,30 @@
+'use client'
 import Header from "../Header/page";
 import Link from "next/link";
 import Navbar from "./Navbar";
+import { useAdmin } from "../context/adminContext";
+import { useEffect, useState } from "react";
 
-export default async function Page({
+
+export default function Page({
   searchParams,
 }: {
-  searchParams: { close: string; cat: string; dept: string };
+  searchParams: { close: string; dept: string; cat: string };
 }) {
-  const apiResponse = await fetch(
-    `https://hostel-complaint-website.onrender.com/report?cat=${
-      searchParams.cat
-    }&status=${"Open"}`,
-    { cache: "no-store" }
-  );
-  const data = await apiResponse.json();
+  const [data, setData] = useState([]);
+  const [report, setReport] = useAdmin() as any[];
 
+  useEffect(()=>{
+    let repo = report.filter((val:any)=> (val.status === "Open"));
+  
+    setData(repo);
+  },[report])
+
+  const formatDateTime = (dateTimeString: string) => {
+      const dateTime = new Date(dateTimeString);
+      return dateTime.toLocaleString(); // Adjust the format as per your requirement
+  };
+    
   return (
     <>
       <div className="overflow-x-auto hidden md:block">
@@ -26,31 +36,9 @@ export default async function Page({
         <table className="table table-xl">
           <Header />
           <tbody>
-            {data.map(
+            {data.length && data.map(
               (
-                res: {
-                  _id: string;
-                  createdAt: string;
-                  sender: {
-                    _id: string;
-                    username: string;
-                    contact: number;
-                    email: string;
-                    userImage: string;
-                    category: string;
-                    tower: string;
-                    hostel_room_no: string;
-                    roll: string;
-                  };
-                  tower: string;
-                  hostel_room_no: string;
-                  problem: string;
-                  title: string;
-                  description: string;
-                  department: string;
-                  attended: string;
-                  solved: string;
-                },
+                res: any,
                 idx: number
               ) => {
                 const [date, time] = new Date(res.createdAt)
@@ -74,23 +62,10 @@ export default async function Page({
                     <td>
                       <Link
                         href={{
-                          pathname: "/complaint",
+                          pathname: "/Admin/complaint",
                           query: {
-                            name: res.sender?.username || "",
-                            image: res.sender?.userImage || "",
-                            hostel_room_no: res.sender?.hostel_room_no || "",
-                            tower: res.sender?.tower || "",
-                            phone: res.sender?.contact || "",
                             close: searchParams.close,
-                            date: date,
-                            time: time,
                             _id: res._id,
-                            problem: res.problem,
-                            title: res.title,
-                            description: res.description,
-                            department: res.department,
-                            attended: res.attended,
-                            solved: res.solved,
                           },
                         }}
                       >
@@ -113,42 +88,26 @@ export default async function Page({
           close={searchParams.close}
         />
         <h1 className="w-full text-center font-bold mt-5">LIST OF REPORTS</h1>
-        {data.map(
+        {data.length && data.map(
           (
-            res: {
-              _id: string;
-              date: string;
-              time: string;
-              tower: string;
-              hostel_room_no: string;
-              problem: string;
-              title: string;
-              description: string;
-              department: string;
-              attended: string;
-              solved: string;
-            },
+            res: any,
             idx: number
           ) => (
             <div className="card w-90% m-5 bg-base-100 shadow-xl" key={idx}>
               <div className="card-body">
                 <div className="flex flex-wrap">
                   <div className="flex flex-wrap">
-                    <div className="mr-1 font-bold">Date:</div>
-                    <div className="mr-10">{res.date}</div>
-                  </div>
-                  <div className="flex flex-wrap">
-                    <div className="mr-1 font-bold">Time:</div>
-                    <div className="mr-0">{res.time}</div>
+                  <div className="mr-1 font-bold">Date & Time:</div>
+                  <div className="mr-10">{formatDateTime(res.createdAt)}</div>
                   </div>
                 </div>
                 <div className="flex flex-wrap">
                   <div className="mr-1 font-bold">Tower:</div>
-                  <div className="mr-0">{res.tower}</div>
+                  <div className="mr-0">{res.sender.tower}</div>
                 </div>
                 <div className="flex flex-wrap">
                   <div className="mr-1 font-bold">Hostel Room No:</div>
-                  <div className="mr-0">{res.hostel_room_no}</div>
+                  <div className="mr-0">{res.sender.hostel_room_no}</div>
                 </div>
                 <div className="flex flex-wrap">
                   <div className="mr-1 font-bold">Department:</div>
@@ -167,8 +126,8 @@ export default async function Page({
                 <div className="w-full flex justify-end">
                   <Link
                     href={{
-                      pathname: "/complaint",
-                      query: { ...res, close: searchParams.close },
+                      pathname: "/Admin/complaint",
+                      query: {close: searchParams.close, _id: res._id,},
                     }}
                   >
                     <button className="px-3 py-1 bg-green-600 text-white text-lg rounded-md">

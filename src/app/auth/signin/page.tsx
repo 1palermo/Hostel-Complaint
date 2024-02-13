@@ -6,6 +6,8 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCog, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import axios from 'axios';
+import { useAuth } from "@/app/context/auth";
 
 interface FormDetails {
   email: string;
@@ -17,15 +19,11 @@ interface NewNote {
   password: string;
 }
 
-interface ServerResponse {
-  valid: boolean;
-  customToken: string;
-  url: string;
-}
 
 export default function Login() {
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState(false);
+  const [auth, setAuth] = useAuth() as any;
   const [alertMessage, setAlertMessage] = useState<string>("");
   const [formDetails, setFormDetails] = useState<FormDetails>({
     email: "",
@@ -43,47 +41,50 @@ export default function Login() {
   }, [session]);
 
   async function checkUser(newNote: NewNote) {
-    let data: any = null;
+    console.log('hi');
     let googleLogin = false;
-    const storedToken = window.localStorage.getItem("customToken") || "";
-    if (storedToken) {
-      data = JSON.parse(storedToken);
-    }
+    //const data = localStorage.getItem("customToken") || "";
+    // if (storedToken) {
+    //   data = JSON.parse(storedToken);
+    // }
 
     if (session) {
       googleLogin = true;
     }
     setLoading(true);
 
-    const response = await fetch(
-      `https://hostel-complaint-website.onrender.com/login?google=${googleLogin}`,
+    newNote = {
+      ...newNote,
+      email: session?.user?.email || newNote.email,
+    }
+    
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/login?google=${googleLogin}`,newNote,
       {
-        method: "POST",
-        credentials: "include",
-        body: JSON.stringify({
-          ...newNote,
-          email: session?.user?.email || newNote.email,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-          customToken: data?.token || "", // Handle the case where localStorage.getItem("customToken") may be null
-        },
+        validateStatus: (status) => status>= 200 && status<=500
       }
     );
 
-    
-
     try {
-      const res: ServerResponse = await response.json();
-      console.log(res);
+      const res: any = response.data;
       if (res.valid === true) {
-        window.localStorage.setItem(
+        const data = JSON.stringify({
+          token: res.customToken,
+          user: res.temp
+        });
+
+        localStorage.setItem(
           "customToken",
-          JSON.stringify({
-            token: res.customToken,
-            expiryDate: Date.now() + 30 * 24 * 60 * 60 * 1000,
-          })
+          data
         );
+        
+        // const user = res.temp;
+        // console.log(user);
+        // setAuth((prev:any) => ({
+        //   ...prev,
+        //   user: user
+        // }));
+
       } else {
         setAlertMessage("*please enter valid email or password"); // Add null check for getElementById
       }
@@ -99,20 +100,24 @@ export default function Login() {
     }
   }
 
-  function submitNote(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    // const mailformat = /^[a-zA-Z0-9._%+-]+@dtu\.ac\.in$/;
-    // if(!formDetails.email.match(mailformat)){
-    //   setAlertMessage("*invalid email format");
-    //   return;
-    // }
-    checkUser(formDetails);
-    setFormDetails({
-      email: "",
-      password: "",
-    });
-    setAlertMessage("");
-  }
+  async function submitNote(event: React.FormEvent<HTMLFormElement>) {
+    try {
+      event.preventDefault();
+  
+      // ... (other form validation or logic)
+  
+      await checkUser(formDetails);
+  
+      setFormDetails({
+        email: "",
+        password: "",
+      });
+      setAlertMessage("");
+    } catch (error) {
+      console.error("Error submitting note:", error);
+      // Handle the error appropriately (e.g., show an error message to the user)
+    }
+  }   
 
   function oAuthLogin() {
     try {

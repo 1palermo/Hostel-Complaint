@@ -1,10 +1,13 @@
+'use client'
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faHome, faMultiply } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { Suspense } from "react";
-import Loading from "./loading";
 import { signOut } from "next-auth/react";
+import Loading from "./loading";
+
+
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,6 +22,7 @@ export default function Navbar() {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
 
   return (
     <>

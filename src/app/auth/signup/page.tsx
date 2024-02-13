@@ -1,8 +1,8 @@
-"use client";
-import Link from "next/link";
+'use client'
 import { useState } from "react";
-import Base64 from "../../Base64";
-import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
+import { signIn, useSession } from "next-auth/react";
+import axios from 'axios';
 
 interface SignupFormDetails {
   username: string;
@@ -14,16 +14,9 @@ interface SignupFormDetails {
   image: string;
 }
 
-interface ServerResponse {
-  valid: boolean;
-  customToken: string;
-  url: string;
-}
 export default function Signup() {
-  const { data: session, status } = useSession();
-
+  const { data: session } = useSession();
   const [alertMessage, setAlertMessage] = useState<string>("");
-  //const [file, setFile] = useState(new File([],'dummy.jpg'));
   const [formD, setForm] = useState<SignupFormDetails>({
     username: "",
     contact: "",
@@ -35,66 +28,28 @@ export default function Signup() {
   });
 
   function handleSignupChange(event: React.ChangeEvent<HTMLInputElement>) {
+    
     const { name, value } = event.target;
-
     setForm((prevForm) => ({
       ...prevForm,
       [name]: value,
     }));
   }
 
-  function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    const { name, value } = event.target;
-
-    setForm((prevForm) => ({
-      ...prevForm,
-      [name]: value,
-    }));
-  }
-
-  async function addUser(Newnote: {
-    username: string;
-    contact: string;
-    password: string;
-    image: string;
-    tower: string;
-    hostel_room_no: string;
-  }) {
-    let data: any = null;
-
+  async function addUser(newUser: SignupFormDetails) {
     try {
-      const storedToken = window.localStorage.getItem("customToken") || "";
-      if (storedToken) data = JSON.parse(storedToken);
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
-    }
-    const response = await fetch(
-      "https://hostel-complaint-website.onrender.com/signup",
-      {
-        method: "POST",
-        body: JSON.stringify({ ...Newnote, email: session?.user?.email }),
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          customToken: data?.token || "",
-        },
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/signup`, newUser);
+      const { valid, customToken, url, user } = response.data;
+      if (valid) {
+        const data = JSON.stringify({token: customToken, user: user});
+        localStorage.setItem("customToken", customToken);
+        await signIn("google", { callbackUrl: url });
+      } else {
+        setAlertMessage("*Account exists or some error occurred");
       }
-    );
-    const res = await response.json();
-    console.log(res);
-    if (res.valid === true) {
-      window.localStorage.setItem(
-        "customToken",
-        JSON.stringify({
-          token: res.customToken,
-          expiryDate: Date.now() + 30 * 24 * 60 * 60 * 1000,
-        })
-      );
-    } else {
-      setAlertMessage("*Account exists or some error occured");
+    } catch (error) {
+      console.error("Error:", error);
     }
-    await signOut();
-    window.location.href = res.url;
   }
 
   function submitForm(event: React.FormEvent<HTMLFormElement>) {
@@ -103,7 +58,6 @@ export default function Signup() {
       setAlertMessage("*please verify your email");
       return;
     }
-    console.log(session.user?.email);
     addUser(formD);
     setForm({
       username: "",
@@ -117,15 +71,23 @@ export default function Signup() {
   }
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    let file;
-    if (e.target.files) {
-      file = e.target.files[0];
-    }
-    const base64 = await Base64(file);
-    if (e.target.files && e.target.files[0]) {
-      setForm({ ...formD, image: base64 });
+    const file = e.target.files?.[0];
+    if (file) {
+      // Check image size
+      if (file.size > 100 * 1024) { // 100kb in bytes
+        alert('Please select an image less than 100kb.');
+        return;
+      }
+      // Convert image to base64
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64 = reader.result as string;
+        setForm({ ...formD, image: base64 });
+      };
+      reader.readAsDataURL(file);
     }
   }
+
   return (
     <div className="flex justify-center min-h-screen p-5 bg-[url('/brick.webp')] bg-cover">
       <div className="bg-white p-8 rounded-lg shadow-md w-[560px]">
@@ -270,22 +232,18 @@ export default function Signup() {
             />
           </div>
           <div>
-            <label
-              htmlFor="profileImage"
-              className="block text-sm font-medium text-gray-500"
-            >
-              Profile Image
-            </label>
+            <label htmlFor="profileImage" className="block text-sm font-medium text-gray-500">Profile Image</label>
             <input
               id="profileImage"
               name="profileImage"
               type="file"
-              accept="image/jpg image/jpeg"
+              accept="image/jpg, image/jpeg"
               onChange={handleFileUpload}
               className="mt-1 p-2 w-full rounded-md border border-gray-300 bg-white text-gray-900"
               required
             />
           </div>
+
           <div className="flex items-center justify-between">
             <div>
               <Link href="/">
@@ -295,6 +253,7 @@ export default function Signup() {
               </Link>
             </div>
           </div>
+          
           <div className="flex items-center justify-center pt-10">
             <button
               type="submit"

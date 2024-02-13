@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 export default function Download(props:{Id:string}) {
   const [isLoading, setIsLoading] = useState(false);
@@ -10,23 +11,24 @@ export default function Download(props:{Id:string}) {
     try {
       // Set loading state
       setIsLoading(true);
-
+  
       // Make API call to download the reports
-      const response = await fetch(`https://hostel-complaint-website.onrender.com/report/download?dept=${props.Id}`, {
-        method: 'GET',
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/report/download?dept=${props.Id}`,{
+        responseType: 'blob', // Specify response type as blob
+        validateStatus: (status) => status >= 200 && status <= 500
       });
-
+  
       // Check if the API call was successful (status code 200)
-      if (response.ok) {
+      if (response.status === 200) {
         // Trigger download
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(new Blob([blob]));
+        const blob = new Blob([response.data]);
+        const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
         a.download = 'reports.xlsx'; // Specify the desired filename
         document.body.appendChild(a);
         a.click();
-
+  
         // Clean up
         window.URL.revokeObjectURL(url);
       } else {
@@ -40,7 +42,7 @@ export default function Download(props:{Id:string}) {
       setIsLoading(false);
     }
   };
-
+  
   return (
     <>
     <button

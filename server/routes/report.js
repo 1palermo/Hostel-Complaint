@@ -1,5 +1,6 @@
 const {handleReport, getReports, getResponse, downloadReport, getUserReports} = require("../controller/reportFunc");
 const express= require("express");
+const { isSignIn, isAdmin} = require("../middleware/middleware");
 const router= express.Router();
 
 /*
@@ -15,11 +16,11 @@ const isAuth = (req, res, next) =>{
   }
 */
   
-router.post("/", handleReport);
-router.get("/", getReports);
-router.get("/response", getResponse);
-router.get("/download", downloadReport);
-router.post("/user", getUserReports);
+router.post("/",isSignIn, handleReport);
+router.get("/",isSignIn, isAdmin, getReports);
+router.get("/response",isSignIn,isAdmin, getResponse);
+router.get("/download",isSignIn, isAdmin, downloadReport);
+router.post("/user",isSignIn, getUserReports);
 //router.get("/closedReports", closedReports);
 
 module.exports=router;

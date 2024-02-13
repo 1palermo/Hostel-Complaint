@@ -6,27 +6,29 @@ import Link from 'next/link'
 import { Suspense } from 'react';
 import Loading from '../../components/loading';
 import Navbar from '@/app/components/navbar';
-
+import axios from 'axios';
 
 const ComplaintPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   
   const [report, setReport] = useState([])
 
-  async function getReports(){
-    const data = JSON.parse(window.localStorage.getItem("customToken") || "");
-    const response= await fetch("https://hostel-complaint-website.onrender.com/report/user",{
-      method: "POST" ,
-      body: JSON.stringify({userToken: data.token}) ,
-      headers:{
-        "Content-Type": "application/json",
-      }
-     })
-     const result= await response.json();
-     if(result){
-       setReport(result)
-     }
+  async function getReports() {
+    try {
+        const data = localStorage.getItem("customToken");
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/report/user`, { userToken: data }, {
+            validateStatus: (status) => status >= 200 && status <= 500
+        });
+        const result = response.data;
+        
+        if (result) {
+            setReport(result);
+        }
+    } catch (error) {
+        console.error("Error fetching reports:", error);
+    }
   }
+
 
   useEffect(()=>{
     getReports();
@@ -43,7 +45,7 @@ const ComplaintPage = () => {
 
     <div className="block">
         <h1 className='w-full text-center font-bold mt-5'>LIST OF REPORTS</h1>
-        {report.map((res:{createdAt:string ; problem: string; title: string; image:string; description: string; department: string; attended: string; solved: string},idx:number)=>{
+        {report.length && report.map((res:{createdAt:string ; problem: string; title: string; image:string; description: string; department: string; attended: string; solved: string},idx:number)=>{
             const [date, time] = new Date(res.createdAt).toISOString().split('T').map((value, index) => (index === 0 ? value : value.split('.')[0]));
             return (
             <div className="card w-90% m-5 bg-base-100 shadow-xl" key={idx}>

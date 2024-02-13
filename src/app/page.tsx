@@ -1,12 +1,7 @@
-'use client'
-import { useState, useRef, useEffect } from 'react';
-import Base64 from './Base64';
-import { signIn, signOut, useSession } from "next-auth/react";
 import Login from './auth/signin/page';
 
 export default function Home() {
-  const [signup, setSignup] = useState(true);
-  
+
   return (
     <>
       <Login />
@@ -57,7 +52,7 @@ export default function Home() {
       <p>Hostel Complaint Management</p>
 
   async function send(id:string){
-    const response= await fetch("https://hostel-complaint-website.onrender.com/otpVerification?id="+ id,{
+    const response= await fetch("${process.env.NEXT_PUBLIC_BASE_URL}/otpVerification?id="+ id,{
       method: "GET" ,
      })
      const result = await response.text();

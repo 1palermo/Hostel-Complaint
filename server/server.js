@@ -6,6 +6,7 @@ const report= require("./routes/report");
 const sendOtp = require("./routes/sendOtp");
 const fileupload = require("express-fileupload");
 const mongoose = require("./config/connect");
+const { handleAuthentication } = require("./controller/user");
 
 const app= express();
 
@@ -28,13 +29,15 @@ app.use(fileupload({
 }))
 
 app.use(cors({
-  origin: ["https://490bj8xz-3000.inc1.devtunnels.ms", "https://hostel-complaint.vercel.app","http://localhost:3000"],
+  origin: ["https://490bj8xz-3000.inc1.devtunnels.ms", "https://hostel-complaint.vercel.app","https://hostel-complaint.vercel.app"],
   credentials: true
 }));
 
-app.use("/",newUser);
+
 app.use("/report",report);
-app.use("/otpVerification",sendOtp);
+//app.use("/otpVerification",sendOtp);
+app.use("/",newUser);
+
 
 app.listen(8080, () => {
     console.log("server listening on port: 8080");

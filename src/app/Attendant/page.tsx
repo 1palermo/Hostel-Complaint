@@ -1,30 +1,29 @@
-//"use client"
+"use client";
 import Header from '../Header/page';
 import List from './List';
 import Link from 'next/link';
-//import Reports from './Reports';
-//import io from 'socket.io-client';
-//import { useEffect, useState } from "react";
+import { useAdmin } from '../context/adminContext';
 
-//const socket = io("https://hostel-complaint-website.onrender.com/");
+//const socket = io(`${process.env.NEXT_PUBLIC_BASE_URL}/`);
 
-export default async function Page(){
-   const apiResponse = await fetch(`https://hostel-complaint-website.onrender.com/report?cat=${"Attendant"}`,{cache : 'no-store',credentials: 'include'});
-   const data = await apiResponse.json();
-   //const [data, setData] = useState([]);
-
+export default function Page(){
+   const [report, setReport] = useAdmin() as any[];
+   const formatDateTime = (dateTimeString: string) => {
+      const dateTime = new Date(dateTimeString);
+      return dateTime.toLocaleString(); // Adjust the format as per your requirement
+   };
    /*
    useEffect(() => {
      socket.on("connect", async () => {
        console.log(socket.id);
        try {
-         const apiResponse = await fetch(`https://hostel-complaint-website.onrender.com/report?cat=${"Attendant"}`, { credentials: 'include' });
+         const apiResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/report?cat=${encodeURIComponent("Attendant")}`, { credentials: 'include' });
  
-         const responseData = await apiResponse.json();
+         const responsereport = await apiResponse.json();
  
-         setData(responseData);
+         setreport(responsereport);
        } catch (error) {
-         console.error("Error fetching data:", error);
+         console.error("Error fetching report:", error);
        }
      });
  
@@ -34,16 +33,16 @@ export default async function Page(){
    }, []); 
 
    useEffect(() => {
-      socket.on("getReports", async (data) => {
-        console.log(data);
+      socket.on("getReports", async (report) => {
+        console.log(report);
         try {
-          const apiResponse = await fetch(`https://hostel-complaint-website.onrender.com/report?cat=${"Attendant"}`, { credentials: 'include' });
+          const apiResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/report?cat=${encodeURIComponent("Attendant")}`, { credentials: 'include' });
   
-          const responseData = await apiResponse.json();
+          const responsereport = await apiResponse.json();
   
-          setData(responseData);
+          setreport(responsereport);
         } catch (error) {
-          console.error("Error fetching data:", error);
+          console.error("Error fetching report:", error);
         }
       });
   
@@ -52,6 +51,7 @@ export default async function Page(){
       };
     }, []); 
    */
+   
    return(
       <>
         <div className="overflow-x-auto hidden md:block">
@@ -62,26 +62,23 @@ export default async function Page(){
          </div>
          <div className="block md:hidden">
                <h1 className='w-full text-center font-bold mt-5 '>LIST OF REPORTS</h1>
-               {data.map((res:{_id:string; date: string; tower:string; hostel_room_no:string; time: string; problem: string; title: string; description: string; department: string; attended: string; solved: string},idx:number)=>(
+               {report.length > 0 ? (
+               report.map((res: any, idx: number) => (
                   <div className="card w-90% m-5 bg-base-100 shadow-xl" key={idx}>
-                  <div className="card-body">
+                     <div className="card-body">
                      <div className="flex flex-wrap">
                         <div className="flex flex-wrap">
-                           <div className="mr-1 font-bold">Date:</div>
-                           <div className="mr-10">{res.date}</div>
-                        </div>
-                        <div className="flex flex-wrap">
-                           <div className="mr-1 font-bold">Time:</div>
-                           <div className="mr-0">{res.time}</div>
+                           <div className="mr-1 font-bold">Date & Time:</div>
+                           <div className="mr-10">{formatDateTime(res.createdAt)}</div>
                         </div>
                      </div>
                      <div className="flex flex-wrap">
                         <div className="mr-1 font-bold">Tower:</div>
-                        <div className="mr-0">{res.tower}</div>
+                        <div className="mr-0">{res.sender.tower}</div>
                      </div>
                      <div className="flex flex-wrap">
                         <div className="mr-1 font-bold">Hostel Room No:</div>
-                        <div className="mr-0">{res.hostel_room_no}</div>
+                        <div className="mr-0">{res.sender.hostel_room_no}</div>
                      </div>
                      <div className="flex flex-wrap">
                         <div className="mr-1 font-bold">Department:</div>
@@ -96,16 +93,21 @@ export default async function Page(){
                         <div className="mr-0">{res.attended}</div>
                      </div>
                      <div className="flex flex-wrap justify-between">
-                        <Link href={{
-                              pathname: "/complaintPageAttendant",
-                              query: res
-                           }} >
-                              <button className="px-3 py-1 bg-green-600 text-white text-sm rounded-md">see</button>
+                        <Link
+                           href={{
+                           pathname: "/Attendant/complaint",
+                           query: { _id: res._id },
+                           }}
+                        >
+                           <button className="px-3 py-1 bg-green-600 text-white text-sm rounded-md">see</button>
                         </Link>
                      </div>
+                     </div>
                   </div>
-                  </div>
-               ))}
+               ))
+               ) : (
+               <></>
+               )}
          </div>
       </>
    );

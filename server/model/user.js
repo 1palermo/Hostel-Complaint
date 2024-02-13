@@ -26,6 +26,7 @@ const UserSchema = new mongoose.Schema({
     },
     category:{
         type:String,
+        default: "Hosteller"
     },
     tower:{
         type:String,
@@ -34,9 +35,6 @@ const UserSchema = new mongoose.Schema({
         type:String,
     },
     roll:{
-        type:String,
-    },
-    description:{
         type:String,
     }
 })
