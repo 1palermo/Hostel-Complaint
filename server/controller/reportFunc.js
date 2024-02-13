@@ -185,7 +185,7 @@ const downloadReport = async (req, res) => {
 
 const getUserReports = async (req, res) => {
     try {
-        const token = req.body.userToken;
+        const token = req.headers.authorization;
         const user = getUser(token);
 
         const report = await Report.find({ sender: user._id, status: "Open", solved: "Unsolved" });
