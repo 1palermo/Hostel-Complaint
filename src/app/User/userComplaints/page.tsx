@@ -1,42 +1,37 @@
 'use client'
 import { useState, useEffect} from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faHome , faMultiply } from '@fortawesome/free-solid-svg-icons';
-import Link from 'next/link'
-import { Suspense } from 'react';
-import Loading from '../../components/loading';
 import Navbar from '@/app/components/navbar';
+import { useAuth } from '@/app/context/auth';
 import axios from 'axios';
 
 const ComplaintPage = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  
-  const [report, setReport] = useState([])
+  const [report, setReport] = useState([]);
+  const [auth, setAuth] = useAuth() as any;
 
+useEffect(() => {
   async function getReports() {
     try {
-        const data = localStorage.getItem("customToken");
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/report/user`, { userToken: data }, {
-            validateStatus: (status) => status >= 200 && status <= 500
+      if (auth.token !== '') {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_URL}/userReports`,{
+            token: auth.token
+        }, {
+          validateStatus: (status) => status >= 200 && status <= 500
         });
-        const result = response.data;
-        
-        if (result) {
-            setReport(result);
+
+        if (response.status === 200) {
+          const repo = response.data; // Use response.data
+          setReport(repo);
+        } else {
+          console.error('Error fetching reports:', response.data);
         }
+      }
     } catch (error) {
-        console.error("Error fetching reports:", error);
+        console.error('Error fetching reports:', error);
+        }
     }
-  }
 
-
-  useEffect(()=>{
     getReports();
-  },[])
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+    }, [auth.token]);
 
   return(
     <div className="flex justify-center min-h-screen p-5 bg-[url('/brick.webp')] bg-cover">
@@ -91,5 +86,6 @@ const ComplaintPage = () => {
     </div>
   )
 };
+
 
 export default ComplaintPage;

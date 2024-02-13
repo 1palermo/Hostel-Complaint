@@ -8,7 +8,7 @@ import axios from 'axios';
 async function fetchData(){
   try {
     console.log("fetching..");
-    const response = await axios.get(`https://hostel-complaint-website.onrender.com/aut`,{
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/aut`,{
       validateStatus: (status) => status>= 200 && status<=500
     })
     console.log(response.data);

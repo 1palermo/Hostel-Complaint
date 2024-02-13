@@ -304,6 +304,7 @@ async function getAllUsers(req, res) {
 async function handleReport(req, res) {
     try {
         const file = req.body.data.image;
+        const token = req.headers.authorization;
         if (file) {
             cloudinary.uploader.upload(file, {
                 upload_preset: 'unsigned_upload',
@@ -318,7 +319,7 @@ async function handleReport(req, res) {
                         problem: req.body.data.issue,
                         title: req.body.data.title,
                         description: req.body.data.desc,
-                        sender: getUser(req.body.userToken)._id,
+                        sender: getUser(token)._id,
                         department: req.body.data.department,
                         image: result.secure_url,
                         createdAt: new Date()
@@ -344,7 +345,7 @@ async function handleReport(req, res) {
                 problem: req.body.data.issue,
                 title: req.body.data.title,
                 description: req.body.data.desc,
-                sender: getUser(req.body.userToken)._id,
+                sender: getUser(token)._id,
                 department: req.body.data.department,
                 image: "",
                 createdAt: new Date()

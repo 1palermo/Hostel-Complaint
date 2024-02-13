@@ -29,7 +29,7 @@ app.use(fileupload({
 }))
 
 app.use(cors({
-  origin: ["https://490bj8xz-3000.inc1.devtunnels.ms", "https://hostel-complaint.vercel.app","https://hostel-complaint.vercel.app"],
+  origin: ["https://490bj8xz-3000.inc1.devtunnels.ms", "https://hostel-complaint.vercel.app","http://localhost:3000"],
   credentials: true
 }));
 

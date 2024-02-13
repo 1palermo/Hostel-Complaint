@@ -15,8 +15,11 @@ const AdminProvider = ({children}: ProtectedRouteProps) => {
 
     useEffect(()=>{
         async function get(){
-            const apiResponse = await axios.get(
-              `${process.env.NEXT_PUBLIC_BASE_URL}/report?cat=${auth.user.category}`,
+            const apiResponse = await axios.post(
+              `${process.env.NEXT_PUBLIC_URL}/report`,{
+                token: auth.token,
+                cat: auth.user.category
+              },
               {
                 validateStatus: (status) => status>= 200 && status<=500
               }
@@ -25,7 +28,7 @@ const AdminProvider = ({children}: ProtectedRouteProps) => {
            // console.log(apiResponse.data);
         }
         if(auth.user) get();
-    },[auth?.token, auth.user]);
+    },[auth.token, auth.user]);
 
     return(
         <AdminContext.Provider value={[report, setReport]}>

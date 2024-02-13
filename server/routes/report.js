@@ -20,7 +20,7 @@ router.post("/",isSignIn, handleReport);
 router.get("/",isSignIn, isAdmin, getReports);
 router.get("/response",isSignIn,isAdmin, getResponse);
 router.get("/download",isSignIn, isAdmin, downloadReport);
-router.post("/user",isSignIn, getUserReports);
+router.get("/user",isSignIn, getUserReports);
 //router.get("/closedReports", closedReports);
 
 module.exports=router;

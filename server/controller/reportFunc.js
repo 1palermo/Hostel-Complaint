@@ -8,6 +8,7 @@ const { setUser, getUser } = require("../services/auth");
 
 const handleReport = async (req, res) => {
     try {
+        const token = req.headers.authorization;
         if (req.query.cat === 'Closed') {
             const response = new Response({
                 category: "Closed",
@@ -38,7 +39,7 @@ const handleReport = async (req, res) => {
                             category: "Attended",
                             problem: req.query.Id,
                             description: req.body.data.text,
-                            sender: getUser(req.body.userToken)._id,
+                            sender: getUser(token)._id,
                             image: result.secure_url,
                             createdAt: new Date()
                         });
@@ -52,7 +53,7 @@ const handleReport = async (req, res) => {
                             problem: req.query.Id,
                             description: req.body.text,
                             image: result.secure_url,
-                            sender: getUser(req.body.userToken)._id,
+                            sender: getUser(token)._id,
                             createdAt: new Date()
                         });
                         const rep = await Report.findOneAndUpdate({ _id: req.query.Id }, { solved: "Solved" });
@@ -185,7 +186,7 @@ const downloadReport = async (req, res) => {
 
 const getUserReports = async (req, res) => {
     try {
-        const token = req.body.userToken;
+        const token = req.headers.authorization;
         const user = getUser(token);
 
         const report = await Report.find({ sender: user._id, status: "Open", solved: "Unsolved" });
