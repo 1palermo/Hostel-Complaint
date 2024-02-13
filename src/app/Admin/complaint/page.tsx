@@ -7,7 +7,7 @@ import { useAdmin } from "../../context/adminContext";
 
 export default function SearchParams({ searchParams }: { searchParams: { _id: string; close: string }; }) {
     const [response, setResponse] = useState<any[]>([]);
-    const [report, setReport] = useAdmin();
+    const [report, setReport] = useAdmin() as any[];
     const [repo, setRepo] = useState<any>({});
 
     useEffect(() => {

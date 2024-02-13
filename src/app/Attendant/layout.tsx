@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://490bj8xz-3000.inc1.devtunnels.ms/authenticate', {
+        const response = await fetch('http://localhost:3000authenticate', {
           method: 'GET',
         });
 

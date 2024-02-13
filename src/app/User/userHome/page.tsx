@@ -7,20 +7,20 @@ import { useAuth } from '@/app/context/auth';
 
 
 const UserHomePage = () => {
-  const [auth, setAuth] = useAuth();
-  const [profile, setProfile] = useState({
-    userImage: "/avatar.png",
-    username: "xyz",
-    roll: "",
-  })
+  const [auth, setAuth] = useAuth() as any;
+  // const [profile, setProfile] = useState({
+  //   userImage: "/avatar.png",
+  //   username: "xyz",
+  //   roll: "",
+  // })
 
-  useEffect(() => {
-    setProfile((prev)=>({
-      ...prev,
-      ...auth.user
-    }));
+  // useEffect(() => {
+  //   setProfile((prev)=>({
+  //     ...prev,
+  //     ...auth.user
+  //   }));
 
-  }, []);
+  // }, []);
 
   return (
         <div className="flex justify-center min-h-screen p-5 bg-[url('/brick.webp')] bg-cover">
@@ -29,12 +29,12 @@ const UserHomePage = () => {
 
           <div className="flex flex-col items-center">
             <img
-              src={profile.userImage}
+              src={auth.user? auth.user.userImage : '/avatar.png'}
               alt="User Image"
               className="rounded-full h-32 w-32 mb-2 border-4 border-black"
               />
-            <p className="text-xl font-semibold text-black">{profile.username}</p>
-            <p className="text-xl font-semibold text-black pt-4">{profile.roll}</p>
+            <p className="text-xl font-semibold text-black">{auth.user? auth.user.username : ''}</p>
+            <p className="text-xl font-semibold text-black pt-4">{auth.user? auth.user.roll : ''}</p>
           </div>
           <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-green-700 via-green-400 to-green-600 mt-10"></hr>
 

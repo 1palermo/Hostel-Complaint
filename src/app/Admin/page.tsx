@@ -12,7 +12,7 @@ export default function Page({
   searchParams: { close: string; dept: string; cat: string };
 }) {
   const [data, setData] = useState([]);
-  const [report, setReport] = useAdmin();
+  const [report, setReport] = useAdmin() as any[];
 
   useEffect(()=>{
     let repo = report.filter((val:any)=> (val.status === "Open"));

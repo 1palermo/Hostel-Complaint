@@ -2,27 +2,27 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
-const AuthContext = createContext();
+const AuthContext = createContext<any>(null);
 
 interface ProtectedRouteProps {
     children: React.ReactNode;
 }
 
 const AuthProvider = ({children}: ProtectedRouteProps) => {
+    console.log("auth");
     const [auth, setAuth] = useState({
         user: null,
         token: '',
      });
     
-    axios.defaults.headers.common['Authorization'] = auth?.token;
+    axios.defaults.headers.common['Authorization'] = auth.token;
     
     useEffect(()=>{
-       const token = localStorage.getItem('customToken');
+       const token = localStorage.getItem('customToken') || '';
+       const data = token === ''? {} : JSON.parse(token);
        if(token){
-            setAuth((auth)=> ({
-            ...auth,
-            token: token
-            }));
+            console.log(token, data);
+            setAuth(data);
        }
     },[]);
 

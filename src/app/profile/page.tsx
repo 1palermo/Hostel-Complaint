@@ -15,7 +15,7 @@ import { useAuth } from "../context/auth";
 import axios from 'axios';
 
 const Page2: NextPage = () => {
-  const [auth, setAuth] = useAuth();
+  const [auth, setAuth] = useAuth() as any;
  //const [profile, setProfile] = useState();
   const [profile, setProfile] = useState({
     userImage: "/avatar.png",
@@ -156,7 +156,7 @@ const Page2: NextPage = () => {
             />
           </div>
 
-          <div>
+          {profile.tower ? (<div>
             <label
               htmlFor="hostelName"
               className="block text-sm font-medium text-gray-600"
@@ -172,9 +172,9 @@ const Page2: NextPage = () => {
               onChange={handleFormChange}
               className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-white"
             />
-          </div>
+          </div>) : <></>}
 
-          <div>
+          {profile.hostel_room_no ? (<div>
             <label
               htmlFor="hostelRoomNo"
               className="block text-sm font-medium text-gray-600"
@@ -190,7 +190,7 @@ const Page2: NextPage = () => {
               onChange={handleFormChange}
               className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-white"
             />
-          </div>
+          </div>) : <></>}
 
           <div className="flex items-center justify-center pt-16">
             <button

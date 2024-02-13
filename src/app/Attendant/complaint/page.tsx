@@ -11,7 +11,7 @@ interface SearchParams {
 
 export default function SearchParams({ searchParams }: { searchParams: SearchParams }) {
   const [response, setResponse] = useState<any[]>([]);
-  const [report, setReport] = useAdmin();
+  const [report, setReport] = useAdmin() as any[];
   const [repo, setRepo] = useState<any>({});
 
   useEffect(() => {

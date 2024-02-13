@@ -14,6 +14,8 @@ router.route("/login")
 })
 .post(handleLogin);
 
+router.get("/aut",handleAuthentication);
+
 router.get("/profile",isSignIn, handleProfile);
 
 router.post("/update", isSignIn, handleUpdate);
@@ -28,7 +30,6 @@ res.status(300).json({url: "/signup"});
 })
 .post(handleSignup);
 
-router.get("/authenticate",handleAuthentication);
 
 router.post("/submitReport",isSignIn, handleReport); 
 

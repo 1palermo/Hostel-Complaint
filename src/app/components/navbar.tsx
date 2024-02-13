@@ -7,6 +7,7 @@ import { Suspense } from "react";
 import { signOut } from "next-auth/react";
 import Loading from "./loading";
 
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -63,9 +64,11 @@ export default function Navbar() {
             <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600 mt-2 mb-6"></hr>
             <h1 className="text-green-600 text-2xl mb-4">About us</h1>
             <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600 mt-2 mb-6"></hr>
-            <h1 className="text-green-600 text-2xl mb-4" onClick={removeSession}>
-              Log Out
-            </h1>
+            <div onClick={removeSession}>
+              <h1 className="text-green-600 text-2xl mb-4">
+                Log Out
+              </h1>
+            </div>
           </div>
         </div>
       </div>

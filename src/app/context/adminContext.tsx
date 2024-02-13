@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from './auth';
 
-const AdminContext = createContext();
+const AdminContext = createContext<any>(null);
 
 interface ProtectedRouteProps {
     children: React.ReactNode;
@@ -11,7 +11,7 @@ interface ProtectedRouteProps {
 
 const AdminProvider = ({children}: ProtectedRouteProps) => {
     const [report, setReport] = useState([]);
-    const [auth, setAuth] = useAuth();
+    const [auth, setAuth] = useAuth() as any;
 
     useEffect(()=>{
         async function get(){
@@ -24,8 +24,8 @@ const AdminProvider = ({children}: ProtectedRouteProps) => {
             setReport(apiResponse.data);
            // console.log(apiResponse.data);
         }
-        get();
-    },[auth?.token]);
+        if(auth.user) get();
+    },[auth?.token, auth.user]);
 
     return(
         <AdminContext.Provider value={[report, setReport]}>

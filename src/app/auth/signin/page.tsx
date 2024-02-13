@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCog, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import axios from 'axios';
+import { useAuth } from "@/app/context/auth";
 
 interface FormDetails {
   email: string;
@@ -18,15 +19,11 @@ interface NewNote {
   password: string;
 }
 
-interface ServerResponse {
-  valid: boolean;
-  customToken: string;
-  url: string;
-}
 
 export default function Login() {
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState(false);
+  const [auth, setAuth] = useAuth() as any;
   const [alertMessage, setAlertMessage] = useState<string>("");
   const [formDetails, setFormDetails] = useState<FormDetails>({
     email: "",
@@ -44,8 +41,9 @@ export default function Login() {
   }, [session]);
 
   async function checkUser(newNote: NewNote) {
+    console.log('hi');
     let googleLogin = false;
-    const data = localStorage.getItem("customToken") || "";
+    //const data = localStorage.getItem("customToken") || "";
     // if (storedToken) {
     //   data = JSON.parse(storedToken);
     // }
@@ -67,20 +65,26 @@ export default function Login() {
       }
     );
 
-    
-
     try {
-      const res: ServerResponse = response.data;
-      
+      const res: any = response.data;
       if (res.valid === true) {
+        const data = JSON.stringify({
+          token: res.customToken,
+          user: res.temp
+        });
+
         localStorage.setItem(
           "customToken",
-          // JSON.stringify({
-          //   token: res.customToken,
-          //   expiryDate: Date.now() + 30 * 24 * 60 * 60 * 1000,
-          // })
-          res.customToken
+          data
         );
+        
+        // const user = res.temp;
+        // console.log(user);
+        // setAuth((prev:any) => ({
+        //   ...prev,
+        //   user: user
+        // }));
+
       } else {
         setAlertMessage("*please enter valid email or password"); // Add null check for getElementById
       }

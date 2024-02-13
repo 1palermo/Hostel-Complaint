@@ -9,8 +9,9 @@ async function handleLogin(req, res) {
         const username = req.body.email;
         const password = req.body.password;
         const google = req.query.google;
-        const user = await User.findOne({ email: username }, { _id: 1, email: 1, category: 1, password: 1 });
-        console.log(user);
+        const user = await User.findOne({ email: username }, { _id: 1, roll:1 , email: 1, category: 1, password: 1, username: 1, userImage: 1, hostel_room_no: 1,
+        tower: 1, contact: 1});
+      //  console.log(user);
         if (!user) {
             return res.redirect("/login");
         } else {
@@ -21,16 +22,24 @@ async function handleLogin(req, res) {
                         valid: false
                     });
                 } else {
-                    const token = setUser({
+                    const temp = {
                         _id: user._id,
                         email: user.email,
-                        category: user.category
-                    });
+                        category: user.category,
+                        contact: user.contact,
+                        username: user.username,
+                        userImage: user.userImage,
+                        hostel_room_no: user.hostel_room_no,
+                        tower: user.tower,
+                        roll : user.roll
+                    };
+                    const token = setUser(temp);
                     if (user.category === "Hostel-Admin") {
                         return res.status(300).json({
                             url: `/Admin?close=${"yes"}&dept=${""}&cat=${"Hostel-Admin"}`,
                             customToken: token,
                             valid: true,
+                            temp
                         });
                     }
                     else if (user.category === "Electrical-Admin") {
@@ -38,6 +47,7 @@ async function handleLogin(req, res) {
                             url: `/Admin?close=${"no"}&dept=${"electrical department"}&cat=${"Electrical-Admin"}`,
                             customToken: token,
                             valid: true,
+                            temp
                         });
                     }
                     else if (user.category === "Civil-Admin") {
@@ -45,6 +55,7 @@ async function handleLogin(req, res) {
                             url: `/Admin?close=${"no"}&dept=${"civil department"}&cat=${"Civil-Admin"}`,
                             customToken: token,
                             valid: true,
+                            temp
                         });
                     }
                     else if (user.category === "ComputerCentre-Admin") {
@@ -59,6 +70,7 @@ async function handleLogin(req, res) {
                             url: '/Attendant',
                             customToken: token,
                             valid: true,
+                            temp
                         });
                     }
                     else{
@@ -66,6 +78,7 @@ async function handleLogin(req, res) {
                             url: '/User/userHome',
                             customToken: token,
                             valid: true,
+                            temp
                         });
                     }
                 }
@@ -119,7 +132,8 @@ async function handleSignup(req, res) {
                         return res.status(200).json({
                             customToken: token,
                             url: "/User/userHome",
-                            valid: true
+                            valid: true,
+                            user
                         });
                     })
                     .catch((error) => {
@@ -139,13 +153,13 @@ async function handleSignup(req, res) {
 async function handleAuthentication(req, res) {
     try {
         const token = req.headers.authorization;
-
+        console.log("c", token);
         if (!token || token === '') {
-            return res.json({ error: 'token not found' }, { status: 400 });
+            return res.status(400).json({ error: 'token not found', valid: false, url:'/' });
         }
 
         const tokenUser = getUser(token);
-
+        console.log(tokenUser);
         if (tokenUser) {
             const username = tokenUser.email;
             const user = await User.findOne({ email: username }, { _id: 1, status: 1, username: 1, email: 1, contact: 1, userImage: 1, tower: 1, hostel_room_no: 1, roll: 1, category: 1 });
@@ -182,6 +196,7 @@ async function handleAuthentication(req, res) {
                 });
             }
             else if (user.category === "Attendant") {
+                console.log("hi is am attendant")
                 return res.status(300).json({
                     url: '/Attendant',
                     valid: true,
@@ -189,6 +204,7 @@ async function handleAuthentication(req, res) {
                 });
             }
             else{
+                console.log("hi i am c")
                 return res.status(300).json({
                     url: '/User/userHome',
                     valid: true,

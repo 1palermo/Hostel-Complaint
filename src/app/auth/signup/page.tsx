@@ -39,8 +39,9 @@ export default function Signup() {
   async function addUser(newUser: SignupFormDetails) {
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/signup`, newUser);
-      const { valid, customToken, url } = response.data;
+      const { valid, customToken, url, user } = response.data;
       if (valid) {
+        const data = JSON.stringify({token: customToken, user: user});
         localStorage.setItem("customToken", customToken);
         await signIn("google", { callbackUrl: url });
       } else {
@@ -242,10 +243,17 @@ export default function Signup() {
               required
             />
           </div>
-          {/* Other input fields */}
+
           <div className="flex items-center justify-between">
-            {/* Links */}
+            <div>
+              <Link href="/">
+                <p className="text-green-600 hover:underline">
+                  Already have an account? Sign in
+                </p>
+              </Link>
+            </div>
           </div>
+          
           <div className="flex items-center justify-center pt-10">
             <button
               type="submit"

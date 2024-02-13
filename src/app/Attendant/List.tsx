@@ -3,12 +3,12 @@ import Link from 'next/link';
 import { useAdmin } from '../context/adminContext';
 
 export default function List() {
-  const [report, setReport] = useAdmin();
+  const [report, setReport] = useAdmin() as any[];
 
 
   return (
     <tbody>
-      {report.length && report.map((res:any, idx:number) => {
+      {report.length ? report.map((res:any, idx:number) => {
         const [date, time] = new Date(res.createdAt)
         .toISOString()
         .split("T")
@@ -33,7 +33,7 @@ export default function List() {
             </Link>
           </td>
         </tr>
-       )})}
+       )}): <></>}
     </tbody>
   );
 }

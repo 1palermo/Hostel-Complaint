@@ -6,6 +6,7 @@ const report= require("./routes/report");
 const sendOtp = require("./routes/sendOtp");
 const fileupload = require("express-fileupload");
 const mongoose = require("./config/connect");
+const { handleAuthentication } = require("./controller/user");
 
 const app= express();
 
@@ -32,9 +33,11 @@ app.use(cors({
   credentials: true
 }));
 
-app.use("/",newUser);
+
 app.use("/report",report);
-app.use("/otpVerification",sendOtp);
+//app.use("/otpVerification",sendOtp);
+app.use("/",newUser);
+
 
 app.listen(8080, () => {
     console.log("server listening on port: 8080");

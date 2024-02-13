@@ -5,6 +5,7 @@ import ProtectedRoute from './components/RouteProtection';
 import SessionProvider from './components/SessionProvider';
 import { getServerSession } from 'next-auth';
 import { AuthProvider } from './context/auth';
+import BlockRoute from './components/blocker';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,9 +24,9 @@ export default async function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <SessionProvider session={session}>
-          <AuthProvider>
+          <AuthProvider >
             <ProtectedRoute>
-             {children}
+            {children}
             </ProtectedRoute>
           </AuthProvider>
         </SessionProvider>

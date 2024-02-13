@@ -7,8 +7,7 @@ import { useAdmin } from '../context/adminContext';
 //const socket = io(`${process.env.NEXT_PUBLIC_BASE_URL}/`);
 
 export default function Page(){
-  
-   const [report, setReport] = useAdmin();
+   const [report, setReport] = useAdmin() as any[];
    const formatDateTime = (dateTimeString: string) => {
       const dateTime = new Date(dateTimeString);
       return dateTime.toLocaleString(); // Adjust the format as per your requirement
@@ -63,9 +62,10 @@ export default function Page(){
          </div>
          <div className="block md:hidden">
                <h1 className='w-full text-center font-bold mt-5 '>LIST OF REPORTS</h1>
-               {report.length && report.map((res:any ,idx:number)=>(
+               {report.length > 0 ? (
+               report.map((res: any, idx: number) => (
                   <div className="card w-90% m-5 bg-base-100 shadow-xl" key={idx}>
-                  <div className="card-body">
+                     <div className="card-body">
                      <div className="flex flex-wrap">
                         <div className="flex flex-wrap">
                            <div className="mr-1 font-bold">Date & Time:</div>
@@ -93,16 +93,21 @@ export default function Page(){
                         <div className="mr-0">{res.attended}</div>
                      </div>
                      <div className="flex flex-wrap justify-between">
-                        <Link href={{
-                              pathname: "/Attendant/complaint",
-                              query: {_id: res._id}
-                           }} >
-                              <button className="px-3 py-1 bg-green-600 text-white text-sm rounded-md">see</button>
+                        <Link
+                           href={{
+                           pathname: "/Attendant/complaint",
+                           query: { _id: res._id },
+                           }}
+                        >
+                           <button className="px-3 py-1 bg-green-600 text-white text-sm rounded-md">see</button>
                         </Link>
                      </div>
+                     </div>
                   </div>
-                  </div>
-               ))}
+               ))
+               ) : (
+               <></>
+               )}
          </div>
       </>
    );
