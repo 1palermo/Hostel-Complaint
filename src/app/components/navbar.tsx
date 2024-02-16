@@ -6,12 +6,10 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { signOut } from "next-auth/react";
 import Loading from "./loading";
-import { useAuth } from "../context/auth";
 
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [auth, setAuth] = useAuth();
   
   async function removeSession() {
     localStorage.removeItem("customToken");
@@ -58,7 +56,7 @@ export default function Navbar() {
               <h1 className="text-green-600 text-2xl mb-4">New Complaints</h1>
             </Link>
             <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600 mt-2 mb-6"></hr>
-            <Link href={"/User/userComplaints?token=" + auth.token}>
+            <Link href="/User/userComplaints">
               <h1 className="text-green-600 text-2xl mb-4">
                 All Complaints
               </h1>
