@@ -17,9 +17,7 @@ const ComplaintPage = () => {
     async function getReports() {
       try {
         if (auth.token !== '') {
-          const response = await axios.post(`${process.env.NEXT_PUBLIC_URL}/userReports`,{
-              token: auth.token
-          }, {
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/report/user`, {
             validateStatus: (status) => status >= 200 && status <= 500
           });
   
