@@ -42,5 +42,4 @@ export async function getReport(token:string, cat:string){
         // Handle the error properly, e.g., return an error response
         return [];
     }
-
 }
