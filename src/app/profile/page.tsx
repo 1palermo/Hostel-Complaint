@@ -91,13 +91,9 @@ const Page2: NextPage = () => {
           <div onClick={removeSession}>
             <FontAwesomeIcon icon={faSignOut} className="ml-2 h-8 w-8" />
           </div>
-          <div
-            onClick={() => {
-              window.history.back();
-            }}
-          >
+          <Link href="/User/userHome">
             <FontAwesomeIcon icon={faHome} className="ml-2 h-8 w-8" />
-          </div>
+          </Link>
         </div>
 
         <form className="space-y-4" onSubmit={update}>
