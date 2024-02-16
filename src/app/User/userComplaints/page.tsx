@@ -7,36 +7,36 @@ import { Suspense } from 'react';
 import Loading from '../../components/loading';
 import Navbar from '@/app/components/navbar';
 import axios from 'axios';
+import { useAuth } from '@/app/context/auth';
 
 const ComplaintPage = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  
-  const [report, setReport] = useState([])
+   const [report, setReport] = useState([]);
+  const [auth, setAuth] = useAuth() as any;
 
-  async function getReports() {
-    try {
-        const data = localStorage.getItem("customToken");
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/report/user`, { userToken: data }, {
+  useEffect(() => {
+    async function getReports() {
+      try {
+        if (auth.token !== '') {
+          const response = await axios.post(`${process.env.NEXT_PUBLIC_URL}/userReports`,{
+              token: auth.token
+          }, {
             validateStatus: (status) => status >= 200 && status <= 500
-        });
-        const result = response.data;
-        
-        if (result) {
-            setReport(result);
+          });
+  
+          if (response.status === 200) {
+            const repo = response.data; // Use response.data
+            setReport(repo);
+          } else {
+            console.error('Error fetching reports:', response.data);
+          }
         }
-    } catch (error) {
-        console.error("Error fetching reports:", error);
-    }
-  }
-
-
-  useEffect(()=>{
-    getReports();
-  },[])
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+      } catch (error) {
+          console.error('Error fetching reports:', error);
+          }
+      }
+  
+      getReports();
+    }, [auth.token]);
 
   return(
     <div className="flex justify-center min-h-screen p-5 bg-[url('/brick.webp')] bg-cover">
