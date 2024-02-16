@@ -189,7 +189,7 @@ const getUserReports = async (req, res) => {
         const user = getUser(token);
 
         const report = await Report.find({ sender: user._id, status: "Open", solved: "Unsolved" });
-        return res.json(report);
+        return res.status(200).json(report);
     } catch (error) {
         return res.status(500).json({ ans: "fail", message: "Internal Server Error" });
     }

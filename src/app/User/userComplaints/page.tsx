@@ -2,7 +2,7 @@
 import { useState, useEffect} from 'react';
 import Navbar from '@/app/components/navbar';
 import { useAuth } from '@/app/context/auth';
-import axios from 'axios';
+import {getUserReports} from '@/app/actions';
 
 const ComplaintPage = () => {
   const [report, setReport] = useState([]);
@@ -12,18 +12,8 @@ useEffect(() => {
   async function getReports() {
     try {
       if (auth.token !== '') {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_URL}/userReports`,{
-            token: auth.token
-        }, {
-          validateStatus: (status) => status >= 200 && status <= 500
-        });
-
-        if (response.status === 200) {
-          const repo = response.data; // Use response.data
-          setReport(repo);
-        } else {
-          console.error('Error fetching reports:', response.data);
-        }
+        const repo = await getUserReports(auth.token);
+        setReport(repo);
       }
     } catch (error) {
         console.error('Error fetching reports:', error);
