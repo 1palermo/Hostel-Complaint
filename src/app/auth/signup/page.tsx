@@ -1,8 +1,8 @@
-'use client'
+"use client";
 import { useState } from "react";
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
-import axios from 'axios';
+import axios from "axios";
 
 interface SignupFormDetails {
   username: string;
@@ -28,7 +28,6 @@ export default function Signup() {
   });
 
   function handleSignupChange(event: React.ChangeEvent<HTMLInputElement>) {
-    
     const { name, value } = event.target;
     setForm((prevForm) => ({
       ...prevForm,
@@ -38,10 +37,13 @@ export default function Signup() {
 
   async function addUser(newUser: SignupFormDetails) {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/signup`, newUser);
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/signup`,
+        newUser
+      );
       const { valid, customToken, url, user } = response.data;
       if (valid) {
-        const data = JSON.stringify({token: customToken, user: user});
+        const data = JSON.stringify({ token: customToken, user: user });
         localStorage.setItem("customToken", customToken);
         await signIn("google", { callbackUrl: url });
       } else {
@@ -74,8 +76,9 @@ export default function Signup() {
     const file = e.target.files?.[0];
     if (file) {
       // Check image size
-      if (file.size > 100 * 1024) { // 100kb in bytes
-        alert('Please select an image less than 100kb.');
+      if (file.size > 100 * 1024) {
+        // 100kb in bytes
+        alert("Please select an image less than 100kb.");
         return;
       }
       // Convert image to base64
@@ -89,7 +92,7 @@ export default function Signup() {
   }
 
   return (
-    <div className="flex justify-center min-h-screen p-5 bg-[url('/brick.webp')] bg-cover">
+    <div className="flex justify-center min-h-screen p-5 bg-[url('/dtuLogo.svg')] bg-cover">
       <div className="bg-white p-8 rounded-lg shadow-md w-[560px]">
         <div className="flex items-center justify-center">
           <img
@@ -232,7 +235,12 @@ export default function Signup() {
             />
           </div>
           <div>
-            <label htmlFor="profileImage" className="block text-sm font-medium text-gray-500">Profile Image</label>
+            <label
+              htmlFor="profileImage"
+              className="block text-sm font-medium text-gray-500"
+            >
+              Profile Image
+            </label>
             <input
               id="profileImage"
               name="profileImage"
@@ -253,7 +261,7 @@ export default function Signup() {
               </Link>
             </div>
           </div>
-          
+
           <div className="flex items-center justify-center pt-10">
             <button
               type="submit"

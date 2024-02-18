@@ -6,7 +6,7 @@ import { faBars, faHome, faMultiply } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import Base64 from "../../Base64";
 import Navbar from "@/app/components/navbar";
-import axios from 'axios';
+import axios from "axios";
 
 interface FormDetails {
   title: string;
@@ -21,9 +21,9 @@ const ReportPage = () => {
   const [formD, setForm] = useState<FormDetails>({
     title: "",
     issue: "Wifi not working",
-    department:"computer centre",
-    desc:"",
-    image:""
+    department: "computer centre",
+    desc: "",
+    image: "",
   });
 
   const toggleMenu = () => {
@@ -37,30 +37,27 @@ const ReportPage = () => {
   ) {
     event.preventDefault();
     const { name, value } = event.target;
-    if(name === "issue"){
-      if(value === "wifi Not working"){
-        setForm((prevForm)=>({
+    if (name === "issue") {
+      if (value === "wifi Not working") {
+        setForm((prevForm) => ({
           ...prevForm,
-          department: "computer centre"
-        }))
-      }
-      else if(value === "Electrical issues"){
-        setForm((prevForm)=>({
+          department: "computer centre",
+        }));
+      } else if (value === "Electrical issues") {
+        setForm((prevForm) => ({
           ...prevForm,
-          department: "electrical department"
-        }))
-      }
-      else if(value === "Civil issues"){
-        setForm((prevForm)=>({
+          department: "electrical department",
+        }));
+      } else if (value === "Civil issues") {
+        setForm((prevForm) => ({
           ...prevForm,
-          department: "civil department"
-        }))
-      }
-      else{
-        setForm((prevForm)=>({
+          department: "civil department",
+        }));
+      } else {
+        setForm((prevForm) => ({
           ...prevForm,
-          department: "hostel office"
-        }))
+          department: "hostel office",
+        }));
       }
     }
     setForm((prevForm) => ({
@@ -83,10 +80,15 @@ const ReportPage = () => {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-  
-    axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/submitReport`, { data: formD }, {
-      validateStatus: (status) => status>= 200 && status<=500
-    })
+
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/submitReport`,
+        { data: formD },
+        {
+          validateStatus: (status) => status >= 200 && status <= 500,
+        }
+      )
       .then((data) => {
         window.location.reload();
       })
@@ -105,7 +107,7 @@ const ReportPage = () => {
   }
 
   return (
-    <div className="flex justify-center min-h-screen p-5 bg-[url('/brick.webp')] bg-cover">
+    <div className="flex justify-center min-h-screen p-5 bg-[url('/dtuLogo.svg')] bg-cover">
       <div className="bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 p-8 rounded-lg shadow-md w-[720px]">
         <Navbar />
         <div className="py-5"></div>

@@ -12,11 +12,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useAuth } from "../context/auth";
-import axios from 'axios';
+import axios from "axios";
 
 const Page2: NextPage = () => {
   const [auth, setAuth] = useAuth() as any;
- //const [profile, setProfile] = useState();
+  //const [profile, setProfile] = useState();
   const [profile, setProfile] = useState({
     userImage: "/avatar.png",
     username: "",
@@ -31,7 +31,7 @@ const Page2: NextPage = () => {
 
   async function removeSession() {
     localStorage.removeItem("customToken");
-   
+
     await signOut();
     window.location.href = "/";
   }
@@ -43,7 +43,7 @@ const Page2: NextPage = () => {
   ) {
     event.preventDefault();
     const { name, value } = event.target;
-    
+
     setProfile((prevProfile) => ({
       ...prevProfile,
       [name]: value,
@@ -53,39 +53,38 @@ const Page2: NextPage = () => {
   async function update(event: React.FormEvent<HTMLFormElement>) {
     try {
       event.preventDefault();
-  
+
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/update`,
         { data: profile },
         {
-          validateStatus: (status) => status >= 200 && status <= 500
+          validateStatus: (status) => status >= 200 && status <= 500,
         }
       );
 
-      if(response.status === 300){
+      if (response.status === 300) {
         setAuth({
           ...auth,
-          user: profile
+          user: profile,
         });
-  
+
         alert("Profile updated");
       }
-      
     } catch (error) {
       console.error("Error updating profile:", error);
       // Handle the error (e.g., display an error message to the user)
     }
-  }  
+  }
 
   useEffect(() => {
-    setProfile((prev)=>({
+    setProfile((prev) => ({
       ...prev,
-      ...auth.user
-    }))
+      ...auth.user,
+    }));
   }, [auth.user]);
 
   return (
-    <div className="flex items-center justify-center p-5 min-h-screen bg-[url('/dtuLogo.jpg')] bg-cover">
+    <div className="flex items-center justify-center p-5 min-h-screen bg-[url('/dtuLogo.svg')] bg-cover">
       <div className="bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 p-8 rounded-lg shadow-md w-[720px]">
         <div className="flex items-center justify-between text-green-600">
           <div onClick={removeSession}>
@@ -152,41 +151,49 @@ const Page2: NextPage = () => {
             />
           </div>
 
-          {profile.tower ? (<div>
-            <label
-              htmlFor="hostelName"
-              className="block text-sm font-medium text-gray-600"
-            >
-              Hostel Name
-            </label>
-            <input
-              type="text"
-              id="hostelName"
-              name="tower"
-              placeholder="your hostel name"
-              value={profile.tower}
-              onChange={handleFormChange}
-              className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-white"
-            />
-          </div>) : <></>}
+          {profile.tower ? (
+            <div>
+              <label
+                htmlFor="hostelName"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Hostel Name
+              </label>
+              <input
+                type="text"
+                id="hostelName"
+                name="tower"
+                placeholder="your hostel name"
+                value={profile.tower}
+                onChange={handleFormChange}
+                className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-white"
+              />
+            </div>
+          ) : (
+            <></>
+          )}
 
-          {profile.hostel_room_no ? (<div>
-            <label
-              htmlFor="hostelRoomNo"
-              className="block text-sm font-medium text-gray-600"
-            >
-              Hostel Room Number
-            </label>
-            <input
-              type="text"
-              id="hostelRoomNo"
-              name="hostel_room_no"
-              value={profile.hostel_room_no}
-              placeholder="your hostel room number"
-              onChange={handleFormChange}
-              className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-white"
-            />
-          </div>) : <></>}
+          {profile.hostel_room_no ? (
+            <div>
+              <label
+                htmlFor="hostelRoomNo"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Hostel Room Number
+              </label>
+              <input
+                type="text"
+                id="hostelRoomNo"
+                name="hostel_room_no"
+                value={profile.hostel_room_no}
+                placeholder="your hostel room number"
+                onChange={handleFormChange}
+                className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-white"
+              />
+            </div>
+          ) : (
+            <></>
+          )}
 
           <div className="flex items-center justify-center pt-16">
             <button

@@ -6,7 +6,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCog, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import axios from 'axios';
+import axios from "axios";
 import { useAuth } from "@/app/context/auth";
 
 interface FormDetails {
@@ -18,7 +18,6 @@ interface NewNote {
   email: string;
   password: string;
 }
-
 
 export default function Login() {
   const { data: session, status } = useSession();
@@ -41,7 +40,6 @@ export default function Login() {
   }, [session]);
 
   async function checkUser(newNote: NewNote) {
-   
     let googleLogin = false;
     //const data = localStorage.getItem("customToken") || "";
     // if (storedToken) {
@@ -56,12 +54,13 @@ export default function Login() {
     newNote = {
       ...newNote,
       email: session?.user?.email || newNote.email,
-    }
-    
+    };
+
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/login?google=${googleLogin}`,newNote,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/login?google=${googleLogin}`,
+      newNote,
       {
-        validateStatus: (status) => status>= 200 && status<=500
+        validateStatus: (status) => status >= 200 && status <= 500,
       }
     );
 
@@ -70,21 +69,17 @@ export default function Login() {
       if (res.valid === true) {
         const data = JSON.stringify({
           token: res.customToken,
-          user: res.temp
+          user: res.temp,
         });
 
-        localStorage.setItem(
-          "customToken",
-          data
-        );
-        
+        localStorage.setItem("customToken", data);
+
         // const user = res.temp;
         // console.log(user);
         // setAuth((prev:any) => ({
         //   ...prev,
         //   user: user
         // }));
-
       } else {
         setAlertMessage("*please enter valid email or password"); // Add null check for getElementById
       }
@@ -94,8 +89,8 @@ export default function Login() {
       window.location.href = res.url;
     } catch (error) {
       console.error("Error during login", error);
-      setAlertMessage("*login failed")
-    }finally {
+      setAlertMessage("*login failed");
+    } finally {
       setLoading(false);
     }
   }
@@ -103,11 +98,11 @@ export default function Login() {
   async function submitNote(event: React.FormEvent<HTMLFormElement>) {
     try {
       event.preventDefault();
-  
+
       // ... (other form validation or logic)
-  
+
       await checkUser(formDetails);
-  
+
       setFormDetails({
         email: "",
         password: "",
@@ -117,11 +112,10 @@ export default function Login() {
       console.error("Error submitting note:", error);
       // Handle the error appropriately (e.g., show an error message to the user)
     }
-  }   
+  }
 
   function oAuthLogin() {
     try {
-
       checkUser(formDetails);
 
       setFormDetails({
@@ -145,7 +139,7 @@ export default function Login() {
 
   return (
     <>
-      <div className="flex justify-center min-h-screen p-5 bg-[url('/dtuLogo.jpg')] bg-cover">
+      <div className="flex justify-center min-h-screen p-5 bg-[url('/dtuLogo.svg')] bg-cover">
         <div className="bg-white p-8 rounded-lg shadow-md w-[560px]">
           <div className="flex items-center justify-center">
             <img
