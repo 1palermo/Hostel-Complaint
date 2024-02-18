@@ -128,7 +128,7 @@ async function handleSignup(req, res) {
                             email: user.email,
                             category: user.category
                         });
-                        console.log("saved");
+                      
                         return res.status(200).json({
                             customToken: token,
                             url: "/User/userHome",
@@ -153,13 +153,13 @@ async function handleSignup(req, res) {
 async function handleAuthentication(req, res) {
     try {
         const token = req.headers.authorization;
-        console.log("c", token);
+       
         if (!token || token === '') {
             return res.status(400).json({ error: 'token not found', valid: false, url:'/' });
         }
 
         const tokenUser = getUser(token);
-        console.log(tokenUser);
+      
         if (tokenUser) {
             const username = tokenUser.email;
             const user = await User.findOne({ email: username }, { _id: 1, status: 1, username: 1, email: 1, contact: 1, userImage: 1, tower: 1, hostel_room_no: 1, roll: 1, category: 1 });
@@ -196,7 +196,7 @@ async function handleAuthentication(req, res) {
                 });
             }
             else if (user.category === "Attendant") {
-                console.log("hi is am attendant")
+               
                 return res.status(300).json({
                     url: '/Attendant',
                     valid: true,
@@ -204,7 +204,7 @@ async function handleAuthentication(req, res) {
                 });
             }
             else{
-                console.log("hi i am c")
+             
                 return res.status(300).json({
                     url: '/User/userHome',
                     valid: true,
@@ -304,6 +304,7 @@ async function getAllUsers(req, res) {
 async function handleReport(req, res) {
     try {
         const file = req.body.data.image;
+        const token = req.headers.authorization;
         if (file) {
             cloudinary.uploader.upload(file, {
                 upload_preset: 'unsigned_upload',
@@ -318,7 +319,7 @@ async function handleReport(req, res) {
                         problem: req.body.data.issue,
                         title: req.body.data.title,
                         description: req.body.data.desc,
-                        sender: getUser(req.body.userToken)._id,
+                        sender: getUser(token)._id,
                         department: req.body.data.department,
                         image: result.secure_url,
                         createdAt: new Date()
@@ -344,7 +345,7 @@ async function handleReport(req, res) {
                 problem: req.body.data.issue,
                 title: req.body.data.title,
                 description: req.body.data.desc,
-                sender: getUser(req.body.userToken)._id,
+                sender: getUser(token)._id,
                 department: req.body.data.department,
                 image: "",
                 createdAt: new Date()

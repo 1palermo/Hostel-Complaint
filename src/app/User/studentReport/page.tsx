@@ -83,14 +83,11 @@ const ReportPage = () => {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log(formD);
-    //const token = JSON.parse(window.localStorage.getItem("customToken") || "");
-    const token = localStorage.getItem("customToken");
-    axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/submitReport`, { data: formD, userToken: token }, {
+  
+    axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/submitReport`, { data: formD }, {
       validateStatus: (status) => status>= 200 && status<=500
     })
       .then((data) => {
-        console.log(data);
         window.location.reload();
       })
       .catch((error) => {

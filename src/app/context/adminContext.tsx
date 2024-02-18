@@ -2,6 +2,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from './auth';
+import { getReport } from '../actions';
 
 const AdminContext = createContext<any>(null);
 
@@ -15,17 +16,12 @@ const AdminProvider = ({children}: ProtectedRouteProps) => {
 
     useEffect(()=>{
         async function get(){
-            const apiResponse = await axios.get(
-              `${process.env.NEXT_PUBLIC_BASE_URL}/report?cat=${auth.user.category}`,
-              {
-                validateStatus: (status) => status>= 200 && status<=500
-              }
-            );
-            setReport(apiResponse.data);
-           // console.log(apiResponse.data);
+          const apiResponse = await getReport(auth.token, auth.user.category);
+          setReport(apiResponse);
         }
+
         if(auth.user) get();
-    },[auth?.token, auth.user]);
+    },[auth.token, auth.user]);
 
     return(
         <AdminContext.Provider value={[report, setReport]}>

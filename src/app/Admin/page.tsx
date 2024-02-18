@@ -36,7 +36,7 @@ export default function Page({
         <table className="table table-xl">
           <Header />
           <tbody>
-            {data.length && data.map(
+            {data.length>0 ? (data.map(
               (
                 res: any,
                 idx: number
@@ -77,7 +77,7 @@ export default function Page({
                   </tr>
                 );
               }
-            )}
+            )) : <tr></tr>}
           </tbody>
         </table>
       </div>
@@ -88,7 +88,7 @@ export default function Page({
           close={searchParams.close}
         />
         <h1 className="w-full text-center font-bold mt-5">LIST OF REPORTS</h1>
-        {data.length && data.map(
+        {data.length > 0? data.map(
           (
             res: any,
             idx: number
@@ -138,7 +138,7 @@ export default function Page({
               </div>
             </div>
           )
-        )}
+        ) : <></>}
       </div>
     </>
   );

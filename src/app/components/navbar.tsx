@@ -8,13 +8,11 @@ import { signOut } from "next-auth/react";
 import Loading from "./loading";
 
 
-
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   
   async function removeSession() {
     localStorage.removeItem("customToken");
-    console.log(localStorage.getItem("customToken"));
     await signOut();
     window.location.href = "/";
   }

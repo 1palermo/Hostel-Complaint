@@ -15,7 +15,7 @@ export default function Page(){
    /*
    useEffect(() => {
      socket.on("connect", async () => {
-       console.log(socket.id);
+       https://hostel-complaint-website.onrender.com(socket.id);
        try {
          const apiResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/report?cat=${encodeURIComponent("Attendant")}`, { credentials: 'include' });
  

@@ -13,7 +13,6 @@ interface ProtectedRouteProps {
 export default function BlockRoute({ children }: ProtectedRouteProps) {
   const [auth, setAuth] = useAuth() as any;
   const router = useRouter();
-  console.log("blocker");
 
   
   useEffect(()=>{
