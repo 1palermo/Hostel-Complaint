@@ -27,7 +27,24 @@ export default function Signup() {
     image: "",
   });
 
-  function handleSignupChange(event: React.ChangeEvent<HTMLInputElement>) {
+  const hostelList = [
+    { id: 1, name: "Aryabhatt Hostel" },
+    { id: 2, name: "Bhaskaracharya Hostel" },
+    { id: 3, name: "Dr. APJ Abdul Kalam Hostel" },
+    { id: 4, name: "Sir C. V. Raman Hostel" },
+    { id: 5, name: "Kalpana Chawla Hostel" },
+    { id: 6, name: "Ramanujan Hostel" },
+    { id: 7, name: "Sister Nivediata Hostel" },
+    { id: 8, name: "Sir J.C. Bose Hostel" },
+    { id: 9, name: "Homi Jehangir Bhabha Hostel" },
+    { id: 10, name: "Varahmihir Hostel" },
+    { id: 11, name: "Virangana Lakshmibai Hostel" },
+    { id: 12, name: "Sir Vishveshwarya Hostel" },
+    { id: 13, name: "Type 2 hostel" },
+  ];
+  
+
+  function handleSignupChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value } = event.target;
     setForm((prevForm) => ({
       ...prevForm,
@@ -106,6 +123,25 @@ export default function Signup() {
         </div>
         <div className="py-5"></div>
         <form className="space-y-4" onSubmit={submitForm}>
+          <div className="flex justify-center items-center mx-auto h-full">
+            {session ? (
+              <div className="flex">
+                <p className="text-green-600 mr-5">verified</p>
+                {/* <a onClick={async(e)=>{
+                await signOut();
+                await signIn("google");
+              }} className='text-green-600 underline'>switch account</a> */}
+              </div>
+            ) : (
+              <button
+                onClick={() => signIn("google")}
+                className="btn bg-blue-200"
+              >
+                verify email
+              </button>
+            )}
+          </div>
+
           <div>
             <label
               htmlFor="name"
@@ -162,24 +198,7 @@ export default function Signup() {
               className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#EEEEEE]"
             />
           </div>
-          <div>
-            {session ? (
-              <div className="flex">
-                <p className="text-green-600 mr-5">verified</p>
-                {/* <a onClick={async(e)=>{
-              await signOut();
-              await signIn("google");
-            }} className='text-green-600 underline'>switch account</a> */}
-              </div>
-            ) : (
-              <button
-                onClick={() => signIn("google")}
-                className="btn bg-blue-200"
-              >
-                verify email
-              </button>
-            )}
-          </div>
+
           <div>
             <label
               htmlFor="hostelname"
@@ -187,17 +206,26 @@ export default function Signup() {
             >
               Hostel Name
             </label>
-            <input
-              type="text"
+            <select
               id="hostelname"
               name="tower"
               onChange={handleSignupChange}
               value={formD.tower}
               required
-              placeholder="Enter your hostel name"
               className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#EEEEEE]"
-            />
+            >
+              <option value="" disabled>
+                Select your hostel name
+              </option>
+              {/* Add options dynamically based on your hostel list */}
+              {hostelList.map((hostel) => (
+                <option key={hostel.id} value={hostel.name}>
+                  {hostel.name}
+                </option>
+              ))}
+            </select>
           </div>
+
           <div>
             <label
               htmlFor="hostelroomno"
