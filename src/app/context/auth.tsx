@@ -1,7 +1,7 @@
 'use client'
 import { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 const AuthContext = createContext<any>(null);
 
@@ -17,11 +17,14 @@ const AuthProvider = ({children}: ProtectedRouteProps) => {
     
     const router = useRouter();
     axios.defaults.headers.common['Authorization'] = auth.token;
+    const pathname = usePathname();
+    const segments = pathname.split('/');
+    const role = segments[1];
     
     useEffect(()=>{
        const token = localStorage.getItem('customToken') || '';
        const data = token === ''? {} : JSON.parse(token);
-       if(token === ''){
+       if(token === '' && role!=="auth"){
           router.push('/');
        }
        else{
