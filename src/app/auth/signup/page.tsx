@@ -56,12 +56,12 @@ export default function Signup() {
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/signup`,
-        newUser
+        {...newUser, email: session?.user?.email}
       );
       const { valid, customToken, url, user } = response.data;
       if (valid) {
         const data = JSON.stringify({ token: customToken, user: user });
-        localStorage.setItem("customToken", customToken);
+        localStorage.setItem("customToken", data);
         await signIn("google", { callbackUrl: url });
       } else {
         setAlertMessage("*Account exists or some error occurred");
