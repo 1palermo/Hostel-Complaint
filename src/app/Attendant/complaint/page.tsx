@@ -19,17 +19,17 @@ export default function SearchParams({ searchParams }: { searchParams: SearchPar
       try {
         const data = await SolutionDetails(searchParams._id);
         setResponse(data);
-        const val = report.filter((val: any) => val._id === searchParams._id);
-        if (val.length > 0) {
-          setRepo(val[0]);
+        if(report.length > 0){
+            let val = report.filter((val: any) => val._id === searchParams._id);
+            if(val.length > 0) setRepo(val[0]);
         }
       } catch (error) {
         console.error('Error fetching solution details:', error);
       }
     }
 
-    get();
-  }, [searchParams._id, report]);
+    if(searchParams?._id !== "") get();
+  }, [searchParams?._id, report]);
   
   const formatDateTime = (dateTimeString: string) => {
       const dateTime = new Date(dateTimeString);
@@ -40,7 +40,7 @@ export default function SearchParams({ searchParams }: { searchParams: SearchPar
       <Return />
       <div className="card w-80% m-5 bg-base-100 shadow-xl">
         <div className='w-full text-center font-bold text-lg text-gray-600'>USER COMPLAINT</div>
-        {Object.keys(repo).length > 0 && (
+        {repo && Object.keys(repo).length > 0 && (
           <div className="card-body">
             <div className="flex flex-wrap">
               <div className="flex flex-wrap">
@@ -115,7 +115,7 @@ export default function SearchParams({ searchParams }: { searchParams: SearchPar
         ) : <></>)
       )):<></>}
 
-      {repo.solved === 'Unsolved' ? <Form id={searchParams._id} attended={repo.attended} /> : <></>}
+      {repo && Object.keys(repo).length > 0 && repo.solved === 'Unsolved' ? <Form id={searchParams._id} attended={repo.attended} /> : <></>}
 
     </div>
   );

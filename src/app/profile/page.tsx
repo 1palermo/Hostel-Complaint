@@ -13,8 +13,9 @@ import {
 import Link from "next/link";
 import { useAuth } from "../context/auth";
 import axios from "axios";
+import { redirect } from "next/dist/server/api-utils";
 
-const Page2: NextPage = () => {
+const Page2 = ({ searchParams }: { searchParams: {cat: string} }) => {
   const [auth, setAuth] = useAuth() as any;
   //const [profile, setProfile] = useState();
   const [profile, setProfile] = useState({
@@ -34,6 +35,18 @@ const Page2: NextPage = () => {
 
     await signOut();
     window.location.href = "/";
+  }
+
+  function redirectToHome() {
+    if(searchParams.cat === "user"){
+      window.location.href = "/User/userHome";
+    }
+    else if(searchParams.cat === "attendant"){
+      window.location.href = "/Attendant";
+    }
+    else{
+      window.history.back();
+    }
   }
 
   function handleFormChange(
@@ -90,9 +103,9 @@ const Page2: NextPage = () => {
           <div onClick={removeSession}>
             <FontAwesomeIcon icon={faSignOut} className="ml-2 h-8 w-8" />
           </div>
-          <Link href="/User/userHome">
+          <div onClick={redirectToHome}>
             <FontAwesomeIcon icon={faHome} className="ml-2 h-8 w-8" />
-          </Link>
+          </div>
         </div>
 
         <form className="space-y-4" onSubmit={update}>
@@ -151,7 +164,7 @@ const Page2: NextPage = () => {
             />
           </div>
 
-          {profile.tower ? (
+          {searchParams.cat === "user" ? (
             <div>
               <label
                 htmlFor="hostelName"
@@ -173,7 +186,7 @@ const Page2: NextPage = () => {
             <></>
           )}
 
-          {profile.hostel_room_no ? (
+          {searchParams.cat === "user" ? (
             <div>
               <label
                 htmlFor="hostelRoomNo"
