@@ -7,11 +7,10 @@ import axios from 'axios';
 
 async function fetchData(){
   try {
-  
     const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/aut`,{
       validateStatus: (status) => status>= 200 && status<=500
     })
-
+    console.log(response);
     return response.data;
   } catch (err) {
     console.error("Cannot authenticate:", err);
@@ -72,7 +71,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     //   setLoading(false);
     // },800);
 
-    if (auth.token !== ''){
+    if (role!="auth" && auth.token !== ''){
       checker();
     }
     console.log(role);

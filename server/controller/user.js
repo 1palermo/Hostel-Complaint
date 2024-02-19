@@ -94,6 +94,7 @@ async function handleLogin(req, res) {
 
 async function handleSignup(req, res) {
     try {
+        console.log(req.body);
         const file = req.body.image;
         const currentDate = new Date();
         const expirationDate = new Date(currentDate);
@@ -152,6 +153,7 @@ async function handleSignup(req, res) {
 
 async function handleAuthentication(req, res) {
     try {
+        console.log("called")
         const token = req.headers.authorization;
        
         if (!token || token === '') {
