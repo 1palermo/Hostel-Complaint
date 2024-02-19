@@ -32,10 +32,10 @@ export async function getReport(token:string, cat:string){
             validateStatus: (status) => status >= 200 && status <= 500
         });        
 
-        if(response.status === 200){
+        if(response.status !== 500){
             report = response.data
         }
-      //  console.log(report)
+       // console.log(report)
         return report;
     } catch (error) {
         console.error("Error fetching reports:", error);

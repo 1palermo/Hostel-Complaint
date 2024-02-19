@@ -45,10 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <div className="navbar bg-green-600 text-white">
             <p className="btn btn-ghost normal-case text-xl ml-3 lg:ml-2">Attendant</p>
-            <Link href={{
-              pathname: "/profile",
-              query: {cat: "attendant"}
-            }} >
+            <Link href="/profile" >
               <FontAwesomeIcon icon={faUser} className='absolute right-10 mb-1 h-5 w-5' />
             </Link>
         </div>
