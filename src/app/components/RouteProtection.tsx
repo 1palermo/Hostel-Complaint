@@ -36,6 +36,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   useEffect(() => {
     try {
     const checker = async (): Promise<void> => {
+     
       if (auth?.token === '') {
         if (role && role !== "auth") {
           if (session) {
@@ -74,7 +75,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     if (auth.token !== ''){
       checker();
     }
-
+    console.log(role);
     } catch (error) {
       console.error("Error while authenticating:", error);
     }
