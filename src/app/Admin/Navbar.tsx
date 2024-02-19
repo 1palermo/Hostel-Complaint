@@ -16,18 +16,21 @@ const Navbar = (props:{cat:string; close:string; dept:string}) => {
             <p className='mr-4'>Home</p>
         </Link>
         <Link  href={{
-            pathname: "Admin/closedReports",
+            pathname: "/Admin/closedReports",
             query: {...props},
             }} >
             <p className='mr-4'>Reports</p>
         </Link>
         {props.cat === "Hostel-Admin"?<Link  href={{
-            pathname: "Admin/hostellerList",
+            pathname: "/Admin/hostellerList",
             query: {...props},
             }} >
             <p>Hostellers List</p>
         </Link>: <></>}
-        <Link href="/profile" >
+        <Link href={{
+          pathname: "/profile",
+          query: {cat: "admin"}
+        }} >
             <FontAwesomeIcon icon={faUser} className='absolute right-10 mb-5 h-5 w-5' />  
         </Link>
         <div className=' items-center mb-3'>
