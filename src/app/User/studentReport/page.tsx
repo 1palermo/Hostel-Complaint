@@ -1,9 +1,7 @@
 // pages/report.tsx
 "use client";
 import { useState, ChangeEvent } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faHome, faMultiply } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
+import toast, { Toaster } from 'react-hot-toast';
 import Base64 from "../../Base64";
 import Navbar from "@/app/components/navbar";
 import axios from "axios";
@@ -90,9 +88,10 @@ const ReportPage = () => {
         }
       )
       .then((data) => {
-        window.location.reload();
+        toast.success("report submitted sucessfully!")
       })
       .catch((error) => {
+        toast.success("some error in reporting!")
         console.log(error);
       });
     // const result= await response.json();
@@ -107,6 +106,12 @@ const ReportPage = () => {
   }
 
   return (
+    <>
+    <Toaster
+      position="top-right"
+      reverseOrder={false}
+    />
+  
     <div className="flex justify-center min-h-screen p-5 bg-[url('/dtuLogo.svg')] bg-cover">
       <div className="bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 p-8 rounded-lg shadow-md w-[720px]">
         <Navbar />
@@ -225,6 +230,7 @@ const ReportPage = () => {
         </form>
       </div>
     </div>
+    </>
   );
 };
 

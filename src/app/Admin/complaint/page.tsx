@@ -14,12 +14,14 @@ export default function SearchParams({ searchParams }: { searchParams: { _id: st
         async function get() {
             const data = await SolutionDetails(searchParams._id);
             setResponse(data);
-            let val = report.filter((val: any) => val._id === searchParams._id);
-            setRepo(val[0]);
+            if(report.length > 0){
+                let val = report.filter((val: any) => val._id === searchParams._id);
+                if(val.length > 0) setRepo(val[0]);
+            }
         }
 
-        get();
-    }, [searchParams._id, report]);
+        if(searchParams._id !== "") get();
+    }, [searchParams?._id, report]);
 
     const formatDateTime = (dateTimeString: string) => {
         const dateTime = new Date(dateTimeString);
@@ -29,7 +31,7 @@ export default function SearchParams({ searchParams }: { searchParams: { _id: st
     return (
         <div className="block">
             <div className="pl-5"><Return /></div>
-            {Object.keys(repo).length > 0  &&
+            {repo && Object.keys(repo).length > 0  &&
                 <div className="card w-90% m-5 bg-base-100 shadow-xl">
                     <div className="card-body">
                         <div className="text-lg font-bold">Complainer Details</div>
@@ -62,7 +64,7 @@ export default function SearchParams({ searchParams }: { searchParams: { _id: st
             <div className="card w-90% m-5 bg-base-100 shadow-xl">
                 <div className="card-body">
                     <div className="text-lg font-bold">Report Details</div>
-                    {Object.keys(repo).length > 0 && repo.image !== "" &&
+                    {repo && Object.keys(repo).length > 0 && repo.image !== "" &&
                         <div className="flex flex-wrap">
                             <img src={repo.image} alt="img" className="w-32" />
                         </div>
