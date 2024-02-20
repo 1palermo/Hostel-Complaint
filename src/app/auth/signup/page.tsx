@@ -156,6 +156,7 @@ export default function Signup() {
               autoComplete="username"
               onChange={handleSignupChange}
               value={formD.username}
+              disabled={session? false : true}
               required
               placeholder="Enter your name"
               className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#EEEEEE]"
@@ -175,6 +176,7 @@ export default function Signup() {
               autoComplete="contact"
               onChange={handleSignupChange}
               value={formD.contact}
+              disabled={session? false : true}
               required
               placeholder="Enter your phone number"
               className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#EEEEEE]"
@@ -193,6 +195,7 @@ export default function Signup() {
               type="text"
               onChange={handleSignupChange}
               value={formD.roll}
+              disabled={session? false : true}
               required
               placeholder="Enter your roll number"
               className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#EEEEEE]"
@@ -211,6 +214,7 @@ export default function Signup() {
               name="tower"
               onChange={handleSignupChange}
               value={formD.tower}
+              disabled={session? false : true}
               required
               className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#EEEEEE]"
             >
@@ -239,6 +243,7 @@ export default function Signup() {
               name="hostel_room_no"
               onChange={handleSignupChange}
               value={formD.hostel_room_no}
+              disabled={session? false : true}
               required
               placeholder="Enter your hostel room number"
               className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#EEEEEE]"
@@ -258,6 +263,7 @@ export default function Signup() {
               placeholder="Enter your password"
               onChange={handleSignupChange}
               value={formD.password}
+              disabled={session? false : true}
               required
               className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#EEEEEE]"
             />
@@ -275,6 +281,7 @@ export default function Signup() {
               type="file"
               accept="image/jpg, image/jpeg"
               onChange={handleFileUpload}
+              disabled={session? false : true}
               className="mt-1 p-2 w-full rounded-md border border-gray-300 bg-white text-gray-900"
               required
             />
