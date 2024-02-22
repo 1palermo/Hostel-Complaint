@@ -21,7 +21,10 @@ export default function RootLayout({
       <body>
         <div className="navbar bg-green-600 text-white">
           <p className="btn btn-ghost normal-case text-xl">Attendant</p>
-          <Link href="/profile">
+          <Link href={{
+            pathname: "/profile",
+            query: {cat: "attedant"}
+          }}>
             <FontAwesomeIcon
               icon={faUser}
               className="absolute right-10 mb-1 h-5 w-5"
