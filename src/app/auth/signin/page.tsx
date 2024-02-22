@@ -107,7 +107,9 @@ export default function Login() {
         email: "",
         password: "",
       });
+
       setAlertMessage("");
+
     } catch (error) {
       console.error("Error submitting note:", error);
       // Handle the error appropriately (e.g., show an error message to the user)

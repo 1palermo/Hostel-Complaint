@@ -14,7 +14,7 @@ export default function Form(props: { id: string, attended: string }) {
         image: ''
     });
     const [showConfirmation, setShowConfirmation] = useState(false);
-
+    const [loading, setLoading] = useState(false);
     const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, text: e.target.value });
     };
@@ -37,6 +37,7 @@ export default function Form(props: { id: string, attended: string }) {
     const handleSolved = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const token = localStorage.getItem("customToken");
+        setLoading(true);
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/report?cat=Solved&Id=${props.id}`, { data: formData, userToken: token });
             console.log(response.data);
@@ -48,10 +49,13 @@ export default function Form(props: { id: string, attended: string }) {
         } catch (error) {
             console.error('Error:', error);
         }
+        setLoading(false);
     }
 
     const handleAttended = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setLoading(true);
+
         const token = localStorage.getItem("customToken");
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/report?cat=Attended&Id=${props.id}`, { data: formData, userToken: token });
@@ -63,7 +67,10 @@ export default function Form(props: { id: string, attended: string }) {
             });
         } catch (error) {
             console.error('Error:', error);
+            alert("error in submitting");
         }
+
+        setLoading(false);
     }
 
     return (
@@ -100,9 +107,21 @@ export default function Form(props: { id: string, attended: string }) {
                                 required
                             />
                         </div>
-                        <button type="submit" className="bg-green-600 text-xl text-white p-2 rounded-md text-center w-full">
-                            Attended
+                        <div className="flex items-center justify-center pt-10">
+                        <button
+                            type="submit"
+                            className="bg-green-600 text-xl text-white p-2 rounded-md text-center w-full"
+                            disabled={loading} // Disable the button when loading
+                        >
+                            {loading ? (
+                            <div className="flex items-center justify-center">
+                                <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+                            </div>
+                            ) : (
+                            "Attended"
+                            )}
                         </button>
+                        </div>
                     </form> :
                     <form className="w-3/4 mx-auto mt-8 p-4 bg-gray-100" onSubmit={handleSolved}>
                         <div className="mb-4">
@@ -131,9 +150,21 @@ export default function Form(props: { id: string, attended: string }) {
                             />
                         </div>
 
-                        <button type="submit" className="bg-green-600 text-white p-2 rounded-md text-center w-full">
-                            Solved
+                        <div className="flex items-center justify-center pt-10">
+                        <button
+                            type="submit"
+                            className="bg-green-600 text-xl text-white p-2 rounded-md text-center w-full"
+                            disabled={loading} // Disable the button when loading
+                        >
+                            {loading ? (
+                            <div className="flex items-center justify-center">
+                                <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+                            </div>
+                            ) : (
+                            "Solved"
+                            )}
                         </button>
+                        </div>
                     </form>
             }
 

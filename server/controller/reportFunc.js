@@ -51,7 +51,7 @@ const handleReport = async (req, res) => {
                         const response = new Response({
                             category: "Solved",
                             problem: req.query.Id,
-                            description: req.body.text,
+                            description: req.body.data.text,
                             image: result.secure_url,
                             sender: getUser(token)._id,
                             createdAt: new Date()
@@ -85,7 +85,7 @@ const getReports = async (req, res) => {
             data = await Report.find({ solved: "Unsolved", status: "Open" }).populate('sender');
         }
        // console.log(req.query.cat, data);
-        res.json(data);
+        res.status(200).json(data);
     } catch (error) {
         console.error(error);
         return res.status(500).json({ ans: "fail", message: "Internal Server Error" });
