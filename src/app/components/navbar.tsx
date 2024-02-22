@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faHome, faMultiply } from "@fortawesome/free-solid-svg-icons";
@@ -6,11 +6,11 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { signOut } from "next-auth/react";
 import Loading from "./loading";
-
+import { Cursor } from "mongoose";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  
+
   async function removeSession() {
     localStorage.removeItem("customToken");
     await signOut();
@@ -20,7 +20,6 @@ export default function Navbar() {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
 
   return (
     <>
@@ -47,11 +46,13 @@ export default function Navbar() {
           />
         </div>
         <div className="flex items-center justify-center">
-          <div className="p-10 mt-32">
-            <Link href={{
-              pathname: "/profile",
-              query: {cat: "user"}
-            }}>
+          <div className="p-10 text-center justify-center items-center">
+            <Link
+              href={{
+                pathname: "/profile",
+                query: { cat: "user" },
+              }}
+            >
               <h1 className="text-green-600 text-2xl mb-4">My Profile</h1>
             </Link>
             <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600 mt-2 mb-6"></hr>
@@ -60,18 +61,21 @@ export default function Navbar() {
             </Link>
             <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600 mt-2 mb-6"></hr>
             <Link href="/User/userComplaints">
-              <h1 className="text-green-600 text-2xl mb-4">
-                All Complaints
-              </h1>
+              <h1 className="text-green-600 text-2xl mb-4">All Complaints</h1>
             </Link>
             <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600 mt-2 mb-6"></hr>
-            <h1 className="text-green-600 text-2xl mb-4">About us</h1>
+            <Link href="/User/aboutUs">
+              <h1 className="text-green-600 text-2xl mb-4">About us</h1>
+            </Link>
             <hr className="animate-shimmer h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600 mt-2 mb-6"></hr>
-            <div onClick={removeSession}>
-              <h1 className="text-green-600 text-2xl mb-4">
+            <Link href={"/"}>
+              <h1
+                className="text-green-600 text-2xl mb-4"
+                onClick={removeSession}
+              >
                 Log Out
               </h1>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
