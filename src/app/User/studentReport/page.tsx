@@ -17,7 +17,7 @@ interface FormDetails {
 }
 const ReportPage = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const [formD, setForm] = useState<FormDetails>({
     title: "",
     issue: "Wifi not working",
@@ -80,7 +80,7 @@ const ReportPage = () => {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
+    setLoading(true);
     axios
       .post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/submitReport`,
@@ -90,9 +90,11 @@ const ReportPage = () => {
         }
       )
       .then((data) => {
-        window.location.reload();
+        setLoading(false);
+        alert("submitted sucessfully!")
       })
       .catch((error) => {
+        alert("error while submitting!")
         console.log(error);
       });
     // const result= await response.json();
@@ -213,15 +215,21 @@ const ReportPage = () => {
               className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#fff]"
             />
           </div>
-
-          <div className="flex items-center justify-center pt-16">
+          <div className="flex items-center justify-center pt-10">
             <button
-              type="submit"
-              className="bg-green-600 text-white font-bold p-3 rounded-2xl hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300 shadow-2xl w-32 hover:w-40 transition-all duration-300 ease-in-out"
+                type="submit"
+                className="bg-green-600 text-white font-bold p-3 rounded-2xl hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300 shadow-2xl w-32 hover:w-40 transition-all duration-300 ease-in-out"
+                disabled={loading} // Disable the button when loading
             >
-              Submit
+                {loading ? (
+                <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+                </div>
+                ) : (
+                "Submit"
+                )}
             </button>
-          </div>
+            </div>
         </form>
       </div>
     </div>

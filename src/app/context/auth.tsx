@@ -21,17 +21,21 @@ const AuthProvider = ({children}: ProtectedRouteProps) => {
     const pathname = usePathname();
     const segments = pathname.split('/');
     const role = segments[1];
-    
+
     useEffect(()=>{
-       const token = localStorage.getItem('customToken') || '';
-       const data = token === ''? {} : JSON.parse(token);
+        const token = localStorage.getItem('customToken') || '';
+        const data = (token === ''? {} : JSON.parse(token));
        if(token === '' && role!=="auth"){
           router.push('/');
        }
        else{
-            setAuth(data);
+            setAuth((prev) => ({
+                ...prev,
+                ...data
+            }));
+            console.log(data.user);
        }
-    },[]);
+    },[role]);
 
     return(
         <AuthContext.Provider value={[auth,setAuth]}>

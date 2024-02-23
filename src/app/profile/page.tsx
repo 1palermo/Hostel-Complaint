@@ -102,6 +102,7 @@ const Page2 = ({ searchParams }: { searchParams: {cat: string} }) => {
   }
 
   useEffect(() => {
+    console.log(auth.user)
     setProfile((prev) => ({
       ...prev,
       ...auth.user,

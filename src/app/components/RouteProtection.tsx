@@ -5,13 +5,19 @@ import { signOut, useSession } from "next-auth/react";
 import { useAuth } from "../context/auth";
 import axios from 'axios';
 
-async function fetchData(){
+async function fetchData(token:string){
   try {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/aut`,{
-      validateStatus: (status) => status>= 200 && status<=500
-    })
-    console.log(response);
-    return response.data;
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/aut`, {
+      method: 'GET',
+      cache: 'no-store',
+      headers:{
+        Authorization: token
+      }
+    });
+  
+    const res = await response.json();
+    
+    return res;
   } catch (err) {
     console.error("Cannot authenticate:", err);
     return {valid:false, url:'/'};
@@ -46,7 +52,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
       }
 
 
-      const res = await fetchData();
+      const res = await fetchData(auth.token);
 
       if (res.valid) {
         setAuth((prev: any) => ({
@@ -71,6 +77,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     // },800);
 
     if (role!="auth" && auth.token !== ''){
+      console.log("calling ff");
       checker();
     }
     console.log(role);
