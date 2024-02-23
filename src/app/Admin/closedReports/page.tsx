@@ -33,47 +33,46 @@ export default function Page({
         <table className="table table-xl">
           <Header />
           <tbody>
-            {data.map(
+            {data.length>0 ? (data.map(
               (
-                res: {
-                  _id: string;
-                  date: string;
-                  time: string;
-                  tower: string;
-                  hostel_room_no: string;
-                  problem: string;
-                  title: string;
-                  description: string;
-                  department: string;
-                  attended: string;
-                  solved: string;
-                },
+                res: any,
                 idx: number
-              ) => (
-                <tr key={idx}>
-                  <th>{idx + 1}</th>
-                  <td>{res.date}</td>
-                  <td>{res.time}</td>
-                  <td>{res.tower}</td>
-                  <td>{res.hostel_room_no}</td>
-                  <td>{res.department}</td>
-                  <td>{res.title}</td>
+              ) => {
+                const [date, time] = new Date(res.createdAt)
+                  .toISOString()
+                  .split("T")
+                  .map((value, index) =>
+                    index === 0 ? value : value.split(".")[0]
+                  );
+                return (
+                  <tr key={idx}>
+                    <th>{idx + 1}</th>
+                    <td>{date}</td>
+                    <td>{time}</td>
+                    <td>{res.sender?.tower || ""}</td>
+                    <td>{res.sender?.hostel_room_no || ""}</td>
+                    <td>{res.department}</td>
+                    <td>{res.problem}</td>
                   <td>Closed</td>
                   <td>
-                    <Link
-                      href={{
-                        pathname: "/Admin/complaint",
-                        query: { ...res, close: "no" },
-                      }}
-                    >
-                      <button className="px-4 py-2 bg-green-600 text-white text-lg rounded-md">
-                        see
-                      </button>
-                    </Link>
+                  <Link
+                    href={{
+                      pathname: "/Admin/complaint",
+                      query: {
+                        close: searchParams.close,
+                        _id: res._id,
+                      },
+                    }}
+                  >
+                    <button className="px-4 py-2 bg-green-600 text-white text-lg rounded-md">
+                      see
+                    </button>
+                  </Link>
                   </td>
                 </tr>
-              )
-            )}
+                );
+              }
+            )) : <tr></tr>}
           </tbody>
         </table>
       </div>
@@ -84,42 +83,37 @@ export default function Page({
           close={searchParams.close}
         />
         <h1 className="w-full text-center font-bold mt-5">LIST OF REPORTS</h1>
-        {data.map(
+        {data.length>0 ? (data.map(
           (
-            res: {
-              _id: string;
-              date: string;
-              time: string;
-              tower: string;
-              hostel_room_no: string;
-              problem: string;
-              title: string;
-              description: string;
-              department: string;
-              attended: string;
-              solved: string;
-            },
+            res: any,
             idx: number
-          ) => (
+          ) => {
+            const [date, time] = new Date(res.createdAt)
+              .toISOString()
+              .split("T")
+              .map((value, index) =>
+                index === 0 ? value : value.split(".")[0]
+              );
+            return (
             <div className="card w-90% m-5 bg-base-100 shadow-xl" key={idx}>
               <div className="card-body">
                 <div className="flex flex-wrap">
                   <div className="flex flex-wrap">
                     <div className="mr-1 font-bold">Date:</div>
-                    <div className="mr-10">{res.date}</div>
+                    <div className="mr-10">{date}</div>
                   </div>
                   <div className="flex flex-wrap">
                     <div className="mr-1 font-bold">Time:</div>
-                    <div className="mr-0">{res.time}</div>
+                    <div className="mr-0">{time}</div>
                   </div>
                 </div>
                 <div className="flex flex-wrap">
                   <div className="mr-1 font-bold">Tower:</div>
-                  <div className="mr-0">{res.tower}</div>
+                  <div className="mr-0">{res.sender?.tower || ""}</div>
                 </div>
                 <div className="flex flex-wrap">
                   <div className="mr-1 font-bold">Hostel Room No:</div>
-                  <div className="mr-0">{res.hostel_room_no}</div>
+                  <div className="mr-0">{res.sender?.hostel_room_no || ""}</div>
                 </div>
                 <div className="flex flex-wrap">
                   <div className="mr-1 font-bold">Department:</div>
@@ -134,21 +128,25 @@ export default function Page({
                   <div className="mr-0">Closed</div>
                 </div>
                 <div className="w-full flex justify-end">
-                  <Link
-                    href={{
-                      pathname: "/Admin/complaint",
-                      query: { ...res, close: "no" },
-                    }}
-                  >
-                    <button className="px-3 py-1 bg-green-600 text-white text-lg rounded-md">
-                      see
-                    </button>
-                  </Link>
+                <Link
+                  href={{
+                    pathname: "/Admin/complaint",
+                    query: {
+                      close: searchParams.close,
+                      _id: res._id,
+                    },
+                  }}
+                >
+                  <button className="px-4 py-2 bg-green-600 text-white text-lg rounded-md">
+                    see
+                  </button>
+                </Link>
                 </div>
               </div>
             </div>
-          )
-        )}
+          );
+        }
+      )) : <></>}
       </div>
     </>
   );

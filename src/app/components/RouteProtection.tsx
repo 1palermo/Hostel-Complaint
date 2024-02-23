@@ -25,7 +25,6 @@ interface ProtectedRouteProps {
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const [auth, setAuth] = useAuth() as any;
-  const [loading, setLoading] = useState(true);
   const { data: session } = useSession();
   const router = useRouter();
   const pathname = usePathname();
@@ -82,8 +81,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   
   return (
-   // loading? <p>Loading...</p> : 
-    <>{children}</>
+    auth.loading ? <p>Loading...</p> : <>{children}</>
   );
 }
 

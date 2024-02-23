@@ -4,6 +4,7 @@ import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
 import axios from "axios";
 
+
 interface SignupFormDetails {
   username: string;
   contact: string;
@@ -17,6 +18,7 @@ interface SignupFormDetails {
 export default function Signup() {
   const { data: session } = useSession();
   const [alertMessage, setAlertMessage] = useState<string>("");
+  const [loading, setLoading] = useState(false);
   const [formD, setForm] = useState<SignupFormDetails>({
     username: "",
     contact: "",
@@ -77,6 +79,8 @@ export default function Signup() {
       setAlertMessage("*please verify your email");
       return;
     }
+    setLoading(true);
+
     addUser(formD);
     setForm({
       username: "",
@@ -87,6 +91,8 @@ export default function Signup() {
       roll: "",
       image: "",
     });
+
+    setLoading(false);
   }
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -300,9 +306,16 @@ export default function Signup() {
           <div className="flex items-center justify-center pt-10">
             <button
               type="submit"
-              className="bg-green-600 text-white font-bold p-3 rounded-2xl hover:bg-black focus:outline-none focus:ring focus:border-blue-300 shadow-2xl w-32 hover:w-40 transition-all duration-300 ease-in-out"
+              className="bg-green-600 text-white font-bold p-3 rounded-2xl hover:bg-black focus:outline-none focus:ring focus:border-blue-300 shadow-2xl w-48 lg:w-80 hover:w-56 lg:hover:w-96 transition-all duration-300 ease-in-out"
+              disabled={loading} // Disable the button when loading
             >
-              Sign Up
+              {loading ? (
+                <div className="flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+                </div>
+              ) : (
+                "Sign Up"
+              )}
             </button>
           </div>
         </form>

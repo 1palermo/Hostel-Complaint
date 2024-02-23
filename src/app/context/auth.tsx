@@ -13,6 +13,7 @@ const AuthProvider = ({children}: ProtectedRouteProps) => {
     const [auth, setAuth] = useState({
         user: null,
         token: '',
+        loading: false
      });
     
     const router = useRouter();

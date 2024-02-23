@@ -115,11 +115,11 @@ export default function SearchParams({ searchParams }: { searchParams: { _id: st
                             </div>
                             <div className="flex flex-wrap">
                                 <div className="mr-1 font-bold">Attendant:</div>
-                                <div className="mr-10">{data.sender.name}</div>
+                                <div className="mr-10">{data.sender ? data.sender.username : ''}</div>
                             </div>
                             <div className="flex flex-wrap">
-                                <div className="mr-1 font-bold">Phone:</div>
-                                <div className="mr-0">{data.sender.phone}</div>
+                                <div className="mr-1 font-bold">Mobile No:</div>
+                                <div className="mr-0">{data.sender ? data.sender.contact : 0}</div>
                             </div>
                             <div className="flex flex-wrap">
                                 <div className="mr-1 font-bold">Description:</div>
@@ -142,11 +142,11 @@ export default function SearchParams({ searchParams }: { searchParams: { _id: st
                                 </div>
                                 <div className="flex flex-wrap">
                                     <div className="mr-1 font-bold">Solver:</div>
-                                    <div className="mr-10">{data.sender.name}</div>
+                                    <div className="mr-10">{data.sender ? data.sender.username : ''}</div>
                                 </div>
                                 <div className="flex flex-wrap">
                                     <div className="mr-1 font-bold">Mobile No:</div>
-                                    <div className="mr-0">{data.sender.phone}</div>
+                                    <div className="mr-0">{data.sender ? data.sender.contact : 0}</div>
                                 </div>
                                 <div className="flex flex-wrap">
                                     <div className="mr-1 font-bold">Description:</div>
