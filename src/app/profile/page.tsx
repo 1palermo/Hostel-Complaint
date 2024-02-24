@@ -66,7 +66,13 @@ const Page2 = ({ searchParams }: { searchParams: {cat: string} }) => {
   async function update(event: React.FormEvent<HTMLFormElement>) {
     try {
       event.preventDefault();
+      const token = localStorage.getItem("customToken") || "";
+      let data = null;
 
+      if(token !== ""){
+        data = JSON.parse(token);
+      }
+      
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/update`,
         { data: profile },
@@ -76,6 +82,12 @@ const Page2 = ({ searchParams }: { searchParams: {cat: string} }) => {
       );
 
       if (response.status === 300) {
+        console.log(profile);
+        if(data){
+          const d = JSON.stringify({ token: data.token, user: profile });
+          localStorage.setItem("customToken", d);
+        }
+
         setAuth({
           ...auth,
           user: profile,
@@ -90,6 +102,7 @@ const Page2 = ({ searchParams }: { searchParams: {cat: string} }) => {
   }
 
   useEffect(() => {
+    console.log(auth.user)
     setProfile((prev) => ({
       ...prev,
       ...auth.user,

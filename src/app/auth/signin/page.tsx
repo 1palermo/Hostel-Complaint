@@ -71,7 +71,7 @@ export default function Login() {
           token: res.customToken,
           user: res.temp,
         });
-
+        
         localStorage.setItem("customToken", data);
 
         // const user = res.temp;
