@@ -5,6 +5,7 @@ import Base64 from "../../Base64";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCog, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import axios from "axios";
 import { useAuth } from "@/app/context/auth";
@@ -21,6 +22,7 @@ interface NewNote {
 
 export default function Login() {
   const { data: session, status } = useSession();
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [auth, setAuth] = useAuth() as any;
   const [alertMessage, setAlertMessage] = useState<string>("");
@@ -37,7 +39,18 @@ export default function Login() {
     if (status === "authenticated") {
       oAuthLogin();
     }
+
   }, [session]);
+
+  useEffect(() => {
+    const email = searchParams.get("email");
+    const password = searchParams.get("password");
+    
+    setFormDetails({
+      email: email || "",
+      password: password || "",
+    });
+  }, []);
 
   async function checkUser(newNote: NewNote) {
     let googleLogin = false;
