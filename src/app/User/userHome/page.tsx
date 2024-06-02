@@ -28,7 +28,7 @@ const UserHomePage = () => {
 
         <div className="flex flex-col items-center">
           <img
-            src={auth.user?.userImage ? auth.user.userImage : "/avatar.png"}
+            src={auth.user?.userImage ? auth.user?.userImage : "/avatar.png"}
             alt="User Image"
             className="rounded-full h-32 w-32 mb-2 border-4 border-black"
           />
