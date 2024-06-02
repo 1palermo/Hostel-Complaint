@@ -91,9 +91,8 @@ const ReportPage = () => {
 
         try {
             // Convert image to base64
-            const base64 = await convertToBase64(file);
-            console.log('Base64 conversion successful');
-            setFormData({ ...formData, image: base64 });
+            const base64 = await Base64(file);
+            setForm({ ...formD, image: base64 });
         } catch (error) {
             console.error('Error converting image to base64:', error);
         }
