@@ -2,9 +2,9 @@
 1) This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 2) This has 6 interface one for user, one for attendant & four for admin.
 3) To see user side of app do sign in with :-
-- Email: ayushgupta_co22a3_38@dtu.ac.in
+- Email: test@dtu.ac.in
 - Password: 1234
-
+- Testing Link: https://hostel-complaint.vercel.app?email=test@dtu.ac.in&password=1234
 ## Getting Started
 
 First, run the development server:
