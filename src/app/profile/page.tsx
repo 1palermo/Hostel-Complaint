@@ -124,7 +124,7 @@ const Page2 = ({ searchParams }: { searchParams: {cat: string} }) => {
         <form className="space-y-4" onSubmit={update}>
           <div className="flex flex-col items-center">
             <img
-              src={profile.userImage}
+              src={profile.userImage? profile.userImage : "/avatar.png"}
               alt="Avatar"
               className="rounded-full mb-2 w-full lg:w-1/4 max-w-[30vw] sm:max-h-[20vh] lg:max-h-[50vh]  shadow-2xl bg-slate-200 bg-gradient-to-br from-blue-500 to-blue-300"
             />
