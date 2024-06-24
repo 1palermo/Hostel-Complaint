@@ -173,7 +173,7 @@ export default function Login() {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-600"
               >
-                Email Address
+                DTU Email Id
               </label>
               <input
                 id="useremail"
