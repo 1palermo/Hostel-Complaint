@@ -143,11 +143,11 @@ export default function Signup() {
                 onClick={() => signIn("google")}
                 className="btn bg-blue-200"
               >
-                verify email
+                verify email first
               </button>
             )}
           </div>
-
+          {!session? <p className="text-center text-sm font-semibold">Use DTU Email address</p> : <></>}
           <div>
             <label
               htmlFor="name"
