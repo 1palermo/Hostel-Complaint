@@ -2,7 +2,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
-import toast, { Toaster } from 'react-hot-toast';
 import axios from "axios";
 
 
@@ -115,20 +114,7 @@ export default function Signup() {
     }
   }
 
-  function handleClick(e:any){
-    console.log(2)
-    
-    if(!session){
-      e.preventDefault(); 
-      toast.error('Please verify your email first!');
-    }
-
-    return;
-  }
-
   return (
-    <>
-    <Toaster />
     <div className="flex justify-center min-h-screen p-5 bg-[url('/dtuLogo.svg')] bg-cover">
       <div className="bg-white p-8 rounded-lg shadow-md w-[560px]">
         <div className="flex items-center justify-center">
@@ -335,6 +321,5 @@ export default function Signup() {
         </form>
       </div>
     </div>
-    </>
   );
 }
