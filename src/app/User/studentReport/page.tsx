@@ -78,6 +78,29 @@ const ReportPage = () => {
     }
   }
 
+  const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+        console.log('File selected:', file);
+        // Check image size
+        if (file.size > 100 * 1024) { // 100kb in bytes
+            console.log('File size exceeds 100KB:', file.size);
+            alert('Please select an image less than 100kb.');
+            return;
+        }
+
+        try {
+            // Convert image to base64
+            const base64 = await Base64(file);
+            setForm({ ...formD, image: base64 });
+        } catch (error) {
+            console.error('Error converting image to base64:', error);
+        }
+    } else {
+        console.log('No file selected');
+    }
+};
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
@@ -211,7 +234,7 @@ const ReportPage = () => {
               id="imageUpload"
               name="imageUpload"
               accept="image/*"
-              onChange={handleFileUpload}
+              onChange={handleImageChange}
               className="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300 text-black bg-[#fff]"
             />
           </div>

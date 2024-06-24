@@ -2,8 +2,25 @@
 1) This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 2) This has 6 interface one for user, one for attendant & four for admin.
 3) To see user side of app do sign in with :-
-- Email: ayushgupta_co22a3_38@dtu.ac.in
+- Email: test@dtu.ac.in
 - Password: 1234
+- Testing Link: https://hostel-complaint.vercel.app?email=test@dtu.ac.in&password=1234
+
+## Hostel Admin Interface
+- Home Page
+![image](https://github.com/1palermo/Hostel-Complaint/assets/127961367/88ee224e-4153-4b80-8c80-47ff234cba70)
+
+- Hosteller List
+![image](https://github.com/1palermo/Hostel-Complaint/assets/127961367/eb958eb7-482e-4bc2-b4b3-180bdda4fa34)
+
+- Closed Report List
+![image](https://github.com/1palermo/Hostel-Complaint/assets/127961367/f8187c8d-450b-4b22-9a8f-fb2bd1849639)
+
+- Complaint Monitoring dashboard
+![image](https://github.com/1palermo/Hostel-Complaint/assets/127961367/7f05b5b8-dbd8-4b6b-9e65-c5fe9cb117f3)
+
+
+
 
 ## Getting Started
 
