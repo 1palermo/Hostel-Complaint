@@ -1,9 +1,10 @@
 import { Fascinate_Inline, Inter } from 'next/font/google';
 import Link from 'next/link';
+import Image from 'next/image';
 //import { useEffect } from 'react';
 //import { useRouter } from 'next/router';
 import GoogleTranslate from '../components/translate';
-// import ProtectedRoute from '../components/RouteProtection';
+import ProtectedRoute from '../components/RouteProtection';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { AdminProvider } from '../context/adminContext';

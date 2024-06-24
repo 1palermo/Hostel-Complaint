@@ -46,5 +46,4 @@ yarn-error.log*
 .DS_Store
 *.pem
 server/.env
-/.env
 next-env.d.ts
