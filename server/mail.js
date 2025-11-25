@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+require('dotenv').config();
 
 const mail=async function sendEmail(email){
     let testAccount = await nodemailer.createTestAccount();
@@ -8,20 +9,19 @@ const mail=async function sendEmail(email){
         otp += digits[Math.floor(Math.random() * 10)];
     }
 
-    let transporter = nodemailer.createTransport({
-      host: "smtp.elasticemail.com",
-      port: 2525,
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
       secure: false,
       auth: {
-        user: 'adgj77297@gmail.com',
-        pass: '9D1D942063AE0BE1D655C20EFDAA7D885342'
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
       },
     });
   
     // send mail with defined transport object
     let info = await transporter.sendMail({
-      SecureToken : "baf7a9a3-6e5f-4ce6-8a95-44ce56f8a86b",
-      from: '"Ayush Gupta 👻" <adgj77297@gmail.com>', // sender address
+      from: '"Ayush Gupta 👻" <${process.env.SMTP_USER}>', // sender address
       to: email, // list of receivers
       subject: "OTP for verification", // Subject line
       text: "your one time password: "+otp, // plain text body
